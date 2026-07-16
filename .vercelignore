@@ -1,0 +1,13 @@
+.git
+.vercel
+.DS_Store
+node_modules
+.playwright-mcp/
+portfolio-*.png
+
+# Internal working docs — never deploy publicly
+CLAUDE.md
+MEMORY.md
+ERRORS.md
+DESIGN_BRIEF.md
+PORTFOLIO_CONTENT_INVENTORY.md
