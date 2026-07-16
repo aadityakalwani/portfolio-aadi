@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aadi Kalwani — Engineer &amp; Builder</title>
+<title>Aadi Kalwani · Engineer &amp; Builder</title>
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%230E1B2E'/><path d='M4 17 L10 12 L14 14 L20 6' fill='none' stroke='%231E48E0' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/><circle cx='4' cy='17' r='1.5' fill='%231E48E0'/><circle cx='20' cy='6' r='1.5' fill='%231E48E0'/></svg>">
-<meta name="description" content="Aadi Kalwani — first-year Aerospace Engineering student at the University of Bath. Machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites.">
+<meta name="description" content="Aadi Kalwani, first-year Aerospace Engineering student at the University of Bath. Machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites.">
 
 <!-- Link preview (Open Graph + Twitter) -->
 <link rel="canonical" href="https://aadikalwani.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aadi Kalwani">
 <meta property="og:url" content="https://aadikalwani.vercel.app/">
-<meta property="og:title" content="Aadi Kalwani — Engineer &amp; Builder">
+<meta property="og:title" content="Aadi Kalwani · Engineer &amp; Builder">
 <meta property="og:description" content="First-year aerospace engineer at Bath. ML research on battery state estimation, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
 <!-- TODO: create /og.jpg (1200x630) and it will be picked up here -->
 <meta property="og:image" content="https://aadikalwani.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Aadi Kalwani — Engineer &amp; Builder">
+<meta name="twitter:title" content="Aadi Kalwani · Engineer &amp; Builder">
 <meta name="twitter:description" content="ML research, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
 <meta name="twitter:image" content="https://aadikalwani.vercel.app/og.jpg">
 
@@ -33,7 +33,7 @@
     --card:#FFFFFF;
     --ink:#0E1B2E;
     --ink-soft:#45566B;
-    --ink-faint:#7C8AA0;
+    --ink-faint:#5E6B83;
     --accent:#1E48E0;
     --accent-deep:#1636B4;
     --accent-lift:#93B1FF;
@@ -41,7 +41,7 @@
     --line:rgba(14,27,46,0.10);
     --line-soft:rgba(14,27,46,0.06);
     --grid:rgba(14,27,46,0.045);
-    --ok:#1F9D57;
+    --ok:#157A43;
     --r-comp:16px;
     --r-panel:24px;
     --maxw:1140px;
@@ -126,7 +126,7 @@
 
   /* hero plot: a self-drawing battery discharge / SOC curve on the page paper */
   .heroplot{position:relative;min-height:360px}
-  @media(max-width:900px){.heroplot{min-height:280px;margin-top:6px}}
+  @media(max-width:900px){.heroplot{min-height:auto;margin-top:6px}.plot-badge{position:static;left:auto;top:auto;margin-top:12px;display:inline-block}}
   .heroplot svg{width:100%;height:100%;display:block;overflow:visible}
   .axis{stroke:var(--line);stroke-width:1.25}
   .ticklab{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--ink-faint);letter-spacing:.04em}
@@ -166,8 +166,10 @@
   .block-head p{margin-top:18px;font-size:1.07rem;max-width:56ch}
 
   /* project cards */
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
-  @media(max-width:860px){.cards{grid-template-columns:1fr}}
+  .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
+  .cards .card{flex:0 1 calc((100% - 40px)/3)}
+  #data .cards .card{flex-basis:calc((100% - 20px)/2)}
+  @media(max-width:860px){.cards .card,#data .cards .card{flex-basis:100%}}
   .card{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-comp);
     padding:26px 24px 22px;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);overflow:hidden}
   .card::after{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--accent);
@@ -209,6 +211,8 @@
   .case-kick{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
   .case h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(1.7rem,3.4vw,2.5rem);
     margin:18px 0 0;max-width:24ch;line-height:1.08}
+  .case h3 em{font-style:italic;color:var(--accent)}
+  .case.dark h3 em{color:var(--accent-lift)}
   .case-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:34px}
   @media(max-width:760px){.case-cols{grid-template-columns:1fr;gap:24px}}
   .case-col h4{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
@@ -221,7 +225,7 @@
     display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
   .case-foot .plinks{margin:0;padding:0}
   .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
-  @media(max-width:600px){.case-metrics{grid-template-columns:1fr}}
+  @media(max-width:720px){.case-metrics{grid-template-columns:1fr}}
   .metric{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px;background:rgba(147,177,255,.06)}
   .metric .mval{display:block;font-family:'IBM Plex Mono',monospace;font-size:1.7rem;color:#fff;line-height:1}
   .metric.win{border-color:rgba(147,177,255,.4);background:rgba(147,177,255,.12)}
@@ -287,8 +291,8 @@
     </a>
     <div class="nav-links">
       <a class="link" href="#engineering">Engineering</a>
-      <a class="link" href="#automation">Automation</a>
       <a class="link" href="#web">Web</a>
+      <a class="link" href="#automation">Automation</a>
       <a class="link" href="#data">Data</a>
       <a class="link" href="#about">About</a>
       <!-- TODO: drop CV at assets/Aadi-Kalwani-CV.pdf and this button works -->
@@ -313,11 +317,11 @@
         </a>
         <a class="btn btn-ghost" href="#engineering">See the work</a>
       </div>
-      <p class="assure"><span class="dot" aria-hidden="true"></span> Lining up a placement year in industry, aerospace, defence, or wherever hard engineering meets software.</p>
+      <p class="assure"><span class="dot" aria-hidden="true"></span> Lining up a placement year in industry, aerospace, defence or wherever hard engineering meets software.</p>
     </div>
 
-    <div class="heroplot" aria-label="A battery state-of-charge curve plotting itself across graph paper, with a machine-learning estimate tracking the true discharge">
-      <svg viewBox="0 0 460 360" role="img" preserveAspectRatio="xMidYMid meet">
+    <div class="heroplot">
+      <svg viewBox="0 0 460 360" role="img" aria-label="A battery state-of-charge curve plotting itself across graph paper, with a machine-learning estimate tracking the true discharge" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#1E48E0" stop-opacity=".16"/>
@@ -380,12 +384,12 @@
         </div>
         <div class="case-col">
           <h4>The result</h4>
-          <p>On the public US06 drive cycle the model reaches a sealed-test error of 1.47%, beating the widely-cited 2018 deep-learning benchmark and more than halving the physics-based baseline it is measured against. The open problem I am on now: generalising cleanly from controlled cycles to messy real-world mission profiles.</p>
+          <p>On the public US06 drive cycle the model reaches a sealed-test error of 1.47%, beating the widely cited 2018 deep-learning benchmark and more than halving the physics-based baseline it is measured against. The open problem I am on now: generalising cleanly from controlled cycles to messy real-world mission profiles.</p>
         </div>
       </div>
       <div class="case-metrics">
         <div class="metric win"><span class="mval">1.47%</span><span class="mlab">Our LSTM &middot; US06 MAE</span></div>
-        <div class="metric"><span class="mval">1.59&ndash;1.85%</span><span class="mlab">Chemali 2018 benchmark</span></div>
+        <div class="metric"><span class="mval">1.59%</span><span class="mlab">Chemali 2018 (best)</span></div>
         <div class="metric"><span class="mval">3.80%</span><span class="mlab">Physics velocity baseline</span></div>
       </div>
       <p class="case-cap">Sealed-test mean absolute error on the public US06 drive cycle, mean over five seeds, lowest of the ultrasound feature-ablation set. Trained on controlled charge-discharge at 15, 25 and 35 &deg;C. Lower is better.</p>
@@ -431,7 +435,7 @@
         </div>
         <div class="case-col">
           <h4>The result</h4>
-          <p>Live, with checkout shipped, and I run it as de-facto CTO. The most complete end-to-end product I have built, from serverless read path to payments to fulfilment emails.</p>
+          <p>Live, with checkout shipped, and I run it as de facto CTO. The most complete end-to-end product I have built, from serverless read path to payments to fulfilment emails.</p>
         </div>
       </div>
       <div class="tags">
@@ -527,11 +531,11 @@
         <div class="plinks"><span class="muted">Local tool</span></div>
       </article>
       <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Content pipeline</span><span class="pill pill-live">Selling</span></div>
+        <div class="proj-top"><span class="proj-cat">Content pipeline</span><span class="pill pill-live">Live</span></div>
         <h3>TES Resource Engine</h3>
-        <p>Turns official exam specifications and hundreds of past papers into professionally typeset worked-solution packs, generated as LaTeX and compiled with tectonic, then published for sale on TES.</p>
+        <p>Turns official exam specifications and hundreds of past papers into professionally typeset worked-solution packs, generated as LaTeX and compiled with tectonic, then published to the TES marketplace.</p>
         <div class="tags"><span class="tag">LaTeX</span><span class="tag">tectonic</span><span class="tag">automation</span></div>
-        <div class="plinks"><a href="https://www.tes.com/" target="_blank" rel="noopener">TES marketplace <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="plinks"><span class="muted">On the TES marketplace</span></div>
       </article>
     </div>
   </div>
@@ -556,16 +560,16 @@
       <article class="card reveal">
         <div class="proj-top"><span class="proj-cat">Variance analytics</span><span class="pill pill-live">Live</span></div>
         <h3>Poker Tracker</h3>
-        <p>A mobile-first session tracker with a genuinely quantitative dashboard: standard deviation, 95% confidence intervals, breakeven win-rate and expected value per session, computed from the raw hands rather than a running total.</p>
+        <p>A mobile-first session tracker with a genuinely quantitative dashboard: standard deviation, 95% confidence intervals, breakeven win-rate and expected value per session, computed from the raw session data rather than a running total.</p>
         <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Apps Script</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://bobsmith.netlify.app" target="_blank" rel="noopener">Live demo <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="plinks"><a href="https://bobsmith.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Poker Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
       </article>
       <article class="card reveal">
         <div class="proj-top"><span class="proj-cat">Scoring app</span><span class="pill pill-live">Live</span></div>
         <h3>Pool Tracker</h3>
         <p>A dependency-free scoring app for a custom multiplayer pool game, with per-turn undo, persistent state and an aggregated all-time leaderboard on a serverless Sheets store.</p>
         <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">localStorage</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener">Live demo <span aria-hidden="true">&#8599;</span></a></div>
+        <div class="plinks"><a href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Pool Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
       </article>
       <article class="card reveal">
         <div class="proj-top"><span class="proj-cat">Scraper pipeline</span><span class="pill pill-private">Private</span></div>
