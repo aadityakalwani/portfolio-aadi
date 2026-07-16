@@ -1,3 +1,9 @@
 .vercel
 .DS_Store
 node_modules
+
+# Internal working docs — keep local, out of the public repo
+MEMORY.md
+ERRORS.md
+DESIGN_BRIEF.md
+PORTFOLIO_CONTENT_INVENTORY.md

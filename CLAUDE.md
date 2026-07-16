@@ -4,7 +4,7 @@ Aadi Kalwani's personal portfolio website. Showcases everything he has built/shi
 
 ## Stack & deploy pipeline
 - **Static site.** Plain HTML/CSS/JS, no framework, no build step. Single `index.html` at repo root (may grow to a few static files/assets).
-- **Host:** Vercel, project name `portfolio-aadi`, live at `portfolio-aadi.vercel.app`.
+- **Host:** Vercel, project name `aadikalwani`, live at `aadikalwani.vercel.app` (the literal `portfolio-aadi.vercel.app` was taken globally by a stranger, so the project was renamed to Aadi's name — cleaner anyway). GitHub repo stays `aadityakalwani/portfolio-aadi`.
 - **CI/CD:** GitHub repo `aadityakalwani/portfolio-aadi` connected to Vercel. **Every push to `main` auto-deploys to production.** No manual deploy step needed — just commit and push.
   - Manual deploy if ever required: `vercel --prod --yes` from this folder.
   - Local preview: just open `index.html`, or `python3 -m http.server`.
