@@ -220,6 +220,16 @@
     font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.01em;color:var(--ink-faint);
     display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
   .case-foot .plinks{margin:0;padding:0}
+  .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  @media(max-width:600px){.case-metrics{grid-template-columns:1fr}}
+  .metric{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px;background:rgba(147,177,255,.06)}
+  .metric .mval{display:block;font-family:'IBM Plex Mono',monospace;font-size:1.7rem;color:#fff;line-height:1}
+  .metric.win{border-color:rgba(147,177,255,.4);background:rgba(147,177,255,.12)}
+  .metric.win .mval{color:var(--accent-lift)}
+  .metric .mlab{display:block;margin-top:9px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .case-cap{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:rgba(255,255,255,.5);letter-spacing:.02em;max-width:64ch}
   .case-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
   @media(max-width:860px){.case-duo{grid-template-columns:1fr}}
   .case-duo .card{padding:28px 26px 24px}
@@ -366,20 +376,26 @@
         </div>
         <div class="case-col">
           <h4>The approach</h4>
-          <p>I built the estimator from first principles: a NumPy MLP with the backpropagation and Adam optimiser derived and written by hand before touching a framework, then PyTorch RNN and LSTM models that fuse the acoustic features, time of flight, wave velocity and displacement, with voltage, current, temperature and coulomb counting. Memory is the point: an LSTM resolves the charge-discharge hysteresis a memoryless model physically cannot.</p>
+          <p>Built from first principles: a NumPy MLP with backpropagation and a bias-corrected Adam optimiser derived and coded by hand, before any framework touched it. Then PyTorch RNN, GRU and a 200-step LSTM that fuse the acoustic features, time of flight, wave velocity and displacement, with voltage, current, temperature and coulomb counting. Memory is the point: the LSTM resolves the charge-discharge hysteresis a memoryless model physically cannot.</p>
         </div>
         <div class="case-col">
-          <h4>Where it is</h4>
-          <p>A University of Bath research internship under Dr Christopher Vagg and Rob Gray, built on what my supervisor calls the best ultrasound-SOC dataset available anywhere, real drive cycles rather than toy laboratory sweeps. The work is being written up for a journal publication, with the hard part, generalising cleanly to real-world mission profiles, the problem I am on now.</p>
+          <h4>The result</h4>
+          <p>On the public US06 drive cycle the model reaches a sealed-test error of 1.47%, beating the widely-cited 2018 deep-learning benchmark and more than halving the physics-based baseline it is measured against. The open problem I am on now: generalising cleanly from controlled cycles to messy real-world mission profiles.</p>
         </div>
       </div>
+      <div class="case-metrics">
+        <div class="metric win"><span class="mval">1.47%</span><span class="mlab">Our LSTM &middot; US06 MAE</span></div>
+        <div class="metric"><span class="mval">1.59&ndash;1.85%</span><span class="mlab">Chemali 2018 benchmark</span></div>
+        <div class="metric"><span class="mval">3.80%</span><span class="mlab">Physics velocity baseline</span></div>
+      </div>
+      <p class="case-cap">Sealed-test mean absolute error on the public US06 drive cycle, mean over five seeds, lowest of the ultrasound feature-ablation set. Trained on controlled charge-discharge at 15, 25 and 35 &deg;C. Lower is better.</p>
       <div class="tags">
         <span class="tag">Python</span>
         <span class="tag">NumPy (hand-derived backprop)</span>
         <span class="tag">PyTorch</span>
-        <span class="tag">LSTM / RNN</span>
-        <span class="tag">time-series</span>
-        <span class="tag">MAE / RMSE</span>
+        <span class="tag">GRU / LSTM</span>
+        <span class="tag">feature ablation</span>
+        <span class="tag">5-seed sealed test</span>
       </div>
       <div class="case-foot">
         <span>Supervised research &middot; Dr Christopher Vagg &amp; Rob Gray &middot; target: <em>Energy and AI</em></span>
@@ -626,7 +642,7 @@
       <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0E1B2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 L10 12 L14 14 L20 6"/></svg></span>
       <span>Aadi Kalwani</span>
     </a>
-    <p class="foot-note">Built from scratch &middot; static &middot; deployed on Vercel</p>
+    <p class="foot-note">&copy; 2026 Aadi Kalwani &middot; Aerospace Engineering, University of Bath</p>
   </div>
 </footer>
 
