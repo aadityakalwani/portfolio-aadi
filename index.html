@@ -169,7 +169,6 @@
   .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
   .cards .card{flex:0 1 calc((100% - 40px)/3)}
   #data .cards .card{flex-basis:calc((100% - 20px)/2)}
-  #engineering .eng-cards .card{flex-basis:calc((100% - 20px)/2)}
   @media(max-width:860px){.cards .card,#data .cards .card{flex-basis:100%}}
   .card{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-comp);
     padding:26px 24px 22px;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);overflow:hidden}
@@ -238,6 +237,15 @@
   .case-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
   @media(max-width:860px){.case-duo{grid-template-columns:1fr}}
   .case-duo .card{padding:28px 26px 24px}
+
+  /* gearbox video feature */
+  .vidfeat{display:grid;grid-template-columns:1.02fr .98fr;gap:32px;align-items:center;margin-top:30px}
+  @media(max-width:760px){.vidfeat{grid-template-columns:1fr;gap:22px}}
+  .vidfeat video{width:100%;aspect-ratio:16/9;border-radius:14px;background:#0b1524;display:block;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .vidfeat h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(1.5rem,3vw,2.05rem);margin:0;line-height:1.12}
+  .vidfeat h3 em{font-style:italic;color:var(--accent)}
+  .vidfeat p{margin-top:14px;font-size:1rem}
+  .vidfeat .tags{margin-top:18px}
 
   /* about */
   .about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
@@ -432,14 +440,25 @@
         <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">mechanism design</span><span class="tag">DFM</span><span class="tag">decision matrix</span></div>
         <div class="plinks"><span class="muted">Year-1 group design project</span></div>
       </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">CAD &middot; Autodesk Inventor</span><span class="pill pill-private">Coursework</span></div>
-        <h3>Epicyclic Gearbox &amp; GD&amp;T Drawings</h3>
-        <p>A 5:1 planetary gearbox driven from a projected base sketch to guarantee mesh, then animated and rendered for a stakeholder presentation (76.6%), alongside a set of GD&amp;T tolerancing drawings marked at 88%.</p>
-        <div class="tags"><span class="tag">Inventor</span><span class="tag">GD&amp;T</span><span class="tag">assemblies</span><span class="tag">rendering</span></div>
-        <div class="plinks"><span class="muted">Design &amp; manufacture coursework</span></div>
-      </article>
     </div>
+
+    <article class="case reveal">
+      <div class="case-kick">
+        <span class="eyebrow">Epicyclic gearbox &middot; Autodesk Inventor</span>
+        <span class="pill pill-private">Coursework &middot; 76.6%</span>
+      </div>
+      <div class="vidfeat">
+        <video controls preload="none" playsinline poster="assets/gearbox-poster.jpg">
+          <source src="assets/gearbox.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div>
+          <h3>A 5:1 planetary gearbox, <em>modelled, driven and rendered.</em></h3>
+          <p>Built from a projected base sketch to guarantee the gears mesh, then drive-constraint animated with sectioned and exploded views. Fitted with standard content-centre bearings and circlips (BS&nbsp;292 / ANSI&nbsp;B27.7M), with material selection justified on engineering grounds: a cast-iron housing for vibration damping, polished steel and brass for the shaft and gears. Alongside a set of GD&amp;T tolerancing drawings marked at 88%.</p>
+          <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">assemblies</span><span class="tag">drive constraints</span><span class="tag">rendering</span><span class="tag">GD&amp;T</span></div>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
