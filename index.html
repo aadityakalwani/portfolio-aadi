@@ -169,6 +169,7 @@
   .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
   .cards .card{flex:0 1 calc((100% - 40px)/3)}
   #data .cards .card{flex-basis:calc((100% - 20px)/2)}
+  #engineering .eng-cards .card{flex-basis:calc((100% - 20px)/2)}
   @media(max-width:860px){.cards .card,#data .cards .card{flex-basis:100%}}
   .card{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-comp);
     padding:26px 24px 22px;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);overflow:hidden}
@@ -350,6 +351,8 @@
     <div class="wrap trust-in">
       <span>Python / PyTorch</span>
       <span>Machine learning</span>
+      <span>CAD &middot; Autodesk Inventor</span>
+      <span>MATLAB &middot; embedded</span>
       <span>Playwright automation</span>
       <span>Full-stack web</span>
       <span>Google Apps Script</span>
@@ -364,7 +367,7 @@
     <div class="block-head reveal">
       <span class="eyebrow">01 / Engineering &amp; ML</span>
       <h2 class="serif">The real work: <em>machine learning for physical systems.</em></h2>
-      <p>My highest-leverage project, and the direction I am betting on. Applying machine learning to hard, physical engineering problems rather than to abstractions.</p>
+      <p>My highest-leverage work, and the direction I am betting on. Applying machine learning and hands-on engineering to hard, physical systems: from battery-state research to embedded sensing, aerodynamics and mechanical design.</p>
     </div>
 
     <article class="case dark reveal">
@@ -406,6 +409,37 @@
         <span class="plinks"><span class="muted">Code private until publication</span></span>
       </div>
     </article>
+
+    <div class="cards eng-cards">
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Aerospace &middot; design &amp; make</span><span class="pill pill-research">Division lead</span></div>
+        <h3>Autonomous UAV &middot; Team Bath Drones</h3>
+        <p>Aerodynamics division lead on a competition UAV. Evaluated Clark-Y against NACA&nbsp;0015 profiles for a 30% lift-to-drag gain, co-led the tadpole fuselage and its CAD, and delivered the Critical Design Review with a 400&nbsp;g structural weight saving.</p>
+        <div class="tags"><span class="tag">Aerodynamics</span><span class="tag">CAD</span><span class="tag">Clark-Y / NACA</span><span class="tag">CDR</span></div>
+        <div class="plinks"><span class="muted">University design team</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Embedded &middot; sensing &amp; DSP</span><span class="pill pill-live">Built &amp; tested</span></div>
+        <h3>Ultrasonic Measurement System</h3>
+        <p>An Arduino and HC-SR04 ranging rig calibrated to 1.0&nbsp;mm RMSE, against a 4.3&nbsp;mm datasheet spec, using a moving-average filter and least-squares regression that cut noise 60%. Mapped the &plusmn;18&deg; beam field of view and drove a three-state alert machine with a variance-based motion-rejection filter.</p>
+        <div class="tags"><span class="tag">Arduino</span><span class="tag">MATLAB</span><span class="tag">signal processing</span><span class="tag">calibration</span></div>
+        <div class="plinks"><span class="muted">Mechatronics coursework</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Mechanical design &middot; team of 6</span><span class="pill pill-private">Design &amp; CAD &middot; build Y2</span></div>
+        <h3>Ping-Pong Launcher</h3>
+        <p>Authored the winning launch-mechanism concept, a slider-crank hammer, chosen over five alternatives on a weighted decision matrix, and the group's entire final design was built on it. The team produced full Inventor CAD, a quick-return kinematic model predicting a 27.8&nbsp;m/s launch, and a laser-cut and 3D-printed build package inside a 380&times;180&times;300&nbsp;mm envelope and an &pound;85 budget. Manufacture is scheduled for Year&nbsp;2.</p>
+        <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">mechanism design</span><span class="tag">DFM</span><span class="tag">decision matrix</span></div>
+        <div class="plinks"><span class="muted">Year-1 group design project</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">CAD &middot; Autodesk Inventor</span><span class="pill pill-private">Coursework</span></div>
+        <h3>Epicyclic Gearbox &amp; GD&amp;T Drawings</h3>
+        <p>A 5:1 planetary gearbox driven from a projected base sketch to guarantee mesh, then animated and rendered for a stakeholder presentation (76.6%), alongside a set of GD&amp;T tolerancing drawings marked at 88%.</p>
+        <div class="tags"><span class="tag">Inventor</span><span class="tag">GD&amp;T</span><span class="tag">assemblies</span><span class="tag">rendering</span></div>
+        <div class="plinks"><span class="muted">Design &amp; manufacture coursework</span></div>
+      </article>
+    </div>
   </div>
 </section>
 
