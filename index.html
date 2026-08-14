@@ -340,12 +340,18 @@
     background-size:34px 34px;border:1px solid transparent;box-shadow:var(--shadow);overflow:hidden}
   .fig-cap{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42)}
   .fig-cap b{color:var(--accent-lift);font-weight:500}
-  .fig-stage{position:relative;width:100%;aspect-ratio:1200/320;margin-top:8px}
+  .fig-stage{position:relative;width:100%;aspect-ratio:1200/340;margin-top:8px;cursor:grab}
+  .fig-stage:active{cursor:grabbing}
   .fig-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   /* a figure embedded inside a dark case panel (SOC) */
-  .case-fig{position:relative;margin-top:24px;border-radius:14px;overflow:hidden;aspect-ratio:1200/300;
-    border:1px solid rgba(147,177,255,.16);background:#0a1322}
+  .case-fig{position:relative;margin-top:24px;border-radius:14px;overflow:hidden;aspect-ratio:1200/380;
+    border:1px solid rgba(147,177,255,.16);background:#0a1322;cursor:grab}
+  .case-fig:active{cursor:grabbing}
   .case-fig canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .fig-stage.no-grab,.case-fig.no-grab{cursor:default}
+  .case-figwrap{margin-top:24px}
+  .case-figwrap .case-fig{margin-top:0}
+  .fig-cap-block{display:block;margin-bottom:8px}
   .case-fig-cap{position:absolute;left:14px;bottom:11px;font-family:'IBM Plex Mono',monospace;font-size:11px;
     letter-spacing:.02em;color:rgba(255,255,255,.42);pointer-events:none}
 </style>
@@ -434,9 +440,9 @@
         <span class="pill pill-private">Private repo &middot; paper in view</span>
       </div>
       <h3>Teaching a neural network to read a battery's charge <em>from sound.</em></h3>
-      <div class="case-fig">
-        <canvas id="fig-cell" aria-hidden="true"></canvas>
-        <span class="case-fig-cap">fig &middot; ultrasound time-of-flight through a cell</span>
+      <div class="case-figwrap">
+        <span class="fig-cap fig-cap-block">figure &middot; the LSTM cell &middot; gates &amp; state &middot; <b>drag to rotate</b></span>
+        <div class="case-fig"><canvas id="fig-lstm" aria-hidden="true"></canvas></div>
       </div>
       <div class="case-cols">
         <div class="case-col">
@@ -554,7 +560,7 @@
     </div>
 
     <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe airfoil section, echoing the Team Bath Drones competition wing">
-      <span class="fig-cap">figure &middot; <b>fig.2</b> &middot; airfoil section &middot; Clark-Y / NACA study</span>
+      <span class="fig-cap">figure &middot; <b>fig.2</b> &middot; airflow over an airfoil &middot; drag to rotate</span>
       <div class="fig-stage"><canvas id="fig-airfoil" aria-hidden="true"></canvas></div>
     </figure>
 
@@ -1022,10 +1028,11 @@ function initHero(THREE,OrbitControls,post){
 }
 </script>
 <script type="module">
-/* section figures — recurring dark 3D "figures" in the hero's glow language.
-   Non-interactive display pieces: self-spin, IntersectionObserver-gated so
-   an off-screen figure renders nothing. No bloom here to keep them cheap. */
+/* section figures — recurring interactive 3D "figures" in the hero's language.
+   Drag to orbit (desktop), gentle idle sway, IntersectionObserver-gated so an
+   off-screen figure renders nothing. Each figure animates real content. */
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
@@ -1038,48 +1045,85 @@ function softDot(){
 }
 const DOT=softDot();
 
-function makeFigure(canvas,spec){
+const clamp01=v=>v<0?0:v>1?1:v;
+
+function addPoints(group,nodes,o){
+  const P=new Float32Array(nodes.length*3);
+  nodes.forEach((n,i)=>{P[i*3]=n[0];P[i*3+1]=n[1];P[i*3+2]=n[2];});
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(P,3));
+  group.add(new THREE.Points(g,new THREE.PointsMaterial({size:o.size||0.12,map:DOT,color:new THREE.Color(o.color||'#dbe6ff'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
+  return g;
+}
+function addLines(group,nodes,edges,o){
+  const P=new Float32Array(edges.length*6);
+  edges.forEach((e,k)=>{const a=nodes[e[0]],b=nodes[e[1]],q=k*6; P[q]=a[0];P[q+1]=a[1];P[q+2]=a[2];P[q+3]=b[0];P[q+4]=b[1];P[q+5]=b[2];});
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(P,3));
+  group.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:new THREE.Color(o.color||'#7fa0ff'),transparent:true,opacity:o.opacity==null?0.5:o.opacity,depthWrite:false,blending:THREE.AdditiveBlending})));
+}
+function textSprite(txt,opts){
+  opts=opts||{}; const size=opts.size||60,color=opts.color||'#e6edff',weight=opts.weight||500;
+  const font=weight+" "+size+"px 'IBM Plex Mono', ui-monospace, monospace";
+  let cv=document.createElement('canvas'),g=cv.getContext('2d'); g.font=font;
+  const pad=10,w=Math.ceil(g.measureText(txt).width)+pad*2,h=size+pad*2;
+  cv.width=w; cv.height=h; g=cv.getContext('2d'); g.font=font; g.textBaseline='middle'; g.textAlign='center';
+  g.fillStyle=color; g.fillText(txt,w/2,h/2);
+  const tex=new THREE.CanvasTexture(cv); tex.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
+  const sc=opts.scale||0.42; sp.scale.set(w/h*sc,sc,1); return sp;
+}
+
+/* generic mount: renderer + orbit controls + IO gating + idle sway.
+   opts.build({THREE,group}) adds the geometry and returns {tick, radius}. */
+function mountFigure(canvas,opts){
   let renderer;
   try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }
   catch(e){ return; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(40,1.8,0.1,100);
+  const cam=new THREE.PerspectiveCamera(opts.fov||42,1.8,0.1,100);
   const group=new THREE.Group(); scene.add(group);
 
-  const P=spec.nodes,N=P.length,np=new Float32Array(N*3);
-  for(let i=0;i<N;i++){ np[i*3]=P[i][0];np[i*3+1]=P[i][1];np[i*3+2]=P[i][2]; }
-  const ng=new THREE.BufferGeometry(); ng.setAttribute('position',new THREE.BufferAttribute(np,3));
-  group.add(new THREE.Points(ng,new THREE.PointsMaterial({size:spec.dot||0.13,map:DOT,color:new THREE.Color(spec.node||'#dbe6ff'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
+  const built=opts.build({THREE,group})||{};
+  const contentTick=built.tick;
+  const box=new THREE.Box3().setFromObject(group);
+  const sphere=box.getBoundingSphere(new THREE.Sphere());
+  const center=sphere.center.clone();
+  const radius=built.radius||sphere.radius||3;
 
-  if(spec.edges&&spec.edges.length){
-    const ep=new Float32Array(spec.edges.length*6);
-    spec.edges.forEach((e,k)=>{ const a=P[e[0]],b=P[e[1]],o=k*6; ep[o]=a[0];ep[o+1]=a[1];ep[o+2]=a[2];ep[o+3]=b[0];ep[o+4]=b[1];ep[o+5]=b[2]; });
-    const eg=new THREE.BufferGeometry(); eg.setAttribute('position',new THREE.BufferAttribute(ep,3));
-    group.add(new THREE.LineSegments(eg,new THREE.LineBasicMaterial({color:new THREE.Color(spec.edge||'#7fa0ff'),transparent:true,opacity:spec.eop||0.5,depthWrite:false,blending:THREE.AdditiveBlending})));
-  }
+  const coarse=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
+  const controls=new OrbitControls(cam,canvas);
+  controls.enableDamping=!reduce; controls.dampingFactor=0.09;
+  controls.enablePan=false; controls.enableZoom=false; controls.autoRotate=false;
+  controls.minPolarAngle=Math.PI*0.14; controls.maxPolarAngle=Math.PI*0.86;
+  controls.target.copy(center);
+  if(coarse){ controls.enableRotate=false; if(canvas.parentElement) canvas.parentElement.classList.add('no-grab'); }
 
-  ng.computeBoundingSphere();
-  const bs=ng.boundingSphere;
-  group.position.set(-bs.center.x,-bs.center.y,-bs.center.z);   // recentre on origin
-  group.rotation.set(spec.rx||0,spec.ry||0,0);
+  const view=opts.view||[0.12,0.16,1];
   function frameCam(){
-    const vHalf=(cam.fov*Math.PI/180)/2;
-    const hHalf=Math.atan(Math.tan(vHalf)*cam.aspect);
-    const half=spec.fit==='width'?hHalf:Math.min(vHalf,hHalf);  // 'width' lets a wide-flat figure span the panel
-    cam.position.set(0,0,bs.radius/Math.sin(half)*(spec.margin||1.08)); cam.lookAt(0,0,0);
+    const vHalf=(cam.fov*Math.PI/180)/2,hHalf=Math.atan(Math.tan(vHalf)*cam.aspect);
+    const half=opts.fit==='width'?hHalf:Math.min(vHalf,hHalf);
+    const dist=radius/Math.sin(half)*(opts.margin||1.12);
+    const d=new THREE.Vector3(view[0],view[1],view[2]).normalize().multiplyScalar(dist);
+    cam.position.copy(center).add(d); controls.target.copy(center); controls.update();
   }
   function size(){ const w=canvas.clientWidth||1,h=canvas.clientHeight||1; renderer.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); frameCam(); }
   size();
   if('ResizeObserver' in window) new ResizeObserver(size).observe(canvas); else window.addEventListener('resize',size);
 
-  const spin=(spec.spin==null?0.0032:spec.spin);
-  let raf=null,running=false,t=0;
-  function frame(){ t++; group.rotation.y+=spin; group.rotation.x=(spec.rx||0)+Math.sin(t*0.006)*0.07; renderer.render(scene,cam); raf=requestAnimationFrame(frame); }
-  function start(){ if(running||reduce)return; running=true; raf=requestAnimationFrame(frame); }
+  const swayAmp=opts.sway==null?0.2:opts.sway, baseY=opts.baseRotY||0;
+  let raf=null,running=false,t=0,last=0,dragging=false;
+  controls.addEventListener('start',()=>{dragging=true;});
+  controls.addEventListener('end',()=>{dragging=false;});
+  function loop(now){
+    const dt=last?Math.min(0.05,(now-last)/1000):0.016; last=now; t+=dt;
+    if(!dragging){ group.rotation.y=baseY+Math.sin(t*0.35)*swayAmp; group.rotation.x=Math.sin(t*0.26)*0.045; }
+    controls.update(); if(contentTick) contentTick(t,dt); renderer.render(scene,cam);
+    raf=requestAnimationFrame(loop);
+  }
+  function start(){ if(running)return; running=true; last=0; raf=requestAnimationFrame(loop); }
   function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
 
-  if(reduce){ group.rotation.y=(spec.ry||0)+0.5; renderer.render(scene,cam); }
+  if(reduce){ group.rotation.y=baseY; if(contentTick)contentTick(0,0); controls.update(); renderer.render(scene,cam); controls.addEventListener('change',()=>renderer.render(scene,cam)); }
   else if('IntersectionObserver' in window){ new IntersectionObserver(es=>es.forEach(e=>{ e.isIntersecting?start():stop(); }),{threshold:0.05}).observe(canvas); }
   else start();
 }
@@ -1099,32 +1143,107 @@ function airfoilRib(m,p,t,steps){
   }
   return up.concat(lo.slice(1,-1).reverse());   // closed loop: upper LE->TE, lower TE->LE
 }
-function specAirfoil(){
-  const steps=16,ribs=6,chord=3.4,span=3.8;
+/* the wing wireframe + live airflow streaming over it (faster & brighter over
+   the top => the pressure difference that makes lift) */
+function buildAirfoil({THREE,group}){
+  const steps=16,ribs=6,chord=3.4,span=3.8,CH=chord;
   const rib=airfoilRib(0.02,0.4,0.12,steps),per=rib.length;
   const nodes=[],edges=[];
   for(let r=0;r<ribs;r++){ const z=-span/2+span*r/(ribs-1);
-    for(let k=0;k<per;k++) nodes.push([(rib[k][0]-0.5)*chord, rib[k][1]*chord, z]); }
-  for(let r=0;r<ribs;r++){ const b=r*per; for(let k=0;k<per;k++) edges.push([b+k,b+(k+1)%per]); }      // chordwise
-  for(let r=0;r<ribs-1;r++){ for(let k=0;k<per;k+=2) edges.push([r*per+k,(r+1)*per+k]); }               // spanwise
-  return {nodes,edges,fit:'width',margin:1.16,dot:0.11,eop:0.5,ry:-0.5,rx:0.34,spin:0.0026,node:'#dbe6ff',edge:'#6f8bf2'};
+    for(let k=0;k<per;k++) nodes.push([(rib[k][0]-0.5)*CH, rib[k][1]*CH, z]); }
+  for(let r=0;r<ribs;r++){ const b=r*per; for(let k=0;k<per;k++) edges.push([b+k,b+(k+1)%per]); }
+  for(let r=0;r<ribs-1;r++){ for(let k=0;k<per;k+=2) edges.push([r*per+k,(r+1)*per+k]); }
+  addLines(group,nodes,edges,{color:'#6f8bf2',opacity:0.4});
+  addPoints(group,nodes,{size:0.09,color:'#dbe6ff'});
+
+  const th=u=>(u<=0||u>=1)?0:5*0.12*(0.2969*Math.sqrt(u)-0.1260*u-0.3516*u*u+0.2843*u*u*u-0.1015*u*u*u*u);
+  const cb=u=>{const m=0.02,p=0.4; if(u<=0||u>=1)return 0; return u<p?m/(p*p)*(2*p*u-u*u):m/((1-p)*(1-p))*((1-2*p)+2*p*u-u*u);};
+
+  const NP=520,xMin=-3.7,xMax=3.7;
+  const P=new Float32Array(NP*3),C=new Float32Array(NP*3),part=[];
+  for(let i=0;i<NP;i++){
+    const by=(-1.35+2.7*((i%22)/21));                       // streamline height band
+    const z=-span/2*1.05 + span*1.05*((i*89%NP)/NP);        // spread across the span
+    part.push({by,z,x:xMin+(xMax-xMin)*((i*53%NP)/NP),spd:1.0+0.2*((i*17%NP)/NP)});
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(P,3)); g.setAttribute('color',new THREE.BufferAttribute(C,3));
+  group.add(new THREE.Points(g,new THREE.PointsMaterial({size:0.07,map:DOT,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
+  const cHot=new THREE.Color('#eaf1ff'),cCool=new THREE.Color('#5f8bf6'),tmp=new THREE.Color();
+  function tick(t,dt){
+    for(let i=0;i<NP;i++){
+      const p=part[i], u0=clamp01(p.x/CH+0.5), over=p.by>=cb(u0)*CH;
+      const near0=(u0>0&&u0<1)?Math.sin(Math.PI*u0):0;
+      p.x+=dt*1.35*p.spd*(1+(over?near0*0.9:near0*0.15));    // bunch & accelerate over the top
+      if(p.x>xMax) p.x=xMin+(p.x-xMax);
+      const u=clamp01(p.x/CH+0.5), nb=(u>0&&u<1)?Math.sin(Math.PI*u):0;
+      const camber=cb(u)*CH, halfT=th(u)*CH, side=p.by>=camber?1:-1;
+      const fall=Math.exp(-Math.abs(p.by-camber)*1.15);
+      P[i*3]=p.x; P[i*3+1]=p.by+side*halfT*nb*fall*1.5+camber*nb*0.35; P[i*3+2]=p.z;
+      const hot=Math.min(1,(over?nb*fall*1.3:nb*fall*0.45));
+      tmp.copy(cCool).lerp(cHot,hot).multiplyScalar(0.55+0.85*hot);
+      C[i*3]=tmp.r; C[i*3+1]=tmp.g; C[i*3+2]=tmp.b;
+    }
+    g.attributes.position.needsUpdate=true; g.attributes.color.needsUpdate=true;
+  }
+  return {tick,radius:3.2};
 }
 
-/* spec: a battery cell with an ultrasound wave threaded through it (time-of-flight) */
-function specCell(){
-  const w=2.6,h=1.5,d=1.5;
-  const c=[[-w/2,-h/2,-d/2],[w/2,-h/2,-d/2],[w/2,h/2,-d/2],[-w/2,h/2,-d/2],
-           [-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,h/2,d/2],[-w/2,h/2,d/2]];
-  const nodes=c.slice();
-  const edges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
-  const S=44,base=nodes.length;
-  for(let i=0;i<=S;i++){ const u=i/S; nodes.push([-w/2+u*w, Math.sin(u*Math.PI*5)*0.5*(1-u*0.45), 0]); }
-  for(let i=0;i<S;i++) edges.push([base+i,base+i+1]);
-  return {nodes,edges,margin:1.06,dot:0.15,eop:0.52,ry:0.42,rx:0.22,spin:0.003,node:'#cfe0ff',edge:'#7fa0ff'};
+/* an LSTM cell: the cell-state conveyor along the top, the four gates below,
+   with computation flowing L->R through the gates each timestep. This is the
+   architecture behind the SOC model. */
+function buildLSTM({THREE,group}){
+  const N={
+    Cprev:[-2.9,0.9,0], mulF:[-1.35,0.9,0], addI:[0.35,0.9,0], Cnext:[2.9,0.9,0],
+    input:[-2.9,-1.05,0], f:[-1.35,-0.15,0], i:[-0.5,-0.15,0], g:[0.25,-0.15,0], mulIG:[0.35,0.38,0], o:[1.55,-0.15,0],
+    tanhC:[2.15,0.4,0], mulO:[2.15,-0.15,0], h:[2.9,-0.15,0]
+  };
+  const keys=Object.keys(N), pos=keys.map(k=>N[k]), idx={}; keys.forEach((k,ii)=>idx[k]=ii);
+  const E=[
+    ['input','f'],['input','i'],['input','g'],['input','o'],
+    ['Cprev','mulF'],['f','mulF'],['mulF','addI'],
+    ['i','mulIG'],['g','mulIG'],['mulIG','addI'],
+    ['addI','Cnext'],['Cnext','tanhC'],['tanhC','mulO'],['o','mulO'],['mulO','h']
+  ];
+  const edges=E.map(e=>[idx[e[0]],idx[e[1]]]);
+  addLines(group,pos,edges,{color:'#4f6ff0',opacity:0.32});
+  addPoints(group,pos,{size:0.14,color:'#e6edff'});
+  addPoints(group,[N.f,N.i,N.g,N.o],{size:0.42,color:'#9fb8ff'});              // gates
+  addPoints(group,[N.mulF,N.addI,N.mulIG,N.mulO,N.tanhC],{size:0.3,color:'#bcd0ff'}); // operators
+
+  function lab(txt,p,o){ o=o||{}; const s=textSprite(txt,o); s.position.set(p[0]+(o.dx||0),p[1]+(o.dy||0),p[2]+0.03); group.add(s); }
+  lab('σ',N.f,{scale:0.38,dy:0.26,color:'#dfeaff'}); lab('σ',N.i,{scale:0.38,dy:0.26,color:'#dfeaff'});
+  lab('tanh',N.g,{scale:0.28,dy:0.28,color:'#dfeaff'}); lab('σ',N.o,{scale:0.38,dy:0.26,color:'#dfeaff'});
+  lab('forget',N.f,{scale:0.2,dy:-0.3,color:'#6f83a6'}); lab('input',N.i,{scale:0.2,dy:-0.3,color:'#6f83a6'});
+  lab('cell',N.g,{scale:0.2,dy:-0.3,color:'#6f83a6'}); lab('output',N.o,{scale:0.2,dy:-0.3,color:'#6f83a6'});
+  lab('×',N.mulF,{scale:0.32}); lab('+',N.addI,{scale:0.4}); lab('×',N.mulIG,{scale:0.28}); lab('×',N.mulO,{scale:0.28}); lab('tanh',N.tanhC,{scale:0.24});
+  lab('c(t-1)',N.Cprev,{scale:0.3,dy:0.32,color:'#9fb0cc'}); lab('c(t)',N.Cnext,{scale:0.32,dy:0.32,color:'#e6edff'});
+  lab('x(t), h(t-1)',N.input,{scale:0.3,dy:-0.34,color:'#9fb0cc'}); lab('h(t)',N.h,{scale:0.34,dy:-0.34,color:'#e6edff'});
+
+  // flowing packets travelling along every edge, staged L->R so it reads as one forward pass
+  const NE=edges.length, seg=E.map(e=>({a:N[e[0]],b:N[e[1]],phase:(N[e[1]][0]+3.2)/6.4}));
+  const PK=new Float32Array(NE*3),KC=new Float32Array(NE*3);
+  const pg=new THREE.BufferGeometry();
+  pg.setAttribute('position',new THREE.BufferAttribute(PK,3)); pg.setAttribute('color',new THREE.BufferAttribute(KC,3));
+  group.add(new THREE.Points(pg,new THREE.PointsMaterial({size:0.28,map:DOT,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
+  const cA=new THREE.Color('#eaf1ff'),cB=new THREE.Color('#6f8bf6'),tmp=new THREE.Color();
+  function tick(t,dt){
+    for(let k=0;k<NE;k++){
+      const s=seg[k], fr=(t*0.32+s.phase)%1;
+      PK[k*3]=s.a[0]+(s.b[0]-s.a[0])*fr; PK[k*3+1]=s.a[1]+(s.b[1]-s.a[1])*fr; PK[k*3+2]=s.a[2]+(s.b[2]-s.a[2])*fr;
+      const glow=Math.sin(fr*Math.PI);
+      tmp.copy(cB).lerp(cA,glow).multiplyScalar(0.5+0.95*glow);
+      KC[k*3]=tmp.r; KC[k*3+1]=tmp.g; KC[k*3+2]=tmp.b;
+    }
+    pg.attributes.position.needsUpdate=true; pg.attributes.color.needsUpdate=true;
+  }
+  return {tick,radius:3.5};
 }
 
-const a=document.getElementById('fig-airfoil'); if(a) makeFigure(a,specAirfoil());
-const b=document.getElementById('fig-cell');    if(b) makeFigure(b,specCell());
+const a=document.getElementById('fig-airfoil');
+if(a) mountFigure(a,{build:buildAirfoil, fit:'width', margin:1.12, view:[0.34,0.24,1], sway:0.16, fov:42});
+const b=document.getElementById('fig-lstm');
+if(b) mountFigure(b,{build:buildLSTM, fit:'width', margin:1.16, view:[0.06,0.08,1], sway:0.1, fov:40});
 </script>
 </body>
 </html>
