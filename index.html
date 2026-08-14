@@ -313,7 +313,7 @@
   @media(max-width:620px){.fp-label{font-size:8px}.fp-label .fp-sub{display:none}}
   .fp-edge{fill:none;stroke-linecap:round;stroke-dashoffset:0;opacity:var(--op)}
   .fp-node{stroke:rgba(147,177,255,.28);stroke-width:1.4;fill:#eaf0ff;filter:drop-shadow(0 0 5px rgba(30,72,224,.4))}
-  .fp-actval{fill:#0b1524;font-family:'IBM Plex Mono',monospace;font-size:9px;text-anchor:middle;dominant-baseline:middle;opacity:.5}
+  .fp-actval{fill:#081020;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;text-anchor:middle;dominant-baseline:middle;opacity:.92}
   @keyframes fpDraw{from{stroke-dashoffset:var(--len);opacity:0}to{stroke-dashoffset:0;opacity:var(--op)}}
   @keyframes fpGlow{from{fill:#0c1626;filter:none}to{fill:#eaf0ff;filter:drop-shadow(0 0 7px rgba(91,131,247,.75))}}
   @keyframes fpIn{from{opacity:0;transform:translateY(-50%) translateX(9px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
@@ -799,7 +799,7 @@
   if(!panel||!svg||!stage)return;
   var NS="http://www.w3.org/2000/svg";
   function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
-  var layers=[inputs.length,6,6,outputs.length],X=[260,510,760,940],Y0=64,Y1=456,H=520;
+  var layers=[inputs.length,8,8,outputs.length],X=[260,510,760,940],Y0=64,Y1=456,H=520;
   function ys(n){if(n===1)return[(Y0+Y1)/2];var s=(Y1-Y0)/(n-1),a=[];for(var i=0;i<n;i++)a.push(Y0+s*i);return a;}
   var coords=layers.map(function(n,li){return ys(n).map(function(y){return{x:X[li],y:y};});});
   var gBase=[0.15,0.85,1.55];
@@ -811,7 +811,7 @@
       ln.style.setProperty("--d",(gBase[li]+(i+j)*0.012).toFixed(3)+"s");svg.appendChild(ln);}}
   var nd=[0,0.62,1.32,2.02];
   coords.forEach(function(layer,li){var hidden=li>0&&li<coords.length-1;
-    layer.forEach(function(p,idx){var c=el("circle",{"class":"fp-node",cx:p.x,cy:p.y,r:hidden?12:15});
+    layer.forEach(function(p,idx){var c=el("circle",{"class":"fp-node",cx:p.x,cy:p.y,r:hidden?15:16});
       c.style.setProperty("--d",(nd[li]+idx*0.015).toFixed(3)+"s");svg.appendChild(c);
       if(hidden){var v=el("text",{"class":"fp-actval",x:p.x,y:p.y});v.textContent=Math.random().toFixed(2);svg.appendChild(v);}});});
   function place(arr,lc,cls,base){arr.forEach(function(it,idx){var d=document.createElement("div");d.className="fp-label "+cls;
