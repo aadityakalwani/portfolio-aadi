@@ -27,6 +27,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- three.js for the 3D hero network (keeps the no-build constraint) -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
 <style>
   :root{
     --paper:#F5F3E8;
@@ -304,21 +312,19 @@
   .fp-dot{width:10px;height:2px;border-radius:2px;display:inline-block}
   .fp-pos{background:var(--accent-lift)}.fp-neg{background:#E48AA0}
   @media(max-width:620px){.fp-legend{display:none}}
-  .fp-stage{position:relative;width:100%;aspect-ratio:1200/520;margin-top:6px}
-  .fp-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .fp-stage{position:relative;width:100%;aspect-ratio:1200/520;margin-top:6px;cursor:grab}
+  .fp-stage:active{cursor:grabbing}
+  .fp-stage.no-grab{cursor:default}
+  #fp-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .fp-stage[data-webgl="off"]::after{content:"3D view unavailable here \2014 the network still computes me either way.";
+    position:absolute;left:50%;bottom:14%;transform:translateX(-50%);max-width:60%;text-align:center;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.02em;color:rgba(255,255,255,.4)}
   .fp-label{position:absolute;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:clamp(8px,1.05vw,12.5px);line-height:1.24;pointer-events:none}
   .fp-label.in{left:1%;width:19%;text-align:right;color:rgba(255,255,255,.6)}
   .fp-label.out{left:80%;width:19%;text-align:left;color:#fff;font-weight:500}
   .fp-label .fp-sub{display:block;color:rgba(255,255,255,.4);font-size:.84em;font-weight:400;margin-top:1px}
   @media(max-width:620px){.fp-label{font-size:8px}.fp-label .fp-sub{display:none}}
-  .fp-edge{fill:none;stroke-linecap:round;stroke-dashoffset:0;opacity:var(--op)}
-  .fp-node{stroke:rgba(147,177,255,.28);stroke-width:1.4;fill:#eaf0ff;filter:drop-shadow(0 0 5px rgba(30,72,224,.4))}
-  .fp-actval{fill:#081020;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;text-anchor:middle;dominant-baseline:middle;opacity:.92}
-  @keyframes fpDraw{from{stroke-dashoffset:var(--len);opacity:0}to{stroke-dashoffset:0;opacity:var(--op)}}
-  @keyframes fpGlow{from{fill:#0c1626;filter:none}to{fill:#eaf0ff;filter:drop-shadow(0 0 7px rgba(91,131,247,.75))}}
   @keyframes fpIn{from{opacity:0;transform:translateY(-50%) translateX(9px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
-  .fp-panel.playing .fp-edge{animation:fpDraw .6s ease var(--d) both}
-  .fp-panel.playing .fp-node{animation:fpGlow .42s ease var(--d) both}
   .fp-panel.playing .fp-label.out{animation:fpIn .5s ease var(--d) both}
   .fp-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap}
   .fp-wink{font-size:13px;font-style:italic;color:rgba(255,255,255,.62);max-width:72ch}
@@ -326,7 +332,7 @@
   .fp-replay{appearance:none;border:1px solid rgba(147,177,255,.28);background:rgba(147,177,255,.08);color:var(--accent-lift);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;padding:7px 14px;border-radius:9px;cursor:pointer;transition:background .18s,border-color .18s;white-space:nowrap}
   .fp-replay:hover{background:rgba(147,177,255,.16);border-color:rgba(147,177,255,.45)}
   .fp-replay:focus-visible{outline:3px solid var(--accent-lift);outline-offset:3px}
-  @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-edge,.fp-panel.playing .fp-node,.fp-panel.playing .fp-label.out{animation:none}}
+  @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-label.out{animation:none}}
 </style>
 </head>
 <body>
@@ -375,7 +381,7 @@
         <span class="fp-legend"><span><i class="fp-dot fp-pos"></i>positive weight</span><span><i class="fp-dot fp-neg"></i>negative weight</span></span>
       </div>
       <div class="fp-stage" id="fp-stage">
-        <svg class="fp-svg" id="fp-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        <canvas id="fp-canvas" aria-hidden="true"></canvas>
       </div>
       <figcaption class="fp-foot">
         <span class="fp-wink">A forward pass, <b>if the network's only job were to compute me.</b> Identity in, the things I have built resolving out. Yes, I know that is not how inference works.</span>
@@ -791,38 +797,186 @@
   }
 </script>
 <script>
-/* forward-pass hero network */
+/* hero: flanking input/output labels — plain script so they always render,
+   even if the CDN or WebGL is unavailable and the 3D never boots */
 (function(){
   var inputs=[{t:"Aaditya Kalwani"},{t:"Aerospace · Bath"},{t:"Age 19"},{t:"ML for physical systems"},{t:"First-class · Yr 1"},{t:"Compulsive builder"}];
   var outputs=[{t:"Battery-SOC paper",s:"first author"},{t:"Co-founder &amp; CTO",s:"Winkit"},{t:"Aerodynamics lead",s:"Team Bath Drones"},{t:"Full-stack intern",s:"Fifth-9"},{t:"Founder · tutoring",s:"15+ students"},{t:"Neetu's Crafts",s:"live storefront"},{t:"14+ shipped",s:"bots, trackers, sites"}];
-  var panel=document.getElementById("fp"),svg=document.getElementById("fp-svg"),stage=document.getElementById("fp-stage");
-  if(!panel||!svg||!stage)return;
-  var NS="http://www.w3.org/2000/svg";
-  function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
-  var layers=[inputs.length,8,8,outputs.length],X=[260,510,760,940],Y0=64,Y1=456,H=520;
-  function ys(n){if(n===1)return[(Y0+Y1)/2];var s=(Y1-Y0)/(n-1),a=[];for(var i=0;i<n;i++)a.push(Y0+s*i);return a;}
-  var coords=layers.map(function(n,li){return ys(n).map(function(y){return{x:X[li],y:y};});});
-  var gBase=[0.15,0.85,1.55];
-  for(var li=0;li<coords.length-1;li++){var A=coords[li],B=coords[li+1];
-    for(var i=0;i<A.length;i++)for(var j=0;j<B.length;j++){
-      var dx=B[j].x-A[i].x,dy=B[j].y-A[i].y,len=Math.sqrt(dx*dx+dy*dy),pos=Math.random()>0.5,op=(0.10+Math.random()*0.32).toFixed(3);
-      var ln=el("line",{"class":"fp-edge",x1:A[i].x,y1:A[i].y,x2:B[j].x,y2:B[j].y,stroke:pos?"var(--accent-lift)":"#E48AA0","stroke-width":(0.6+Math.random()*1.0).toFixed(2)});
-      ln.style.setProperty("--len",len.toFixed(1));ln.style.setProperty("--op",op);ln.style.strokeDasharray=len.toFixed(1);
-      ln.style.setProperty("--d",(gBase[li]+(i+j)*0.012).toFixed(3)+"s");svg.appendChild(ln);}}
-  var nd=[0,0.62,1.32,2.02];
-  coords.forEach(function(layer,li){var hidden=li>0&&li<coords.length-1;
-    layer.forEach(function(p,idx){var c=el("circle",{"class":"fp-node",cx:p.x,cy:p.y,r:hidden?15:16});
-      c.style.setProperty("--d",(nd[li]+idx*0.015).toFixed(3)+"s");svg.appendChild(c);
-      if(hidden){var v=el("text",{"class":"fp-actval",x:p.x,y:p.y});v.textContent=Math.random().toFixed(2);svg.appendChild(v);}});});
-  function place(arr,lc,cls,base){arr.forEach(function(it,idx){var d=document.createElement("div");d.className="fp-label "+cls;
-    d.style.top=(lc[idx].y/H*100)+"%";d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");
-    if(cls==="out")d.style.setProperty("--d",(base+idx*0.09).toFixed(3)+"s");stage.appendChild(d);});}
-  place(inputs,coords[0],"in",0);place(outputs,coords[coords.length-1],"out",2.15);
-  var fpReduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  function play(){if(fpReduce)return;panel.classList.remove("playing");void panel.offsetWidth;panel.classList.add("playing");}
-  var rb=document.getElementById("fp-replay");if(rb)rb.addEventListener("click",play);
-  if("IntersectionObserver"in window&&!fpReduce){var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play();io2.unobserve(e.target);}});},{threshold:0.25});io2.observe(panel);}else{setTimeout(play,240);}
+  var stage=document.getElementById("fp-stage");
+  if(!stage)return;
+  function place(arr,cls,base){var n=arr.length;arr.forEach(function(it,idx){
+    var d=document.createElement("div");d.className="fp-label "+cls;
+    d.style.top=(n===1?50:7+idx*(86/(n-1)))+"%";
+    d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");
+    if(cls==="out")d.style.setProperty("--d",(base+idx*0.09).toFixed(3)+"s");
+    stage.appendChild(d);});}
+  place(inputs,"in",0);place(outputs,"out",2.15);
 })();
+</script>
+<script type="module">
+/* forward-pass hero — a real-time 3D neural network in three.js.
+   Identity in on the left, the things I have built resolving out on the right. */
+try{
+  const THREE=await import('three');
+  const { OrbitControls }=await import('three/addons/controls/OrbitControls.js');
+  initHero(THREE,OrbitControls);
+}catch(err){
+  const s=document.getElementById('fp-stage'); if(s) s.setAttribute('data-webgl','off');
+}
+
+function makeDot(THREE){
+  const s=128,c=document.createElement('canvas');c.width=c.height=s;
+  const g=c.getContext('2d');
+  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  grd.addColorStop(0,'rgba(255,255,255,1)');
+  grd.addColorStop(0.22,'rgba(232,240,255,0.95)');
+  grd.addColorStop(0.5,'rgba(147,177,255,0.42)');
+  grd.addColorStop(1,'rgba(147,177,255,0)');
+  g.fillStyle=grd;g.fillRect(0,0,s,s);
+  const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
+}
+
+function initHero(THREE,OrbitControls){
+  const panel=document.getElementById('fp');
+  const stage=document.getElementById('fp-stage');
+  const canvas=document.getElementById('fp-canvas');
+  if(!panel||!stage||!canvas)return;
+
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const coarse=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const hash=x=>{const s=Math.sin(x)*43758.5453;return s-Math.floor(s);};
+
+  // architecture: layer counts read from the labels already in the DOM
+  const nIn=stage.querySelectorAll('.fp-label.in').length||6;
+  const nOut=stage.querySelectorAll('.fp-label.out').length||7;
+  const sizes=[nIn,8,8,nOut];
+  const layerX=[-3.4,-1.15,1.15,3.4];
+  const ySpan=3.4;
+  const X0=layerX[0]-0.9, X1=layerX[layerX.length-1]+0.9;
+
+  const C_POS=new THREE.Color('#93B1FF');   // positive weight
+  const C_NEG=new THREE.Color('#E48AA0');    // negative weight
+  const C_NODE=new THREE.Color('#dbe6ff');
+  const C_HOT=new THREE.Color('#ffffff');
+
+  // node positions, with per-node depth so orbiting reveals real volume
+  const layers=sizes.map((n,li)=>{
+    const arr=[];
+    for(let i=0;i<n;i++){
+      const y=n===1?0:(ySpan/2 - i*(ySpan/(n-1)));
+      const z=(hash(li*31.7+i*7.3)-0.5)*2.2;
+      arr.push(new THREE.Vector3(layerX[li],y,z));
+    }
+    return arr;
+  });
+
+  let renderer;
+  try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }
+  catch(e){ stage.setAttribute('data-webgl','off'); return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,2.3,0.1,100);
+  camera.position.set(0.2,0.25,8.2);
+  const group=new THREE.Group(); group.rotation.y=-0.4; scene.add(group);
+
+  // nodes as glowing additive points
+  const nodeList=[];
+  layers.forEach((L,li)=>L.forEach(p=>nodeList.push({p,li})));
+  const nPos=new Float32Array(nodeList.length*3);
+  const nCol=new Float32Array(nodeList.length*3);
+  nodeList.forEach((nd,i)=>{ nPos[i*3]=nd.p.x; nPos[i*3+1]=nd.p.y; nPos[i*3+2]=nd.p.z; });
+  const nodeGeo=new THREE.BufferGeometry();
+  nodeGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));
+  nodeGeo.setAttribute('color',new THREE.BufferAttribute(nCol,3));
+  const nodeMat=new THREE.PointsMaterial({size:0.5,map:makeDot(THREE),vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true});
+  group.add(new THREE.Points(nodeGeo,nodeMat));
+
+  // edges: full connectivity between adjacent layers, coloured by weight sign
+  const ePos=[]; const eMeta=[];
+  for(let li=0;li<layers.length-1;li++){
+    const A=layers[li],B=layers[li+1];
+    for(let i=0;i<A.length;i++)for(let j=0;j<B.length;j++){
+      ePos.push(A[i].x,A[i].y,A[i].z, B[j].x,B[j].y,B[j].z);
+      eMeta.push({sign:hash(li*97.1+i*13.3+j*4.7)>0.5?1:-1, mid:(layerX[li]+layerX[li+1])/2});
+    }
+  }
+  const eCol=new Float32Array(eMeta.length*6);
+  const edgeGeo=new THREE.BufferGeometry();
+  edgeGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(ePos),3));
+  edgeGeo.setAttribute('color',new THREE.BufferAttribute(eCol,3));
+  const edgeMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
+  group.add(new THREE.LineSegments(edgeGeo,edgeMat));
+
+  // orbit: drag on desktop, gentle auto-rotate; touch keeps page scroll free
+  const controls=new OrbitControls(camera,canvas);
+  controls.enableDamping=true; controls.dampingFactor=0.08;
+  controls.enablePan=false; controls.enableZoom=false;
+  controls.autoRotate=!reduce; controls.autoRotateSpeed=0.65;
+  controls.minPolarAngle=Math.PI*0.28; controls.maxPolarAngle=Math.PI*0.72;
+  if(coarse){ controls.enableRotate=false; stage.classList.add('no-grab'); }
+  controls.addEventListener('start',()=>{ if(!coarse&&!reduce) controls.autoRotate=false; });
+  controls.addEventListener('end',()=>{ if(!coarse&&!reduce) controls.autoRotate=true; });
+
+  function resize(){
+    const w=stage.clientWidth||1,h=stage.clientHeight||1;
+    renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  resize();
+  if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
+  else window.addEventListener('resize',resize);
+
+  // the forward pass: a wavefront sweeps left to right, lighting the network
+  const PASS_MS=2200;
+  let waveStart=null, wave=reduce?1:0;
+  function play(){ if(reduce)return; waveStart=performance.now(); }
+
+  function paint(){
+    const waveX=X0+wave*(X1-X0);
+    for(let i=0;i<nodeList.length;i++){
+      const a=clamp((waveX-nodeList[i].p.x)/0.55,0,1);
+      const c=C_NODE.clone().lerp(C_HOT,a*0.55).multiplyScalar(0.55+0.95*a);
+      nCol[i*3]=c.r; nCol[i*3+1]=c.g; nCol[i*3+2]=c.b;
+    }
+    nodeGeo.attributes.color.needsUpdate=true;
+    for(let k=0;k<eMeta.length;k++){
+      const m=eMeta[k];
+      const pulse=Math.max(0,1-Math.abs(waveX-m.mid)/0.95);
+      const inten=clamp(0.10+0.16*(waveX>m.mid?1:0)+0.9*pulse,0,1.6);
+      const base=m.sign>0?C_POS:C_NEG, r=base.r*inten,g=base.g*inten,b=base.b*inten,o=k*6;
+      eCol[o]=r;eCol[o+1]=g;eCol[o+2]=b; eCol[o+3]=r;eCol[o+4]=g;eCol[o+5]=b;
+    }
+    edgeGeo.attributes.color.needsUpdate=true;
+  }
+  function scrollTilt(){
+    const rect=panel.getBoundingClientRect();
+    const sp=clamp((window.innerHeight*0.5-rect.top)/window.innerHeight,-0.35,0.7);
+    group.rotation.x=sp*0.32;
+  }
+  function render(){ controls.update(); paint(); scrollTilt(); renderer.render(scene,camera); }
+
+  let raf=null, running=false;
+  function loop(now){ if(waveStart!=null) wave=Math.min(1,(now-waveStart)/PASS_MS); render(); raf=requestAnimationFrame(loop); }
+  function start(){ if(running)return; running=true; raf=requestAnimationFrame(loop); }
+  function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
+
+  const rb=document.getElementById('fp-replay');
+  function markPlaying(){ panel.classList.remove('playing'); void panel.offsetWidth; panel.classList.add('playing'); }
+  if(rb) rb.addEventListener('click',()=>{ if(!reduce){ play(); if(!running) start(); } markPlaying(); });
+
+  if(reduce){
+    controls.addEventListener('change',render);
+    paint(); render(); panel.classList.add('playing');
+  } else if('IntersectionObserver' in window){
+    let first=true;
+    new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting){ start(); play(); if(first){ markPlaying(); first=false; } }
+      else stop();
+    }),{threshold:0.12}).observe(panel);
+  } else { start(); play(); markPlaying(); }
+}
 </script>
 </body>
 </html>
