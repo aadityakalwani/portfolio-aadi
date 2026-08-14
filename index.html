@@ -333,6 +333,21 @@
   .fp-replay:hover{background:rgba(147,177,255,.16);border-color:rgba(147,177,255,.45)}
   .fp-replay:focus-visible{outline:3px solid var(--accent-lift);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-label.out{animation:none}}
+
+  /* recurring 3D "figure" panels (fig.2, fig.3 ...) in the hero's language */
+  .fig-panel{margin:34px 0 0;padding:16px 20px 14px;border-radius:var(--r-panel);background:var(--ink);
+    background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+    background-size:34px 34px;border:1px solid transparent;box-shadow:var(--shadow);overflow:hidden}
+  .fig-cap{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+  .fig-cap b{color:var(--accent-lift);font-weight:500}
+  .fig-stage{position:relative;width:100%;aspect-ratio:1200/320;margin-top:8px}
+  .fig-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* a figure embedded inside a dark case panel (SOC) */
+  .case-fig{position:relative;margin-top:24px;border-radius:14px;overflow:hidden;aspect-ratio:1200/300;
+    border:1px solid rgba(147,177,255,.16);background:#0a1322}
+  .case-fig canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .case-fig-cap{position:absolute;left:14px;bottom:11px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.02em;color:rgba(255,255,255,.42);pointer-events:none}
 </style>
 </head>
 <body>
@@ -419,6 +434,10 @@
         <span class="pill pill-private">Private repo &middot; paper in view</span>
       </div>
       <h3>Teaching a neural network to read a battery's charge <em>from sound.</em></h3>
+      <div class="case-fig">
+        <canvas id="fig-cell" aria-hidden="true"></canvas>
+        <span class="case-fig-cap">fig &middot; ultrasound time-of-flight through a cell</span>
+      </div>
       <div class="case-cols">
         <div class="case-col">
           <h4>The problem</h4>
@@ -533,6 +552,11 @@
       <h2 class="serif">Hands-on <em>engineering.</em></h2>
       <p>Aerospace, embedded sensing and mechanical design: a competition UAV, a calibrated ultrasonic rig and a team mechanism design.</p>
     </div>
+
+    <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe airfoil section, echoing the Team Bath Drones competition wing">
+      <span class="fig-cap">figure &middot; <b>fig.2</b> &middot; airfoil section &middot; Clark-Y / NACA study</span>
+      <div class="fig-stage"><canvas id="fig-airfoil" aria-hidden="true"></canvas></div>
+    </figure>
 
     <div class="cards eng-cards">
       <article class="card reveal">
@@ -819,7 +843,15 @@
 try{
   const THREE=await import('three');
   const { OrbitControls }=await import('three/addons/controls/OrbitControls.js');
-  initHero(THREE,OrbitControls);
+  let post=null;
+  try{
+    const { EffectComposer }=await import('three/addons/postprocessing/EffectComposer.js');
+    const { RenderPass }=await import('three/addons/postprocessing/RenderPass.js');
+    const { UnrealBloomPass }=await import('three/addons/postprocessing/UnrealBloomPass.js');
+    const { OutputPass }=await import('three/addons/postprocessing/OutputPass.js');
+    post={EffectComposer,RenderPass,UnrealBloomPass,OutputPass};
+  }catch(_){ post=null; }   // bloom is a bonus; the hero still runs without it
+  initHero(THREE,OrbitControls,post);
 }catch(err){
   const s=document.getElementById('fp-stage'); if(s) s.setAttribute('data-webgl','off');
 }
@@ -836,7 +868,7 @@ function makeDot(THREE){
   const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
 }
 
-function initHero(THREE,OrbitControls){
+function initHero(THREE,OrbitControls,post){
   const panel=document.getElementById('fp');
   const stage=document.getElementById('fp-stage');
   const canvas=document.getElementById('fp-canvas');
@@ -877,6 +909,7 @@ function initHero(THREE,OrbitControls){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
 
   const scene=new THREE.Scene();
+  scene.background=new THREE.Color('#0a1322');   // opaque field so bloom composites cleanly
   const camera=new THREE.PerspectiveCamera(42,2.3,0.1,100);
   camera.position.set(0.2,0.25,8.2);
   const group=new THREE.Group(); group.rotation.y=-0.4; scene.add(group);
@@ -919,10 +952,20 @@ function initHero(THREE,OrbitControls){
   controls.addEventListener('start',()=>{ if(!coarse&&!reduce) controls.autoRotate=false; });
   controls.addEventListener('end',()=>{ if(!coarse&&!reduce) controls.autoRotate=true; });
 
+  // real volumetric bloom (desktop only; skipped on touch to protect frame rate)
+  const useBloom=!coarse && post;
+  let composer=null;
+  if(useBloom){
+    composer=new post.EffectComposer(renderer);
+    composer.addPass(new post.RenderPass(scene,camera));
+    composer.addPass(new post.UnrealBloomPass(new THREE.Vector2(1,1),0.82,0.5,0.2));
+    composer.addPass(new post.OutputPass());
+  }
   function resize(){
     const w=stage.clientWidth||1,h=stage.clientHeight||1;
     renderer.setSize(w,h,false);
     camera.aspect=w/h; camera.updateProjectionMatrix();
+    if(composer) composer.setSize(w,h);
   }
   resize();
   if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
@@ -955,7 +998,7 @@ function initHero(THREE,OrbitControls){
     const sp=clamp((window.innerHeight*0.5-rect.top)/window.innerHeight,-0.35,0.7);
     group.rotation.x=sp*0.32;
   }
-  function render(){ controls.update(); paint(); scrollTilt(); renderer.render(scene,camera); }
+  function render(){ controls.update(); paint(); scrollTilt(); (composer?composer.render():renderer.render(scene,camera)); }
 
   let raf=null, running=false;
   function loop(now){ if(waveStart!=null) wave=Math.min(1,(now-waveStart)/PASS_MS); render(); raf=requestAnimationFrame(loop); }
@@ -977,6 +1020,111 @@ function initHero(THREE,OrbitControls){
     }),{threshold:0.12}).observe(panel);
   } else { start(); play(); markPlaying(); }
 }
+</script>
+<script type="module">
+/* section figures — recurring dark 3D "figures" in the hero's glow language.
+   Non-interactive display pieces: self-spin, IntersectionObserver-gated so
+   an off-screen figure renders nothing. No bloom here to keep them cheap. */
+import * as THREE from 'three';
+
+const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function softDot(){
+  const s=128,c=document.createElement('canvas');c.width=c.height=s;const g=c.getContext('2d');
+  const gr=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.25,'rgba(232,240,255,0.9)');
+  gr.addColorStop(0.55,'rgba(147,177,255,0.34)');gr.addColorStop(1,'rgba(147,177,255,0)');
+  g.fillStyle=gr;g.fillRect(0,0,s,s);const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
+}
+const DOT=softDot();
+
+function makeFigure(canvas,spec){
+  let renderer;
+  try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }
+  catch(e){ return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(40,1.8,0.1,100);
+  const group=new THREE.Group(); scene.add(group);
+
+  const P=spec.nodes,N=P.length,np=new Float32Array(N*3);
+  for(let i=0;i<N;i++){ np[i*3]=P[i][0];np[i*3+1]=P[i][1];np[i*3+2]=P[i][2]; }
+  const ng=new THREE.BufferGeometry(); ng.setAttribute('position',new THREE.BufferAttribute(np,3));
+  group.add(new THREE.Points(ng,new THREE.PointsMaterial({size:spec.dot||0.13,map:DOT,color:new THREE.Color(spec.node||'#dbe6ff'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
+
+  if(spec.edges&&spec.edges.length){
+    const ep=new Float32Array(spec.edges.length*6);
+    spec.edges.forEach((e,k)=>{ const a=P[e[0]],b=P[e[1]],o=k*6; ep[o]=a[0];ep[o+1]=a[1];ep[o+2]=a[2];ep[o+3]=b[0];ep[o+4]=b[1];ep[o+5]=b[2]; });
+    const eg=new THREE.BufferGeometry(); eg.setAttribute('position',new THREE.BufferAttribute(ep,3));
+    group.add(new THREE.LineSegments(eg,new THREE.LineBasicMaterial({color:new THREE.Color(spec.edge||'#7fa0ff'),transparent:true,opacity:spec.eop||0.5,depthWrite:false,blending:THREE.AdditiveBlending})));
+  }
+
+  ng.computeBoundingSphere();
+  const bs=ng.boundingSphere;
+  group.position.set(-bs.center.x,-bs.center.y,-bs.center.z);   // recentre on origin
+  group.rotation.set(spec.rx||0,spec.ry||0,0);
+  function frameCam(){
+    const vHalf=(cam.fov*Math.PI/180)/2;
+    const hHalf=Math.atan(Math.tan(vHalf)*cam.aspect);
+    const half=spec.fit==='width'?hHalf:Math.min(vHalf,hHalf);  // 'width' lets a wide-flat figure span the panel
+    cam.position.set(0,0,bs.radius/Math.sin(half)*(spec.margin||1.08)); cam.lookAt(0,0,0);
+  }
+  function size(){ const w=canvas.clientWidth||1,h=canvas.clientHeight||1; renderer.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); frameCam(); }
+  size();
+  if('ResizeObserver' in window) new ResizeObserver(size).observe(canvas); else window.addEventListener('resize',size);
+
+  const spin=(spec.spin==null?0.0032:spec.spin);
+  let raf=null,running=false,t=0;
+  function frame(){ t++; group.rotation.y+=spin; group.rotation.x=(spec.rx||0)+Math.sin(t*0.006)*0.07; renderer.render(scene,cam); raf=requestAnimationFrame(frame); }
+  function start(){ if(running||reduce)return; running=true; raf=requestAnimationFrame(frame); }
+  function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
+
+  if(reduce){ group.rotation.y=(spec.ry||0)+0.5; renderer.render(scene,cam); }
+  else if('IntersectionObserver' in window){ new IntersectionObserver(es=>es.forEach(e=>{ e.isIntersecting?start():stop(); }),{threshold:0.05}).observe(canvas); }
+  else start();
+}
+
+/* spec: a NACA-4-digit wireframe wing (Team Bath Drones) */
+function airfoilRib(m,p,t,steps){
+  const up=[],lo=[];
+  for(let i=0;i<=steps;i++){
+    const x=0.5*(1-Math.cos(Math.PI*i/steps));   // cosine spacing packs points at the leading edge
+    const yt=5*t*(0.2969*Math.sqrt(x)-0.1260*x-0.3516*x*x+0.2843*x*x*x-0.1015*x*x*x*x);
+    let yc,dy;
+    if(x<p){ yc=m/(p*p)*(2*p*x-x*x); dy=2*m/(p*p)*(p-x); }
+    else { yc=m/((1-p)*(1-p))*((1-2*p)+2*p*x-x*x); dy=2*m/((1-p)*(1-p))*(p-x); }
+    const th=Math.atan(dy);
+    up.push([x-yt*Math.sin(th),yc+yt*Math.cos(th)]);
+    lo.push([x+yt*Math.sin(th),yc-yt*Math.cos(th)]);
+  }
+  return up.concat(lo.slice(1,-1).reverse());   // closed loop: upper LE->TE, lower TE->LE
+}
+function specAirfoil(){
+  const steps=16,ribs=6,chord=3.4,span=3.8;
+  const rib=airfoilRib(0.02,0.4,0.12,steps),per=rib.length;
+  const nodes=[],edges=[];
+  for(let r=0;r<ribs;r++){ const z=-span/2+span*r/(ribs-1);
+    for(let k=0;k<per;k++) nodes.push([(rib[k][0]-0.5)*chord, rib[k][1]*chord, z]); }
+  for(let r=0;r<ribs;r++){ const b=r*per; for(let k=0;k<per;k++) edges.push([b+k,b+(k+1)%per]); }      // chordwise
+  for(let r=0;r<ribs-1;r++){ for(let k=0;k<per;k+=2) edges.push([r*per+k,(r+1)*per+k]); }               // spanwise
+  return {nodes,edges,fit:'width',margin:1.16,dot:0.11,eop:0.5,ry:-0.5,rx:0.34,spin:0.0026,node:'#dbe6ff',edge:'#6f8bf2'};
+}
+
+/* spec: a battery cell with an ultrasound wave threaded through it (time-of-flight) */
+function specCell(){
+  const w=2.6,h=1.5,d=1.5;
+  const c=[[-w/2,-h/2,-d/2],[w/2,-h/2,-d/2],[w/2,h/2,-d/2],[-w/2,h/2,-d/2],
+           [-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,h/2,d/2],[-w/2,h/2,d/2]];
+  const nodes=c.slice();
+  const edges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  const S=44,base=nodes.length;
+  for(let i=0;i<=S;i++){ const u=i/S; nodes.push([-w/2+u*w, Math.sin(u*Math.PI*5)*0.5*(1-u*0.45), 0]); }
+  for(let i=0;i<S;i++) edges.push([base+i,base+i+1]);
+  return {nodes,edges,margin:1.06,dot:0.15,eop:0.52,ry:0.42,rx:0.22,spin:0.003,node:'#cfe0ff',edge:'#7fa0ff'};
+}
+
+const a=document.getElementById('fig-airfoil'); if(a) makeFigure(a,specAirfoil());
+const b=document.getElementById('fig-cell');    if(b) makeFigure(b,specCell());
 </script>
 </body>
 </html>
