@@ -176,23 +176,43 @@
   .block-head h2{font-size:clamp(2.1rem,4.5vw,3.3rem);margin:16px 0 0}
   .block-head p{margin-top:18px;font-size:1.07rem}
 
-  /* notion-style collapsible sections (native <details>, no JS to open/close) */
-  .toggle{border-top:1px solid var(--line-soft);padding-top:6px}
-  .toggle > summary{list-style:none;cursor:pointer;position:relative;padding-left:34px}
+  /* collapsible sections — an obvious clickable card (native <details>) */
+  .toggle{border:1px solid var(--line);border-radius:var(--r-panel);background:var(--card);
+    box-shadow:var(--shadow-sm);transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
+  .toggle:hover{border-color:var(--accent-lift);box-shadow:var(--shadow)}
+  .toggle > summary{list-style:none;cursor:pointer;position:relative;padding:26px 152px 24px 50px}
   .toggle > summary::-webkit-details-marker{display:none}
-  .toggle > summary::before{content:"";position:absolute;left:7px;top:16px;width:7px;height:7px;
-    border-top:2px solid var(--accent);border-right:2px solid var(--accent);
-    transform:rotate(45deg);transition:transform .28s var(--ease)}
-  .toggle[open] > summary::before{transform:rotate(135deg)}
-  .toggle > summary::after{content:"expand";position:absolute;right:2px;top:15px;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--ink-faint);opacity:.7;transition:opacity .2s,color .2s}
-  .toggle[open] > summary::after{content:"collapse"}
-  .toggle > summary:hover::after{opacity:1;color:var(--accent)}
+  .toggle > summary::before{content:"";position:absolute;left:26px;top:36px;width:9px;height:9px;
+    border-right:2.5px solid var(--accent);border-bottom:2.5px solid var(--accent);
+    transform:rotate(-45deg);transition:transform .28s var(--ease)}
+  .toggle[open] > summary::before{transform:rotate(45deg)}
+  .toggle > summary::after{content:"Expand";position:absolute;right:24px;top:26px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    padding:9px 16px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-wash);
+    transition:background .2s,color .2s}
+  .toggle[open] > summary::after{content:"Collapse"}
+  .toggle > summary:hover::after{background:var(--accent);color:#fff}
   .toggle > summary:hover h2{color:var(--accent-deep)}
-  .toggle > summary:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:14px}
-  @media(max-width:600px){.toggle > summary::after{display:none}.toggle > summary{padding-left:28px}}
-  @media(prefers-reduced-motion:reduce){.toggle > summary::before{transition:none}}
+  .toggle > summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:var(--r-panel)}
+  .toggle-body{padding:0 32px 30px 50px}
+  @media(max-width:640px){
+    .toggle > summary{padding:22px 20px 18px 44px}
+    .toggle > summary::before{left:20px;top:32px}
+    .toggle > summary::after{position:static;display:inline-block;margin-top:14px}
+    .toggle-body{padding:0 20px 22px 20px}
+  }
+  @media(prefers-reduced-motion:reduce){.toggle,.toggle > summary::before{transition:none}}
+
+  /* winkit case — real app visuals instead of a text wall */
+  .case-apps{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+  @media(max-width:640px){.case-apps{grid-template-columns:1fr}}
+  .case-app{margin:0}
+  .case-app-img{background:#fff;border-radius:14px;border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 22px 46px -26px rgba(0,0,0,.7);aspect-ratio:16/10;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;padding:20px}
+  .case-app-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+  .case-app figcaption{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.03em;
+    color:rgba(255,255,255,.62);margin-top:11px;text-align:center}
 
   /* project cards */
   .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
@@ -505,6 +525,16 @@
         <span class="pill pill-live">Live &middot; real orders</span>
       </div>
       <h3>A food-delivery platform, <em>co-founded and built end to end.</em></h3>
+      <div class="case-apps">
+        <figure class="case-app">
+          <div class="case-app-img"><img src="assets/winkit-logo.png" alt="Winkit customer app brand" loading="lazy"></div>
+          <figcaption>Customer app &middot; order &amp; pay, live Stripe</figcaption>
+        </figure>
+        <figure class="case-app">
+          <div class="case-app-img"><img src="assets/winkit-drivers.png" alt="Winkit driver app brand" loading="lazy"></div>
+          <figcaption>Driver app &middot; shifts, GPS dispatch, live state</figcaption>
+        </figure>
+      </div>
       <div class="case-cols">
         <div class="case-col">
           <h4>The problem</h4>
