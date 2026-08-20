@@ -32,7 +32,8 @@
 <script type="importmap">
 { "imports": {
   "three": "./vendor/three/three.module.js",
-  "three/addons/": "./vendor/three/addons/"
+  "three/addons/": "./vendor/three/addons/",
+  "lenis": "./vendor/lenis/lenis.mjs"
 } }
 </script>
 <style>
@@ -60,6 +61,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  html.lenis{scroll-behavior:auto}   /* Lenis's own class; Lenis owns scroll, kill native smooth to avoid double-animation */
+  .js .fig-panel,.js .photo{will-change:transform}
   body{
     font-family:'Inter',system-ui,sans-serif;
     color:var(--ink-soft);
@@ -172,6 +175,24 @@
   .block-head{max-width:none}
   .block-head h2{font-size:clamp(2.1rem,4.5vw,3.3rem);margin:16px 0 0}
   .block-head p{margin-top:18px;font-size:1.07rem}
+
+  /* notion-style collapsible sections (native <details>, no JS to open/close) */
+  .toggle{border-top:1px solid var(--line-soft);padding-top:6px}
+  .toggle > summary{list-style:none;cursor:pointer;position:relative;padding-left:34px}
+  .toggle > summary::-webkit-details-marker{display:none}
+  .toggle > summary::before{content:"";position:absolute;left:7px;top:16px;width:7px;height:7px;
+    border-top:2px solid var(--accent);border-right:2px solid var(--accent);
+    transform:rotate(45deg);transition:transform .28s var(--ease)}
+  .toggle[open] > summary::before{transform:rotate(135deg)}
+  .toggle > summary::after{content:"expand";position:absolute;right:2px;top:15px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-faint);opacity:.7;transition:opacity .2s,color .2s}
+  .toggle[open] > summary::after{content:"collapse"}
+  .toggle > summary:hover::after{opacity:1;color:var(--accent)}
+  .toggle > summary:hover h2{color:var(--accent-deep)}
+  .toggle > summary:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:14px}
+  @media(max-width:600px){.toggle > summary::after{display:none}.toggle > summary{padding-left:28px}}
+  @media(prefers-reduced-motion:reduce){.toggle > summary::before{transition:none}}
 
   /* project cards */
   .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
@@ -553,11 +574,13 @@
 <!-- ENGINEERING & HARDWARE -->
 <section class="block" id="engineering-more">
   <div class="wrap">
-    <div class="block-head reveal">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
       <span class="eyebrow">02 / Engineering &amp; hardware</span>
       <h2 class="serif">Hands-on <em>engineering.</em></h2>
       <p>Aerospace, embedded sensing and mechanical design: a competition UAV, a calibrated ultrasonic rig and a team mechanism design.</p>
-    </div>
+    </summary>
+    <div class="toggle-body">
 
     <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe airfoil section, echoing the Team Bath Drones competition wing">
       <span class="fig-cap">figure &middot; <b>fig.2</b> &middot; airflow over an airfoil &middot; drag to rotate</span>
@@ -587,6 +610,8 @@
         <div class="plinks"><span class="muted">Year-1 group design project</span></div>
       </article>
     </div>
+    </div>
+    </details>
   </div>
 </section>
 
@@ -677,11 +702,13 @@
 <!-- AUTOMATION -->
 <section class="block" id="automation">
   <div class="wrap">
-    <div class="block-head reveal">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
       <span class="eyebrow">04 / Automation</span>
       <h2 class="serif">Bots and pipelines that <em>run themselves.</em></h2>
       <p>Concurrency, anti-bot engineering and always-on scheduling. Mostly built to scratch my own itch, then hardened until they were reliable.</p>
-    </div>
+    </summary>
+    <div class="toggle-body">
     <div class="cards">
       <article class="card reveal">
         <div class="proj-top"><span class="proj-cat">Ticket sniper</span><span class="pill pill-private">Private</span></div>
@@ -719,17 +746,21 @@
         <div class="plinks"><span class="muted">On the TES marketplace</span></div>
       </article>
     </div>
+    </div>
+    </details>
   </div>
 </section>
 
 <!-- DATA & TRACKERS -->
 <section class="block" id="data">
   <div class="wrap">
-    <div class="block-head reveal">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
       <span class="eyebrow">05 / Data &amp; trackers</span>
       <h2 class="serif">Turning messy data into <em>something you can read.</em></h2>
       <p>Live API pipelines and analytics dashboards behind a single clean surface.</p>
-    </div>
+    </summary>
+    <div class="toggle-body">
 
     <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe data globe with packets orbiting on great circles, representing live data feeds">
       <span class="fig-cap">figure &middot; <b>fig.3</b> &middot; live data feeds &middot; drag to rotate</span>
@@ -766,6 +797,8 @@
         <div class="plinks"><span class="muted">Private dashboard</span></div>
       </article>
     </div>
+    </div>
+    </details>
   </div>
 </section>
 
@@ -820,17 +853,88 @@
   var onScroll = function(){ nav.classList.toggle("scrolled", window.scrollY > 12); };
   onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
 
-  /* reveal on scroll */
+  /* reveal on scroll (staggered: siblings cascade in) */
   var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
   var reveals = document.querySelectorAll(".reveal");
   if(reduce || !("IntersectionObserver" in window)){
     reveals.forEach(function(el){ el.classList.add("in"); });
   } else {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
-    }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
-    reveals.forEach(function(el){ io.observe(el); });
+    try {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(!e.isIntersecting) return;
+          var sibs = e.target.parentElement ? e.target.parentElement.querySelectorAll(":scope > .reveal") : null;
+          var idx = sibs ? Array.prototype.indexOf.call(sibs, e.target) : 0;
+          e.target.style.transitionDelay = (Math.min(idx, 5) * 70) + "ms";   // cascade, capped ~350ms
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        });
+      }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
+      reveals.forEach(function(el){ io.observe(el); });
+    } catch(err){
+      reveals.forEach(function(el){ el.classList.add("in"); });   // observer broke -> show everything, never leave content hidden
+    }
   }
+</script>
+<script type="module">
+/* smooth-scroll (Lenis) — the "vixion" inertia layer. Native-scroll mode, so every
+   getBoundingClientRect + IntersectionObserver already in this file keeps working.
+   Skipped under reduced-motion; if the vendored file 404s, native scroll survives. */
+(async function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce) return;
+  var Lenis;
+  try { Lenis = (await import('lenis')).default; }
+  catch(e){ return; }                        // vendored file missing -> native scroll stays fully functional
+  var lenis;
+  try { lenis = new Lenis({ lerp:0.15, smoothWheel:true, syncTouch:false, wheelMultiplier:1 }); }   /* lerp = inertia weight: higher=snappier/less floaty, lower=heavier. 0.15 leans snappy per Aadi. */
+  catch(e){ return; }
+  window.__lenis = lenis;   // Lenis adds its own `lenis`/`lenis-smooth` classes to <html>; CSS gates native smooth-scroll off them
+
+  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }   // one top-level driver, never IO-gated
+  requestAnimationFrame(raf);
+
+  /* anchor clicks -> smooth. No offset: the section's own scroll-margin-top:88px (which Lenis
+     honours) already clears the sticky nav; passing -88 on top double-counted it to 176px. */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href');
+    if(!id || id.length < 2) return;
+    var t = document.querySelector(id);
+    if(!t) return;
+    e.preventDefault();
+    var d = (t.matches && t.matches('details')) ? t : (t.querySelector ? t.querySelector('details') : null);
+    if(d) d.open = true;                        // jumping to a section auto-opens its collapsed toggle
+    lenis.scrollTo(t);
+  });
+  /* keyboard focus: only pull an OFF-screen focused element into view (never yank a visible one).
+     Focusable targets have no scroll-margin, so use a -100 offset to clear the 70px sticky nav. */
+  document.addEventListener('focusin', function(e){
+    var el = e.target; if(!el || !el.getBoundingClientRect) return;
+    var r = el.getBoundingClientRect();
+    if(r.top < 90 || r.bottom > window.innerHeight) lenis.scrollTo(el, { offset: -100 });
+  });
+
+  /* subtle parallax on a few panels — independent `translate` property so it composes
+     with the reveal's `transform` instead of overwriting it. translateY only (overflow-x guard). */
+  var pxEls = Array.prototype.slice.call(document.querySelectorAll('.fig-panel, .photo'));
+  if(pxEls.length){
+    var vh = window.innerHeight, geom = [];
+    function measure(){ vh = window.innerHeight; geom = pxEls.map(function(el){ var r = el.getBoundingClientRect(); return { el:el, mid:r.top + window.scrollY + r.height/2 }; }); }
+    measure();
+    window.addEventListener('resize', measure, { passive:true });
+    document.addEventListener('toggle', measure, true);   // a <details> opening changes layout -> re-measure parallax geometry
+    lenis.on('scroll', function(){
+      var mid = window.scrollY + vh/2;
+      for(var i=0;i<geom.length;i++){
+        var y = (geom[i].mid - mid) * 0.05;
+        if(y > 42) y = 42; else if(y < -42) y = -42;
+        geom[i].el.style.translate = '0 ' + y.toFixed(1) + 'px';
+      }
+    });
+  }
+})();
 </script>
 <script>
 /* hero: flanking input/output labels — plain script so they always render,
@@ -960,7 +1064,7 @@ function initHero(THREE,OrbitControls,post){
   controls.enablePan=false; controls.enableZoom=false;
   controls.autoRotate=!reduce; controls.autoRotateSpeed=0.65;
   controls.minPolarAngle=Math.PI*0.28; controls.maxPolarAngle=Math.PI*0.72;
-  if(coarse){ controls.enableRotate=false; stage.classList.add('no-grab'); }
+  if(coarse){ controls.enableRotate=false; canvas.style.touchAction='pan-y'; stage.classList.add('no-grab'); }
   controls.addEventListener('start',()=>{ if(!coarse&&!reduce) controls.autoRotate=false; });
   controls.addEventListener('end',()=>{ if(!coarse&&!reduce) controls.autoRotate=true; });
 
@@ -1006,9 +1110,12 @@ function initHero(THREE,OrbitControls,post){
     edgeGeo.attributes.color.needsUpdate=true;
   }
   function scrollTilt(){
+    if(reduce) return;                       // reduced-motion: hero pose stays static
     const rect=panel.getBoundingClientRect();
     const sp=clamp((window.innerHeight*0.5-rect.top)/window.innerHeight,-0.35,0.7);
     group.rotation.x=sp*0.32;
+    group.position.y=sp*-0.3;                // gentle rise as the hero scrolls away (depth parallax)
+    group.rotation.z=sp*0.04;                // a whisper of roll — group only, OrbitControls' camera untouched
   }
   function render(){ controls.update(); paint(); scrollTilt(); (composer?composer.render():renderer.render(scene,camera)); }
 
@@ -1102,7 +1209,7 @@ function mountFigure(canvas,opts){
   controls.enablePan=false; controls.enableZoom=false; controls.autoRotate=false;
   controls.minPolarAngle=Math.PI*0.14; controls.maxPolarAngle=Math.PI*0.86;
   controls.target.copy(center);
-  if(coarse){ controls.enableRotate=false; if(canvas.parentElement) canvas.parentElement.classList.add('no-grab'); }
+  if(coarse){ controls.enableRotate=false; canvas.style.touchAction='pan-y'; if(canvas.parentElement) canvas.parentElement.classList.add('no-grab'); }
 
   const view=opts.view||[0.12,0.16,1];
   function frameCam(){
