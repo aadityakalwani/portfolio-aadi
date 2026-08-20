@@ -130,6 +130,31 @@
   .hero h1{font-size:clamp(2.9rem,6.6vw,5rem);margin:22px 0 0;letter-spacing:-.5px}
   .lede{font-size:clamp(1.06rem,2vw,1.24rem);max-width:44ch;margin:24px 0 0;color:var(--ink-soft)}
   .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+
+  /* cinematic pinned hero (desktop + fine pointer + motion allowed): scroll drives the forward pass */
+  .hero-pin{position:relative}
+  .hero-scrollcue{display:none}
+  @media(min-width:901px) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+    .hero-pin{height:200vh}
+    .hero-stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;
+      padding:74px 0 22px;overflow:hidden}
+    .hero-stage > .wrap{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;justify-content:center}
+    .hero-stage .hero-head{max-width:940px}
+    .hero-stage .hero-head h1{font-size:clamp(2.4rem,4.6vw,3.7rem);margin-top:14px}
+    .hero-stage .lede{margin-top:16px;max-width:62ch}
+    .hero-stage .hero-cta{margin-top:20px}
+    .hero-stage .assure{display:none}
+    .hero-stage .fp-panel{margin:20px 0 0;flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
+    .hero-stage .fp-stage{aspect-ratio:auto;flex:1 1 auto;min-height:120px}
+    .hero-scrollcue{display:flex;position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+      flex-direction:column;align-items:center;gap:9px;pointer-events:none;transition:opacity .3s;
+      font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+    .hero-scrollcue .cue-arrow{width:12px;height:12px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);
+      transform:rotate(45deg);animation:cueBob 1.6s ease-in-out infinite}
+    @keyframes cueBob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(3px,3px)}}
+  }
+  @media(prefers-reduced-motion:reduce){.hero-scrollcue .cue-arrow{animation:none}}
+  @media(min-width:901px) and (pointer:fine) and (max-height:780px){.hero-scrollcue{display:none}}   /* short laptop: cue would collide with the panel caption */
   .assure{margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
     letter-spacing:.01em;color:var(--ink-faint);display:flex;align-items:flex-start;gap:10px;max-width:52ch}
   .assure .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:0 0 auto;margin-top:5px;
@@ -422,6 +447,7 @@
 
 <!-- HERO -->
 <header class="hero">
+  <div class="hero-pin"><div class="hero-stage">
   <div class="wrap">
     <div class="hero-head">
       <span class="eyebrow">Aerospace Engineering &middot; University of Bath</span>
@@ -451,6 +477,8 @@
       </figcaption>
     </figure>
   </div>
+  <div class="hero-scrollcue" aria-hidden="true">scroll to compute<span class="cue-arrow"></span></div>
+  </div></div>
 
   <div class="trust">
     <div class="wrap trust-in">
@@ -1122,6 +1150,31 @@ function initHero(THREE,OrbitControls,post){
   let waveStart=null, wave=reduce?1:0;
   function play(){ if(reduce)return; waveStart=performance.now(); }
 
+  // cinematic pin: on desktop with motion allowed, SCROLL drives the forward pass
+  const heroPin=document.querySelector('.hero-pin');
+  const cue=document.querySelector('.hero-scrollcue');
+  const outLabels=stage.querySelectorAll('.fp-label.out');
+  const pinMQ=window.matchMedia('(min-width:901px) and (pointer:fine) and (prefers-reduced-motion:no-preference)');
+  let pinned = !reduce && !!heroPin && pinMQ.matches;
+  if(pinned) outLabels.forEach(l=>{ l.style.opacity='0'; });
+  if(pinMQ.addEventListener) pinMQ.addEventListener('change',()=>{   // resize across the breakpoint: re-evaluate, never leave the net stuck dark
+    pinned = !reduce && !!heroPin && pinMQ.matches;
+    if(pinned){ outLabels.forEach(l=>{ l.style.opacity='0'; l.style.transform=''; }); }
+    else { outLabels.forEach(l=>{ l.style.opacity=''; l.style.transform=''; }); if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){ play(); markPlaying(); } }   // re-read reduce live: a mid-session reduce-ON must not start motion
+  });
+  function pinProgress(){
+    const span=heroPin.offsetHeight-window.innerHeight;
+    return span>0 ? clamp(-heroPin.getBoundingClientRect().top/span,0,1) : 0;
+  }
+  function paintOutputs(w){
+    for(let i=0;i<outLabels.length;i++){
+      const lit=clamp((w*outLabels.length - i)*1.4,0,1);
+      outLabels[i].style.opacity=lit.toFixed(3);
+      outLabels[i].style.transform='translateY(-50%) translateX('+((1-lit)*10).toFixed(1)+'px)';
+    }
+    if(cue) cue.style.opacity=(1-clamp(w*1.35,0,1)).toFixed(2);
+  }
+
   function paint(){
     const waveX=X0+wave*(X1-X0);
     for(let i=0;i<nodeList.length;i++){
@@ -1150,13 +1203,20 @@ function initHero(THREE,OrbitControls,post){
   function render(){ controls.update(); paint(); scrollTilt(); (composer?composer.render():renderer.render(scene,camera)); }
 
   let raf=null, running=false;
-  function loop(now){ if(waveStart!=null) wave=Math.min(1,(now-waveStart)/PASS_MS); render(); raf=requestAnimationFrame(loop); }
+  function loop(now){
+    if(pinned){ wave=clamp(pinProgress()/0.82,0,1); paintOutputs(wave); }
+    else if(waveStart!=null){ wave=Math.min(1,(now-waveStart)/PASS_MS); }
+    render(); raf=requestAnimationFrame(loop);
+  }
   function start(){ if(running)return; running=true; raf=requestAnimationFrame(loop); }
   function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
 
   const rb=document.getElementById('fp-replay');
   function markPlaying(){ panel.classList.remove('playing'); void panel.offsetWidth; panel.classList.add('playing'); }
-  if(rb) rb.addEventListener('click',()=>{ if(!reduce){ play(); if(!running) start(); } markPlaying(); });
+  if(rb) rb.addEventListener('click',()=>{
+    if(pinned){ if(window.__lenis) window.__lenis.scrollTo(0); else window.scrollTo(0,0); return; }
+    if(!reduce){ play(); if(!running) start(); } markPlaying();
+  });
 
   if(reduce){
     controls.addEventListener('change',render);
@@ -1164,10 +1224,10 @@ function initHero(THREE,OrbitControls,post){
   } else if('IntersectionObserver' in window){
     let first=true;
     new IntersectionObserver(es=>es.forEach(e=>{
-      if(e.isIntersecting){ start(); play(); if(first){ markPlaying(); first=false; } }
+      if(e.isIntersecting){ start(); if(!pinned){ play(); if(first){ markPlaying(); first=false; } } }
       else stop();
     }),{threshold:0.12}).observe(panel);
-  } else { start(); play(); markPlaying(); }
+  } else { start(); if(!pinned){ play(); markPlaying(); } }
 }
 </script>
 <script type="module">
