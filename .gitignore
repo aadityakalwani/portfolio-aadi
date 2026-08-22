@@ -5,6 +5,7 @@ node_modules
 # Local render / review artifacts (Playwright, screenshots)
 .playwright-mcp/
 /portfolio-*.png
+/forward-pass-hero.html
 
 # Internal working docs — keep local, out of the public repo
 .gauntlet/
