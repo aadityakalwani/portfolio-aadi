@@ -866,7 +866,7 @@ function mountInner(container, opts) {
   updateNames();
   resize();
   recompute(); updateReadout();
-  if (reduced) { countUp(); frameOnce(); } else { wake(); }
+  if (reduced) { countUp(); frameOnce(); } else { setAuto(true); wake(); }
 
   /* ---------- api ---------- */
   return {

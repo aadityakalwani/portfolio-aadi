@@ -51,7 +51,7 @@ const CHAPTERS = [
   ['03', 'The network', 'A network turns raw signal into something useful. The same habit runs through everything I build.'],
   ['04', 'The work', 'And it resolves into things that shipped.'],
 ];
-const FIG = "fig.1 · a forward pass, if the network's only job were to compute me. Yes, I know that is not how inference works.";
+const FIG = ["fig.1 \u00b7 a forward pass, if the network's only job were to compute me.", 'Yes, I know that is not how inference works.'];
 const ARIA = "Animated forward pass: six inputs, two hidden layers and six outputs naming Aaditya's shipped work";
 
 /* ---------------------------------------------------------------- palette */
@@ -103,15 +103,18 @@ font-size:12px;font-weight:500;line-height:1;color:var(--ph-ink2);white-space:no
 .ph-tight .ph-card-s{display:none}
 .ph-tight .ph-card{padding:8px 12px 8px 14px;min-width:164px}
 @keyframes ph-ping{0%{box-shadow:0 0 0 0 var(--ph-accent-wash),0 0 0 0 var(--ph-accent)}60%{box-shadow:0 0 0 9px transparent,0 0 0 0 transparent}100%{box-shadow:none}}
-.ph-chapter{position:absolute;left:clamp(20px,5vw,64px);bottom:clamp(28px,6vh,64px);width:min(380px,calc(100% - 40px));height:130px}
+.ph-chapter{position:absolute;left:clamp(20px,5vw,64px);bottom:clamp(28px,6vh,64px);width:min(560px,calc(100% - 40px));height:clamp(150px,30vh,300px)}
 .ph-ch{position:absolute;left:0;bottom:0;width:100%;opacity:0;transform:translate3d(0,24px,0);filter:blur(6px);pointer-events:none;
 transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .5s cubic-bezier(.16,1,.3,1)}
 .ph-ch.is-on{opacity:1;transform:none;filter:none}
-.ph-chn{display:block;font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--ph-accent-text);text-shadow:0 0 10px var(--ph-paper);font-variant-numeric:tabular-nums;margin-bottom:6px}
-.ph-cht{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.15;color:var(--ph-ink);text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper)}
-.ph-chs{display:block;margin-top:6px;font-size:15px;line-height:1.5;color:var(--ph-ink2);max-width:36ch;text-wrap:pretty;text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper)}
-.ph-fig{position:absolute;right:clamp(20px,3vw,40px);bottom:clamp(22px,5vh,48px);max-width:330px;text-align:right;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;line-height:1.6;color:var(--ph-ink2);text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper);opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+.ph-chn{display:block;font-size:clamp(12px,1.2vw,18px);font-weight:600;letter-spacing:.14em;color:var(--ph-accent-text);text-shadow:0 0 10px var(--ph-paper);font-variant-numeric:tabular-nums;margin-bottom:8px}
+.ph-cht{display:block;font-size:clamp(2.6rem,4.2vw,4.4rem);font-weight:600;letter-spacing:-.03em;line-height:1.05;color:var(--ph-ink);text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper)}
+.ph-chs{display:block;margin-top:10px;font-size:clamp(15px,1.45vw,21px);line-height:1.45;color:var(--ph-ink2);max-width:32ch;text-wrap:pretty;text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper)}
+@media (max-width:900px){.ph-cht{font-size:clamp(1.7rem,7vw,2.3rem)}.ph-chs{font-size:15px}.ph-chn{font-size:12px}}
+.ph-fig{position:absolute;right:clamp(20px,3vw,40px);bottom:clamp(22px,5vh,48px);max-width:none;text-align:right;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;line-height:1.6;color:var(--ph-ink2);text-shadow:0 0 12px var(--ph-paper),0 0 4px var(--ph-paper);opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+.ph-fig span{display:block;white-space:nowrap}
 .ph-fig.is-on{opacity:1}
+.ph-compact .ph-fig span{white-space:normal}
 .ph-cue{position:absolute;left:50%;bottom:20px;width:1px;height:40px;background:var(--ph-line-strong);transform:translateX(-50%);opacity:0;transition:opacity .4s}
 .ph-cue.is-on{opacity:1}
 .ph-cue::after{content:"";position:absolute;left:-1.5px;top:0;width:4px;height:4px;border-radius:50%;background:var(--ph-accent);animation:ph-cue 2.4s cubic-bezier(.65,0,.35,1) infinite}
@@ -241,11 +244,12 @@ function createInstance(container, o) {
     return { e, b, last: '' };
   });
 
+  const mkFig = () => { const f = h('p', P + 'fig'); FIG.forEach((l) => f.appendChild(h('span', null, l))); return f; };
   const { ol: cardsOl, cards } = buildCards();
   let grid = null;
   if (compact) {
     grid = h('div', P + 'grid');
-    grid.append(cardsOl, h('p', P + 'fig', FIG));
+    grid.append(cardsOl, mkFig());
     root.appendChild(grid);
   } else {
     overlay.appendChild(cardsOl);
@@ -262,7 +266,7 @@ function createInstance(container, o) {
 
   let figEl = null, cueEl = null, tickEls = [];
   if (!compact) {
-    figEl = h('p', P + 'fig', FIG);
+    figEl = mkFig();
     overlay.appendChild(figEl);
     cueEl = h('div', P + 'cue');
     cueEl.appendChild(h('span', null, 'Scroll'));
@@ -348,7 +352,7 @@ function createInstance(container, o) {
     let k = 0;
     for (let l = 0; l < 4; l++) {
       for (let i = 0; i < COUNT[l]; i++) {
-        nodes.push({ l, i, idx: k, x: LX[l], y: ((COUNT[l] - 1) / 2 - i) * SP[l] * ys, z: (hash(k * 3.1 + l) - 0.5) * (compact ? 0.7 : 1.0), val: 0.55 + 0.43 * hash(k * 5.7 + 2.1), a: 0 });
+        nodes.push({ l, i, idx: k, x: LX[l], y: ((COUNT[l] - 1) / 2 - i) * SP[l] * ys, z: 0, val: 0.55 + 0.43 * hash(k * 5.7 + 2.1), a: 0 });
         k++;
       }
     }
@@ -407,14 +411,20 @@ function createInstance(container, o) {
     const g = c.getContext('2d');
     g.fillStyle = '#F4F2E8'; g.fillRect(0, 0, 600, 430);
     g.fillStyle = '#1E48E0'; g.fillRect(0, 0, 600, 34);
-    g.save(); g.translate(64, 96); g.fillStyle = '#1E48E0';
-    g.beginPath(); if (g.roundRect) g.roundRect(0, 0, 74, 74, 18); else g.rect(0, 0, 74, 74); g.fill();
-    g.strokeStyle = '#F4F2E8'; g.lineWidth = 7; g.lineCap = 'round'; g.lineJoin = 'round';
-    g.beginPath(); g.moveTo(16, 54); g.lineTo(30, 38); g.lineTo(42, 46); g.lineTo(58, 20); g.stroke(); g.restore();
-    g.fillStyle = '#0E1B2E'; g.fillRect(168, 112, 250, 12); g.globalAlpha = 0.35; g.fillRect(168, 142, 170, 9); g.globalAlpha = 1;
-    g.fillStyle = 'rgba(14,27,46,.18)';
-    for (let i = 0; i < 4; i++) g.fillRect(64, 232 + i * 36, 470 - i * 70, 6);
-    g.fillStyle = '#0E1B2E'; g.fillRect(64, 392, 472, 3);
+    const F = '"Inter","Helvetica Neue",Arial,sans-serif';
+    g.textBaseline = 'alphabetic';
+    g.fillStyle = '#F4F2E8'; g.font = '700 22px ' + F; g.fillText('CYLINDRICAL CELL', 78, 25);
+    g.textAlign = 'right'; g.fillText('21700', 548, 25); g.textAlign = 'left';
+    g.fillStyle = '#0E1B2E'; g.font = '800 88px ' + F; g.fillText('Li-ion', 74, 140);
+    g.font = '600 28px ' + F; g.fillText('NMC \u00b7 3.6V nominal', 78, 184);
+    g.fillStyle = 'rgba(14,27,46,.18)'; g.fillRect(74, 206, 474, 3);
+    g.fillStyle = '#0E1B2E'; g.font = '600 25px ' + F;
+    g.fillText('5000mAh', 78, 248); g.fillText('18Wh', 252, 248); g.fillText('4.20V max', 360, 248);
+    g.globalAlpha = 0.6; g.font = '500 21px ' + F;
+    g.fillText('Charge 4.2V \u00b7 2.5A', 78, 284); g.fillText('Cut-off 2.5V', 78, 312);
+    g.globalAlpha = 1;
+    for (let i = 0, x = 78; x < 300; i++) { const w = 2 + ((i * 7) % 4); g.fillRect(x, 336, w, 40); x += w + 2 + ((i * 5) % 3); }
+    g.font = '600 19px ' + F; g.fillText('SOC RESEARCH CELL', 330, 366);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return track(t);
   })();
   const sleeveMat = track(new THREE.MeshStandardMaterial({ map: labelTex, roughness: 0.55, side: THREE.DoubleSide, clippingPlanes: [clip] }));
@@ -659,7 +669,7 @@ function createInstance(container, o) {
   const leaderMat = track(new THREE.MeshBasicMaterial({ color: COL.cobalt, transparent: true, opacity: 0.8 }));
   const leaderGeo = track(new THREE.PlaneGeometry(1, 0.018)); leaderGeo.translate(0.5, 0, 0);
   const leaders = layerNodes[3].map((n) => { const m = glow(new THREE.Mesh(leaderGeo, leaderMat)); m.position.set(n.x + 0.14, n.y, n.z); m.scale.x = 0.0001; scene.add(m); return m; });
-  const LEADER = compact ? 0.4 : 1.0;
+  const LEADER = compact ? 0.56 : 1.16;
   const CARD_DX = compact ? 0.7 : 1.3;
 
   /* ----- halos for the low tier (replaces bloom) */
@@ -790,6 +800,9 @@ function createInstance(container, o) {
       pmx = damp(pmx, mx, 4, dt); pmy = damp(pmy, my, 4, dt);
       camPos.x += pmx * 0.35; camPos.y += pmy * 0.2;
     }
+    /* network stage: level the camera (no pitch) so every neuron column projects to a perfectly vertical line */
+    const lvl = smooth(seg(p, 0.46, 0.58));
+    if (lvl > 0) camPos.y = lerp(camPos.y, camLook.y, lvl);
     camera.position.copy(camPos);
     camera.lookAt(camLook);
     if (Math.abs(camera.fov - fov) > 1e-3) { camera.fov = fov; camera.updateProjectionMatrix(); }
@@ -940,7 +953,7 @@ function createInstance(container, o) {
     let colX = 0;
     if (!compact) {
       for (let k = 0; k < cards.length; k++) { const nk = layerNodes[3][k]; proj(nk.x + CARD_DX, nk.y, nk.z, o2); if (o2.x > colX) colX = o2.x; }
-      colX += 6;
+      colX += 0;
       const cw = Math.round(clamp(W - colX - 18, 176, 236));
       if (cw !== st.cardW) { st.cardW = cw; cards.forEach((c) => { c.li.style.width = cw + 'px'; }); }
     }

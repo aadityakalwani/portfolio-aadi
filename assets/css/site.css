@@ -567,3 +567,18 @@ html:not(.js) .soc-sim .show{min-height:0}
 /* mobile builds filter: scroll cue (V18) */
 .filters{scroll-snap-type:x proximity}
 .filters.can-scroll-r{-webkit-mask-image:linear-gradient(90deg,#000 84%,transparent);mask-image:linear-gradient(90deg,#000 84%,transparent)}
+
+/* SOC: the LSTM, unrolled over time */
+.lstm-fig{margin:6px 18px 0;padding:4px 8px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--accent-wash);flex:none}
+.lstm-fig svg{display:block;width:100%;height:auto;max-height:clamp(92px,13vh,112px)}
+.lstm-fig figcaption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.lf-box{fill:var(--bg);stroke:var(--accent);stroke-width:1.6}
+.lf-big{font:700 15px var(--font-sans,system-ui);fill:var(--text);letter-spacing:.04em}
+.lf-gate{fill:var(--accent)}
+.lf-rail{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 4;opacity:.7}
+.lf-arr{fill:none;stroke:var(--text-muted);stroke-width:1.4}
+.lf-head{fill:none;stroke:var(--text-muted);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.lf-rail+.lf-head{stroke:var(--accent)}
+.lf-txt{font:500 12px var(--font-sans,system-ui);fill:var(--text-2)}
+.lf-mem{font:600 10px var(--font-mono,ui-monospace,monospace);fill:var(--accent-text)}
+html:not(.js) .lstm-fig{display:block}
