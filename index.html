@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aaditya Kalwani · Engineer &amp; Builder</title>
-<script>document.documentElement.className+=" js";</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aaditya Kalwani · Aerospace engineer and builder</title>
+<script>
+(function(){var t='light';try{t=localStorage.getItem('aadi-theme')||'light'}catch(e){}
+document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');
+document.documentElement.className+=' js';
+setTimeout(function(){if(!window.__siteReady){document.documentElement.classList.remove('js')}},12000);})();
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%230E1B2E'/><path d='M4 17 L10 12 L14 14 L20 6' fill='none' stroke='%231E48E0' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/><circle cx='4' cy='17' r='1.5' fill='%231E48E0'/><circle cx='20' cy='6' r='1.5' fill='%231E48E0'/></svg>">
-<meta name="description" content="Aaditya Kalwani, first-year Aerospace Engineering student at the University of Bath. Machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites.">
+<meta name="description" content="Second-year Aerospace Engineering at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead, AI red-teaming and a snowmobile drive-shaft design. Fourteen shipped, and counting.">
+<meta name="theme-color" content="#F5F3E8">
 
 <!-- Link preview (Open Graph + Twitter) -->
 <link rel="canonical" href="https://aadikalwani.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aaditya Kalwani">
 <meta property="og:url" content="https://aadikalwani.vercel.app/">
-<meta property="og:title" content="Aaditya Kalwani · Engineer &amp; Builder">
-<meta property="og:description" content="First-year aerospace engineer at Bath. ML research on battery state estimation, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
-<!-- TODO: create /og.jpg (1200x630) and it will be picked up here -->
+<meta property="og:title" content="Aaditya Kalwani · Aerospace engineer and builder">
+<meta property="og:description" content="Second-year aerospace engineer at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead and AI red-teaming. Fourteen shipped, and counting.">
 <meta property="og:image" content="https://aadikalwani.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Aaditya Kalwani · Engineer &amp; Builder">
-<meta name="twitter:description" content="ML research, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
+<meta name="twitter:title" content="Aaditya Kalwani · Aerospace engineer and builder">
+<meta name="twitter:description" content="Second-year aerospace engineer at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead and AI red-teaming. Fourteen shipped, and counting.">
 <meta name="twitter:image" content="https://aadikalwani.vercel.app/og.jpg">
+<meta property="og:image:alt" content="Aaditya Kalwani, aerospace engineer and builder: first-author battery ML research, Winkit CTO, UAV aerodynamics lead.">
+<meta name="twitter:image:alt" content="Aaditya Kalwani, aerospace engineer and builder: first-author battery ML research, Winkit CTO, UAV aerodynamics lead.">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Aaditya Kalwani","url":"https://aadikalwani.vercel.app/","image":"https://aadikalwani.vercel.app/assets/aadi.jpg","jobTitle":"Aerospace engineering student and builder","alumniOf":{"@type":"CollegeOrUniversity","name":"University of Bath"},"email":"mailto:aadityakalwani@gmail.com","knowsAbout":["Aerospace engineering","Machine learning","Battery state of charge estimation","Full-stack development","Aerodynamics"],"sameAs":["https://github.com/aadityakalwani","https://www.linkedin.com/in/aadityakalwani/","https://www.instagram.com/aadityakalwani/"]}
+</script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- three.js vendored locally: no CDN dependency, fully self-contained -->
+<!-- three.js and Lenis are vendored locally: no CDN dependency -->
 <script type="importmap">
 { "imports": {
   "three": "./vendor/three/three.module.js",
@@ -36,1632 +46,368 @@
   "lenis": "./vendor/lenis/lenis.mjs"
 } }
 </script>
-<style>
-  :root{
-    --paper:#F5F3E8;
-    --card:#FFFFFF;
-    --ink:#0E1B2E;
-    --ink-soft:#45566B;
-    --ink-faint:#5E6B83;
-    --accent:#1E48E0;
-    --accent-deep:#1636B4;
-    --accent-lift:#93B1FF;
-    --accent-wash:rgba(30,72,224,0.06);
-    --line:rgba(14,27,46,0.10);
-    --line-soft:rgba(14,27,46,0.06);
-    --grid:rgba(14,27,46,0.045);
-    --ok:#157A43;
-    --r-comp:16px;
-    --r-panel:24px;
-    --maxw:1140px;
-    --ease:cubic-bezier(.2,.7,.2,1);
-    --shadow:0 34px 66px -40px rgba(14,27,46,.42);
-    --shadow-sm:0 16px 34px -24px rgba(14,27,46,.42);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  html.lenis{scroll-behavior:auto}   /* Lenis's own class; Lenis owns scroll, kill native smooth to avoid double-animation */
-  .js .fig-panel,.js .photo{will-change:transform}
-  body{
-    font-family:'Inter',system-ui,sans-serif;
-    color:var(--ink-soft);
-    background:var(--paper);
-    background-image:
-      linear-gradient(var(--grid) 1px,transparent 1px),
-      linear-gradient(90deg,var(--grid) 1px,transparent 1px),
-      radial-gradient(58% 46% at 6% -6%,rgba(30,72,224,.11),rgba(30,72,224,0) 66%),
-      radial-gradient(50% 40% at 99% 3%,rgba(91,74,222,.09),rgba(91,74,222,0) 64%);
-    background-size:34px 34px,34px 34px,100% 940px,100% 940px;
-    background-repeat:repeat,repeat,no-repeat,no-repeat;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    overflow-x:hidden;
-  }
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
-  h1,h2,h3,h4{color:var(--ink);line-height:1.05;font-weight:400}
-  h2{letter-spacing:-.4px}
-  section[id]{scroll-margin-top:88px}
-  .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:0}
-  .serif em{font-style:italic;color:var(--accent)}
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
-    letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
-    display:inline-flex;align-items:center;gap:11px;
-  }
-  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.55}
-  a{color:inherit;text-decoration:none}
-  ::selection{background:rgba(30,72,224,.16)}
-
-  /* buttons */
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
-    font-weight:600;font-size:15px;border-radius:12px;padding:13px 22px;min-height:48px;
-    border:1.5px solid transparent;transition:all .22s var(--ease);white-space:nowrap;
-  }
-  .btn svg{width:18px;height:18px;flex:0 0 auto}
-  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 10px 24px -12px rgba(30,72,224,.7)}
-  .btn-primary:hover{background:var(--accent-deep);transform:translate(2px,-2px);box-shadow:0 18px 32px -12px rgba(30,72,224,.75)}
-  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);box-shadow:var(--shadow-sm)}
-  .btn-ghost:hover{border-color:var(--ink);background:var(--card);transform:translateY(-2px)}
-  .btn-nav{padding:11px 18px;min-height:42px;font-size:14px}
-  a.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
-
-  /* nav */
-  .nav{position:sticky;top:0;z-index:60;transition:box-shadow .3s var(--ease),background .3s var(--ease)}
-  .nav.scrolled{background:rgba(245,243,232,.86);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line-soft)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
-  .brand{display:flex;align-items:center;gap:12px;color:var(--ink)}
-  .mark{width:40px;height:40px;border-radius:11px;border:1.5px solid var(--ink);
-    display:grid;place-items:center;flex:0 0 auto;background:var(--card)}
-  .mark svg{width:23px;height:23px}
-  .brand-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ink-faint)}
-  .nav-links{display:flex;align-items:center;gap:28px}
-  .nav-links a.link{font-size:14.5px;color:var(--ink-soft);font-weight:500;transition:color .2s}
-  .nav-links a.link:hover{color:var(--ink)}
-  @media(max-width:880px){.nav-links a.link{display:none}.brand-tag{display:none}}
-
-  /* hero */
-  .hero{position:relative;padding:72px 0 0}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
-  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:26px}}
-  .hero h1{font-size:clamp(2.9rem,6.6vw,5rem);margin:22px 0 0;letter-spacing:-.5px}
-  .lede{font-size:clamp(1.06rem,2vw,1.24rem);max-width:44ch;margin:24px 0 0;color:var(--ink-soft)}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
-
-  /* cinematic pinned hero (desktop + fine pointer + motion allowed): scroll drives the forward pass */
-  .hero-pin{position:relative}
-  .hero-scrollcue{display:none}
-  @media(min-width:901px) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-    .hero-pin{height:200vh}
-    .hero-stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;
-      padding:74px 0 22px;overflow:hidden}
-    .hero-stage > .wrap{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;justify-content:center}
-    .hero-stage .hero-head{max-width:940px}
-    .hero-stage .hero-head h1{font-size:clamp(2.4rem,4.6vw,3.7rem);margin-top:14px}
-    .hero-stage .lede{margin-top:16px;max-width:62ch}
-    .hero-stage .hero-cta{margin-top:20px}
-    .hero-stage .assure{display:none}
-    .hero-stage .fp-panel{margin:20px 0 0;flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
-    .hero-stage .fp-stage{aspect-ratio:auto;flex:1 1 auto;min-height:120px}
-    .hero-scrollcue{display:flex;position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
-      flex-direction:column;align-items:center;gap:9px;pointer-events:none;transition:opacity .3s;
-      font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
-    .hero-scrollcue .cue-arrow{width:12px;height:12px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);
-      transform:rotate(45deg);animation:cueBob 1.6s ease-in-out infinite}
-    @keyframes cueBob{0%,100%{transform:rotate(45deg) translate(0,0)}50%{transform:rotate(45deg) translate(3px,3px)}}
-  }
-  @media(prefers-reduced-motion:reduce){.hero-scrollcue .cue-arrow{animation:none}}
-  @media(min-width:901px) and (pointer:fine) and (max-height:780px){.hero-scrollcue{display:none}}   /* short laptop: cue would collide with the panel caption */
-  .assure{margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
-    letter-spacing:.01em;color:var(--ink-faint);display:flex;align-items:flex-start;gap:10px;max-width:52ch}
-  .assure .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:0 0 auto;margin-top:5px;
-    box-shadow:0 0 0 4px rgba(31,157,87,.16)}
-
-  /* hero plot: a self-drawing battery discharge / SOC curve on the page paper */
-  .heroplot{position:relative;min-height:360px}
-  @media(max-width:900px){.heroplot{min-height:auto;margin-top:6px}.plot-badge{position:static;left:auto;top:auto;margin-top:12px;display:inline-block}}
-  .heroplot svg{width:100%;height:100%;display:block;overflow:visible}
-  .axis{stroke:var(--line);stroke-width:1.25}
-  .ticklab{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--ink-faint);letter-spacing:.04em}
-  .curve{fill:none;stroke:var(--accent);stroke-width:3.4;stroke-linecap:round}
-  .curve-est{fill:none;stroke:var(--accent-lift);stroke-width:2;stroke-dasharray:5 6;stroke-linecap:round;
-    opacity:0;animation:fadein 1s ease 1.9s forwards}
-  .curve-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.1s var(--ease) .35s forwards}
-  @keyframes draw{to{stroke-dashoffset:0}}
-  .area{fill:url(#fade);opacity:0;animation:fadein 1.2s ease 1.6s forwards}
-  @keyframes fadein{to{opacity:1}}
-  .pt{fill:var(--accent);opacity:0;animation:pop .45s var(--ease) forwards}
-  .pt-ring{fill:var(--paper);stroke:var(--accent);stroke-width:2;opacity:0;animation:pop .45s var(--ease) forwards}
-  @keyframes pop{to{opacity:1}}
-  .plot-badge{
-    position:absolute;left:14%;top:6%;background:var(--card);
-    border:1px solid var(--line);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow-sm);
-    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);letter-spacing:.01em;
-    opacity:0;animation:fadein .6s ease 2.5s forwards;
-  }
-  .plot-badge b{color:var(--accent);font-weight:500}
-  @media(prefers-reduced-motion:reduce){
-    .curve-draw{animation:none;stroke-dashoffset:0}
-    .pt,.pt-ring,.area,.plot-badge,.curve-est{animation:none;opacity:1}.pt-ring{opacity:1}
-  }
-
-  /* trust strip */
-  .trust{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);margin-top:40px}
-  .trust-in{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;padding:20px 26px;
-    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.05em;color:var(--ink-faint)}
-  .trust-in span{display:inline-flex;align-items:center;gap:10px}
-  .trust-in span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.5}
-
-  /* sections */
-  .block{padding:88px 0 0}
-  .block-head{max-width:none}
-  .block-head h2{font-size:clamp(2.1rem,4.5vw,3.3rem);margin:16px 0 0}
-  .block-head p{margin-top:18px;font-size:1.07rem}
-
-  /* collapsible sections — an obvious clickable card (native <details>) */
-  .toggle{border:1px solid var(--line);border-radius:var(--r-panel);background:var(--card);
-    box-shadow:var(--shadow-sm);transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
-  .toggle:hover{border-color:var(--accent-lift);box-shadow:var(--shadow)}
-  .toggle > summary{list-style:none;cursor:pointer;position:relative;padding:26px 152px 24px 50px}
-  .toggle > summary::-webkit-details-marker{display:none}
-  .toggle > summary::before{content:"";position:absolute;left:26px;top:36px;width:9px;height:9px;
-    border-right:2.5px solid var(--accent);border-bottom:2.5px solid var(--accent);
-    transform:rotate(-45deg);transition:transform .28s var(--ease)}
-  .toggle[open] > summary::before{transform:rotate(45deg)}
-  .toggle > summary::after{content:"Expand";position:absolute;right:24px;top:26px;
-    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
-    padding:9px 16px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-wash);
-    transition:background .2s,color .2s}
-  .toggle[open] > summary::after{content:"Collapse"}
-  .toggle > summary:hover::after{background:var(--accent);color:#fff}
-  .toggle > summary:hover h2{color:var(--accent-deep)}
-  .toggle > summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:var(--r-panel)}
-  .toggle-body{padding:0 32px 30px 50px}
-  @media(max-width:640px){
-    .toggle > summary{padding:22px 20px 18px 44px}
-    .toggle > summary::before{left:20px;top:32px}
-    .toggle > summary::after{position:static;display:inline-block;margin-top:14px}
-    .toggle-body{padding:0 20px 22px 20px}
-  }
-  @media(prefers-reduced-motion:reduce){.toggle,.toggle > summary::before{transition:none}}
-
-  /* inline "show more details" within a card or case, the section-toggle idiom sized down */
-  .more{margin-top:16px}
-  .more > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
-    font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--accent);padding:8px 15px;border:1.5px solid var(--accent);border-radius:999px;background:var(--accent-wash);
-    transition:background .2s var(--ease),color .2s var(--ease)}
-  .more > summary::-webkit-details-marker{display:none}
-  .more > summary::before{content:"";width:7px;height:7px;border-right:2.2px solid currentColor;
-    border-bottom:2.2px solid currentColor;transform:rotate(45deg);transition:transform .28s var(--ease);margin-top:-2px}
-  .more[open] > summary::before{transform:rotate(-135deg)}
-  .more > summary::after{content:"Show more details"}
-  .more[open] > summary::after{content:"Show less"}
-  .more > summary:hover{background:var(--accent);color:#fff}
-  .more > summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:999px}
-  .more-body{margin-top:22px}
-  .more-body .case-cols{margin-top:0}
-  .more-body > p{font-size:.99rem;color:var(--ink-soft)}
-  .more-body > p + p{margin-top:14px}
-  .more-body a{color:var(--accent);border-bottom:1px solid transparent;transition:border-color .15s}
-  .more-body a:hover{border-color:var(--accent)}
-  .card .more{margin-top:14px}
-  .card .more-body{margin-top:14px}
-  .card .more-body > p{font-size:.95rem}
-  .case-summary{margin-top:18px;font-size:1.05rem;max-width:64ch}
-  .case.dark .case-summary{color:rgba(255,255,255,.82)}
-  .case.dark .more > summary{color:var(--accent-lift);border-color:rgba(147,177,255,.42);background:rgba(147,177,255,.08)}
-  .case.dark .more > summary:hover{background:var(--accent-lift);color:var(--ink)}
-  @media(prefers-reduced-motion:reduce){.more,.more > summary::before{transition:none}}
-
-  /* winkit case — real app visuals instead of a text wall */
-  .case-apps{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
-  @media(max-width:640px){.case-apps{grid-template-columns:1fr}}
-  .case-app{margin:0}
-  .case-app-img{background:#fff;border-radius:14px;border:1px solid rgba(255,255,255,.16);
-    box-shadow:0 22px 46px -26px rgba(0,0,0,.7);aspect-ratio:16/10;overflow:hidden;
-    display:flex;align-items:center;justify-content:center;padding:20px}
-  .case-app-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
-  .case-app figcaption{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.03em;
-    color:rgba(255,255,255,.62);margin-top:11px;text-align:center}
-
-  /* project cards */
-  .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:44px}
-  .cards .card{flex:0 1 calc((100% - 40px)/3)}
-  #data .cards .card{flex-basis:calc((100% - 20px)/2)}
-  @media(max-width:860px){.cards .card,#data .cards .card{flex-basis:100%}}
-  .card{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-comp);
-    padding:26px 24px 22px;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);overflow:hidden}
-  .card::after{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--accent);
-    transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
-  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm);border-color:transparent}
-  .card:hover::after{transform:scaleX(1)}
-  .proj-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-  .proj-cat{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
-  .card h3{font-size:1.22rem;color:var(--ink);font-family:'Inter';font-weight:600;line-height:1.25}
-  .card > p{margin-top:9px;font-size:.97rem;color:var(--ink-soft)}
-  .pill{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    padding:4px 9px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
-  .pill-live{color:var(--ok);background:rgba(31,157,87,.10);border-color:rgba(31,157,87,.22)}
-  .pill-client{color:var(--accent);background:var(--accent-wash);border-color:rgba(30,72,224,.20)}
-  .pill-private{color:var(--ink-faint);background:rgba(14,27,46,.045);border-color:var(--line)}
-  .pill-research{color:var(--accent-deep);background:var(--accent-wash);border-color:rgba(30,72,224,.20)}
-  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
-  .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);
-    border:1px solid var(--line);border-radius:7px;padding:4px 8px;background:rgba(255,255,255,.5)}
-  .plinks{margin-top:auto;padding-top:18px;display:flex;flex-wrap:wrap;gap:16px}
-  .plinks a{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent);font-weight:500;
-    display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid transparent;transition:border-color .15s}
-  .plinks a:hover{border-color:var(--accent)}
-  .plinks .muted{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-faint)}
-
-  /* case study panels */
-  .case{margin-top:44px;border-radius:var(--r-panel);padding:44px 42px;background:var(--card);
-    border:1px solid var(--line);box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
-  @media(max-width:600px){.case{padding:32px 24px}}
-  .case.dark{background:var(--ink);color:rgba(255,255,255,.82);border-color:transparent;
-    background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:34px 34px}
-  .case.dark .eyebrow{color:var(--accent-lift)}.case.dark .eyebrow::before{background:var(--accent-lift)}
-  .case.dark h3,.case.dark h4{color:#fff}
-  .case.dark .case-col p{color:rgba(255,255,255,.68)}
-  .case.dark .tag{color:rgba(255,255,255,.78);border-color:rgba(255,255,255,.16);background:rgba(147,177,255,.07)}
-  .case.dark .case-foot{color:rgba(255,255,255,.66);border-top-color:rgba(255,255,255,.12)}
-  .case.dark .pill-private{color:var(--accent-lift);background:rgba(147,177,255,.10);border-color:rgba(147,177,255,.24)}
-  .case-kick{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-  .case h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(1.7rem,3.4vw,2.5rem);
-    margin:18px 0 0;max-width:24ch;line-height:1.08}
-  .case h3 em{font-style:italic;color:var(--accent)}
-  .case.dark h3 em{color:var(--accent-lift)}
-  .case-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:34px}
-  @media(max-width:760px){.case-cols{grid-template-columns:1fr;gap:24px}}
-  .case-col h4{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--accent)}
-  .case.dark .case-col h4{color:var(--accent-lift)}
-  .case-col p{margin-top:12px;font-size:.99rem}
-  .case .tags{margin-top:30px}
-  .case-foot{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
-    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.01em;color:var(--ink-faint);
-    display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
-  .case-foot .plinks{margin:0;padding:0}
-  .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
-  @media(max-width:720px){.case-metrics{grid-template-columns:1fr}}
-  .metric{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px;background:rgba(147,177,255,.06)}
-  .metric .mval{display:block;font-family:'IBM Plex Mono',monospace;font-size:1.7rem;color:#fff;line-height:1}
-  .metric.win{border-color:rgba(147,177,255,.4);background:rgba(147,177,255,.12)}
-  .metric.win .mval{color:var(--accent-lift)}
-  .metric .mlab{display:block;margin-top:9px;font-family:'IBM Plex Mono',monospace;font-size:11px;
-    letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-  .case-cap{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;
-    color:rgba(255,255,255,.5);letter-spacing:.02em}
-  .case-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
-  @media(max-width:860px){.case-duo{grid-template-columns:1fr}}
-  .case-duo .card{padding:28px 26px 24px}
-
-  /* gearbox video feature */
-  .vidfeat{display:grid;grid-template-columns:1.02fr .98fr;gap:32px;align-items:center;margin-top:30px}
-  @media(max-width:760px){.vidfeat{grid-template-columns:1fr;gap:22px}}
-  .vidfeat video{width:100%;aspect-ratio:16/9;border-radius:14px;background:#0b1524;display:block;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
-  .vidfeat h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(1.5rem,3vw,2.05rem);margin:0;line-height:1.12}
-  .vidfeat h3 em{font-style:italic;color:var(--accent)}
-  .vidfeat p{margin-top:14px;font-size:1rem}
-  .vidfeat .tags{margin-top:18px}
-
-  /* about */
-  .about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
-  @media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:28px}}
-  .photo{aspect-ratio:4/5;border-radius:var(--r-panel);border:1px solid var(--line);background:var(--card);
-    box-shadow:var(--shadow-sm);position:relative;overflow:hidden;display:grid;place-items:center;
-    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-    background-size:26px 26px}
-  .photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-  .about .bio h2{font-size:clamp(2rem,4.2vw,3rem);margin:16px 0 0}
-  .about .bio p{margin-top:18px;font-size:1.05rem}
-  .about .hero-cta{margin-top:28px}
-
-  /* final / contact */
-  .final{text-align:center;padding:96px 0 40px}
-  .final .plot-mini{width:128px;height:46px;margin:0 auto 26px;display:block}
-  .final h2{font-size:clamp(2.4rem,5.4vw,3.7rem)}
-  .final p{margin:18px auto 0;max-width:48ch;font-size:1.1rem}
-  .final .hero-cta{justify-content:center;margin-top:32px}
-  .socials{display:flex;justify-content:center;gap:14px;margin-top:34px;flex-wrap:wrap}
-  .socials a{display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;
-    color:var(--ink);border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 15px;
-    box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),border-color .2s,color .2s}
-  .socials a:hover{transform:translateY(-2px);border-color:var(--ink)}
-  .socials a[data-todo]{color:var(--ink-faint)}
-  .socials svg{width:17px;height:17px}
-
-  /* footer */
-  footer{border-top:1px solid var(--line-soft);padding:34px 0;margin-top:88px}
-  .foot-in{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
-  .foot-brand{display:flex;align-items:center;gap:11px;color:var(--ink)}
-  .foot-brand .mark{width:34px;height:34px;border-radius:9px}.foot-brand .mark svg{width:20px;height:20px}
-  .foot-brand span{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--ink-faint)}
-  .foot-note{margin:0;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);text-align:right}
-  @media(max-width:620px){.foot-in{justify-content:center;text-align:center}.foot-note{text-align:center;width:100%}}
-
-  /* reveal on scroll (progressive: only hides when JS is present) */
-  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-  .js .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}}
-
-  /* hero head (stacked layout) */
-  .hero-head{max-width:100%}
-  .hero-head .lede{max-width:100%}
-
-  /* forward-pass hero panel */
-  .fp-panel{margin:40px 0 0;padding:22px 24px 20px;border-radius:var(--r-panel);background:var(--ink);
-    background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
-    background-size:34px 34px;border:1px solid transparent;box-shadow:var(--shadow);overflow:hidden}
-  .fp-topbar{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:4px}
-  .fp-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42)}
-  .fp-eyebrow b{color:var(--accent-lift);font-weight:500}
-  .fp-legend{display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.42)}
-  .fp-legend span{display:inline-flex;align-items:center;gap:7px}
-  .fp-dot{width:10px;height:2px;border-radius:2px;display:inline-block}
-  .fp-pos{background:var(--accent-lift)}.fp-neg{background:#E48AA0}
-  @media(max-width:620px){.fp-legend{display:none}}
-  .fp-stage{position:relative;width:100%;aspect-ratio:1200/520;margin-top:6px;cursor:grab}
-  .fp-stage:active{cursor:grabbing}
-  .fp-stage.no-grab{cursor:default}
-  #fp-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .fp-stage[data-webgl="off"]::after{content:"3D view unavailable here \2014 the network still computes me either way.";
-    position:absolute;left:50%;bottom:14%;transform:translateX(-50%);max-width:60%;text-align:center;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.02em;color:rgba(255,255,255,.4)}
-  .fp-label{position:absolute;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:clamp(8px,1.05vw,12.5px);line-height:1.24;pointer-events:none}
-  .fp-label.in{left:1%;width:19%;text-align:right;color:rgba(255,255,255,.6)}
-  .fp-label.out{left:80%;width:19%;text-align:left;color:#fff;font-weight:500}
-  .fp-label .fp-sub{display:block;color:rgba(255,255,255,.4);font-size:.84em;font-weight:400;margin-top:1px}
-  @media(max-width:620px){.fp-label{font-size:8px}.fp-label .fp-sub{display:none}}
-  @keyframes fpIn{from{opacity:0;transform:translateY(-50%) translateX(9px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
-  .fp-panel.playing .fp-label.out{animation:fpIn .5s ease var(--d) both}
-  .fp-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap}
-  .fp-wink{font-size:13px;font-style:italic;color:rgba(255,255,255,.62);max-width:72ch}
-  .fp-wink b{color:rgba(255,255,255,.86);font-style:normal;font-weight:600}
-  .fp-replay{appearance:none;border:1px solid rgba(147,177,255,.28);background:rgba(147,177,255,.08);color:var(--accent-lift);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;padding:7px 14px;border-radius:9px;cursor:pointer;transition:background .18s,border-color .18s;white-space:nowrap}
-  .fp-replay:hover{background:rgba(147,177,255,.16);border-color:rgba(147,177,255,.45)}
-  .fp-replay:focus-visible{outline:3px solid var(--accent-lift);outline-offset:3px}
-  @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-label.out{animation:none}}
-
-  /* recurring 3D "figure" panels (fig.2, fig.3 ...) in the hero's language */
-  .fig-panel{margin:34px 0 0;padding:16px 20px 14px;border-radius:var(--r-panel);background:var(--ink);
-    background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
-    background-size:34px 34px;border:1px solid transparent;box-shadow:var(--shadow);overflow:hidden}
-  .fig-cap{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.42)}
-  .fig-cap b{color:var(--accent-lift);font-weight:500}
-  .fig-stage{position:relative;width:100%;aspect-ratio:1200/340;margin-top:8px;cursor:grab}
-  .fig-stage:active{cursor:grabbing}
-  .fig-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  /* a figure embedded inside a dark case panel (SOC) */
-  .case-fig{position:relative;margin-top:24px;border-radius:14px;overflow:hidden;aspect-ratio:1200/380;
-    border:1px solid rgba(147,177,255,.16);background:#0a1322;cursor:grab}
-  .case-fig:active{cursor:grabbing}
-  .case-fig canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .fig-stage.no-grab,.case-fig.no-grab{cursor:default}
-  .case-figwrap{margin-top:24px}
-  .case-figwrap .case-fig{margin-top:0}
-  .fig-cap-block{display:block;margin-bottom:8px}
-  .case-fig-cap{position:absolute;left:14px;bottom:11px;font-family:'IBM Plex Mono',monospace;font-size:11px;
-    letter-spacing:.02em;color:rgba(255,255,255,.42);pointer-events:none}
-</style>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav" id="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="Home">
-      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0E1B2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 L10 12 L14 14 L20 6"/><circle cx="4" cy="17" r="1.4" fill="#0E1B2E" stroke="none"/><circle cx="20" cy="6" r="1.4" fill="#0E1B2E" stroke="none"/></svg></span>
-      <span class="brand-tag">Aaditya&nbsp;Kalwani</span>
-    </a>
-    <div class="nav-links">
-      <a class="link" href="#engineering">Work</a>
-      <a class="link" href="#about">About</a>
-      <a class="link" href="#web">Web</a>
-      <a class="link" href="#automation">Automation</a>
-      <a class="link" href="#data">Data</a>
-      <!-- TODO: drop CV at assets/Aadi-Kalwani-CV.pdf and this button works -->
-      <a class="btn btn-primary btn-nav" href="assets/Aadi-Kalwani-CV.pdf" download>Download CV</a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Aaditya Kalwani, back to top"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="var(--accent)"/><path d="M5 16.5 10 12l3.5 2L19 7.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="16.5" r="1.4" fill="#fff"/><circle cx="19" cy="7.5" r="1.4" fill="#fff"/></svg><span>Aaditya Kalwani</span></a>
+    <nav class="nav-links" aria-label="Primary" id="nav-links">
+      <span class="nav-ind" aria-hidden="true"></span>
+      <a href="#work" data-sec="work">Work</a>
+      <a href="#builds" data-sec="builds">Builds</a>
+      <a href="#about" data-sec="about">About</a>
+      <a href="#contact" data-sec="contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+        <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="assets/Aadi-Kalwani-CV.pdf" download><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg><span>Download CV</span></a>
+      <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">
+        <svg class="i-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+        <svg class="i-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
     </div>
-  </div>
-</nav>
-
-<span id="top"></span>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-pin"><div class="hero-stage">
-  <div class="wrap">
-    <div class="hero-head">
-      <span class="eyebrow">Aerospace Engineering &middot; University of Bath</span>
-      <h1 class="serif">I turn engineering problems into things that <em>actually ship.</em></h1>
-      <p class="lede">First-year Aerospace Engineering at Bath. Between lectures I build: machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites. Fourteen shipped, and counting.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
-          Download CV
-        </a>
-        <a class="btn btn-ghost" href="#engineering">See the work</a>
-      </div>
-      <p class="assure"><span class="dot" aria-hidden="true"></span> Lining up a placement year in industry, aerospace, defence or wherever hard engineering meets software.</p>
-    </div>
-
-    <figure class="fp-panel" id="fp" aria-label="An animated neural network with my identity as the inputs on the left resolving into the things I have built as the outputs on the right, drawn as a forward pass">
-      <div class="fp-topbar">
-        <span class="fp-eyebrow">forward pass &middot; <b>fig.1</b></span>
-        <span class="fp-legend"><span><i class="fp-dot fp-pos"></i>positive weight</span><span><i class="fp-dot fp-neg"></i>negative weight</span></span>
-      </div>
-      <div class="fp-stage" id="fp-stage">
-        <canvas id="fp-canvas" aria-hidden="true"></canvas>
-      </div>
-      <figcaption class="fp-foot">
-        <span class="fp-wink">A forward pass, <b>if the network's only job were to compute me.</b> Identity in, the things I have built resolving out. Yes, I know that is not how inference works.</span>
-        <button class="fp-replay" id="fp-replay" type="button">&#9654; replay</button>
-      </figcaption>
-    </figure>
-  </div>
-  <div class="hero-scrollcue" aria-hidden="true">scroll to compute<span class="cue-arrow"></span></div>
-  </div></div>
-
-  <div class="trust">
-    <div class="wrap trust-in">
-      <span>Python / PyTorch</span>
-      <span>Machine learning</span>
-      <span>CAD &middot; Autodesk Inventor</span>
-      <span>MATLAB &middot; embedded</span>
-      <span>Playwright automation</span>
-      <span>Full-stack web</span>
-      <span>Google Apps Script</span>
-      <span>Vercel &middot; CI/CD</span>
-    </div>
+    <span class="nav-progress" id="nav-progress" aria-hidden="true"></span>
   </div>
 </header>
-
-<!-- ENGINEERING & ML -->
-<section class="block" id="engineering">
-  <div class="wrap">
-    <div class="block-head reveal">
-      <span class="eyebrow">01 / Selected work</span>
-      <h2 class="serif">The work I would <em>lead with.</em></h2>
-      <p>My highest-leverage builds up front: machine-learning battery research, a food-delivery platform I co-founded, and a mechanical design piece. Everything else is further down.</p>
+<div class="sheet" id="sheet" aria-hidden="true" inert>
+  <nav class="sheet-inner" aria-label="Mobile">
+    <a href="#work">Work</a><a href="#builds">Builds</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <div class="sheet-row">
+      <button type="button" class="ghost-btn" data-theme-toggle>Switch theme</button>
+      <a class="t-small" href="mailto:aadityakalwani@gmail.com">aadityakalwani@gmail.com</a>
     </div>
+  </nav>
+</div>
 
-    <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">SOC battery research &middot; University of Bath</span>
-        <span class="pill pill-private">Private repo &middot; paper in view</span>
+<main id="main" tabindex="-1">
+<section class="scene hero" id="top" data-scene style="--scene-vh:4.5" aria-labelledby="hero-h">
+  <div class="stage">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div id="hero-stage" class="hero-stage"></div>
+    <div class="hero-text" id="hero-text">
+      <p class="t-eyebrow reveal">Aerospace Engineering · University of Bath · Year 2</p>
+      <h1 class="t-display mask" id="hero-h"><span class="ln"><span class="ln-in" style="--i:0">I turn engineering problems</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>into things that ship.</em></span></span></h1>
+      <p class="t-lede reveal" style="--i:2">Second-year aerospace engineer at Bath. First author on a battery machine-learning paper, co-founder and CTO of a live delivery platform, aerodynamics lead on a competition UAV. Fourteen shipped, and counting.</p>
+      <div class="hero-cta reveal" style="--i:3">
+        <a class="btn btn-primary btn-lg" href="#work"><span>See the work</span><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="assets/Aadi-Kalwani-CV.pdf" download><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg><span>Download CV</span></a>
       </div>
-      <h3>Teaching a neural network to read a battery's charge <em>from sound.</em></h3>
-      <p class="case-summary">I fuse ultrasound with the usual battery signals and teach a 200-step LSTM to read state of charge to 0.57% sealed error on real EDF Paris bus data, hand-deriving the maths before any framework touched it.</p>
-      <div class="case-figwrap">
-        <span class="fig-cap fig-cap-block">figure &middot; the LSTM cell &middot; gates &amp; state &middot; <b>drag to rotate</b></span>
-        <div class="case-fig"><canvas id="fig-lstm" aria-hidden="true"></canvas></div>
-      </div>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Lithium-ion state of charge is deceptively hard to measure. Coulomb counting drifts, the voltage curve sits flat for most of a discharge, and the ultrasound signal that does carry charge is tangled up in hysteresis, temperature and current. There is no clean mapping to invert.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Built from first principles: a NumPy MLP with backpropagation and a bias-corrected Adam optimiser derived and coded by hand, before any framework touched it. Then PyTorch RNN, GRU and a 200-step LSTM that fuse the acoustic features, time of flight, wave velocity and displacement, with voltage, current, temperature and coulomb counting. Memory is the point: the LSTM resolves the charge-discharge hysteresis a memoryless model physically cannot.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>On real EDF Paris bus data it holds a sealed-test error of 0.57%, and 0.79% on the public US06 cycle, both sealed from training and from model selection, the protocol most published work quietly skips. The open problem I am on now: generalising cleanly from controlled cycles to messy real-world mission profiles.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="case-metrics">
-        <div class="metric win"><span class="mval">0.57%</span><span class="mlab">Sealed Paris MAE &middot; real EDF bus data</span></div>
-        <div class="metric"><span class="mval">0.79%</span><span class="mlab">Sealed US06 MAE &middot; public cycle</span></div>
-        <div class="metric"><span class="mval">1.87%</span><span class="mlab">Coulomb counting &middot; same Paris cycle</span></div>
-      </div>
-      <p class="case-cap">Sealed-test mean absolute error, mean over ten seeds, headline of the ultrasound feature-ablation set. Paris is real EDF bus data; US06 is the public benchmark cycle; coulomb counting is shown on the same sealed Paris cycle for reference. Lower is better.</p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">NumPy (hand-derived backprop)</span>
-        <span class="tag">PyTorch</span>
-        <span class="tag">GRU / LSTM</span>
-        <span class="tag">feature ablation</span>
-        <span class="tag">10-seed sealed test</span>
-      </div>
-      <div class="case-foot">
-        <span>Supervised research &middot; Dr Christopher Vagg &amp; Rob Gray &middot; target: <em>Energy and AI</em></span>
-        <span class="plinks"><span class="muted">Code private until publication</span></span>
-      </div>
-    </article>
-
-    <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Winkit &middot; local food-delivery platform</span>
-        <span class="pill pill-live">Live &middot; real orders</span>
-      </div>
-      <h3>A food-delivery platform, <em>co-founded and built end to end.</em></h3>
-      <p class="case-summary">I co-founded Winkit and own the whole technical stack as CTO: a customer app taking live Stripe payments, per-kitchen adapters that drop orders onto the restaurant's own system, and a separate driver app. Live now with its first partner kitchens taking real orders.</p>
-      <div class="case-apps">
-        <figure class="case-app">
-          <div class="case-app-img"><img src="assets/winkit-logo.png" alt="Winkit customer app brand" loading="lazy"></div>
-          <figcaption>Customer app &middot; order &amp; pay, live Stripe</figcaption>
-        </figure>
-        <figure class="case-app">
-          <div class="case-app-img"><img src="assets/winkit-drivers.png" alt="Winkit driver app brand" loading="lazy"></div>
-          <figcaption>Driver app &middot; shifts, GPS dispatch, live state</figcaption>
-        </figure>
-      </div>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Local kitchens hand heavy commissions to the aggregators and juggle a separate point-of-sale tablet for every platform they join. Every order lands on hardware that is not their own.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Built the full stack myself: a customer web app taking live Stripe card payments, per-restaurant adapters that drop each order straight onto the kitchen's own system, and a separate driver app handling sign-up, shifts, GPS dispatch and real-time order state. No extra hardware for the kitchen.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live with its first partner restaurants taking real end-to-end orders, ahead of a wider launch. I co-founded it and own the entire technical stack as CTO.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Full-stack web</span><span class="tag">Stripe payments</span><span class="tag">per-kitchen adapters</span><span class="tag">driver app</span><span class="tag">GPS dispatch</span>
-      </div>
-      <div class="case-foot">
-        <span>Co-founder &amp; CTO &middot; architecture, build and ops</span>
-        <span class="plinks"><span class="muted">Live with partner kitchens &middot; launch soon</span></span>
-      </div>
-    </article>
-
-    <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Fifth9 &middot; applied AI</span>
-        <span class="pill pill-live">Live engagement</span>
-      </div>
-      <h3>Red-teaming, then hardening, a <em>pre-launch enterprise AI platform.</em></h3>
-      <p class="case-summary">A paid engagement with Fifth9, a UK technology consultancy, on their agentic AI orchestration platform for regulated enterprise. I came in as the adversary and stayed to build: I stress-tested the product and its connected tool servers over MCP, then helped harden and ship what I found, from security and data-handling fixes to new capabilities.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The brief</h4>
-              <p>Fifth9 is taking an agentic AI orchestration platform into regulated enterprise. Before it reaches blue-chip clients it has to survive a determined adversary, and then actually be usable.</p>
-            </div>
-            <div class="case-col">
-              <h4>My role</h4>
-              <p>Two jobs at once. First the adversary: red-teaming the agents, driving the full stack of tool servers over MCP, and running business acceptance testing. Then the builder: fixing what I broke, proving the platform's memory layer could carry a user's context across four major AI models with a single key, and shipping an internal tool that maps and searches the whole codebase so the team can see what exists and what is missing.</p>
-            </div>
-            <div class="case-col">
-              <h4>The impact</h4>
-              <p>Around thirty pull requests merged into their production codebase across the engagement, from security fixes to the cross-model memory work to the final code-search tool. Strong enough that they invited me back for a second year.</p>
-            </div>
-          </div>
-          <div class="case-metrics">
-            <div class="metric win"><span class="mval">~30</span><span class="mlab">PRs merged to production</span></div>
-            <div class="metric win"><span class="mval">4</span><span class="mlab">AI models on one memory</span></div>
-            <div class="metric"><span class="mval">2nd</span><span class="mlab">year invited back</span></div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">AI red-teaming</span><span class="tag">LLM evaluation</span><span class="tag">agentic AI</span><span class="tag">MCP tooling</span><span class="tag">full-stack</span><span class="tag">enterprise UAT</span>
-      </div>
-      <div class="case-foot">
-        <span>Paid engagement &middot; Fifth9 &middot; red-team then build</span>
-        <span class="plinks"><span class="muted">Under NDA</span></span>
-      </div>
-    </article>
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Epicyclic gearbox &middot; Autodesk Inventor</span>
-        <span class="pill pill-private">Coursework &middot; 76.6%</span>
-      </div>
-      <div class="vidfeat">
-        <video controls preload="none" playsinline poster="assets/gearbox-poster.jpg">
-          <source src="assets/gearbox.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div>
-          <h3>A 5:1 planetary gearbox, <em>modelled, driven and rendered.</em></h3>
-          <p>Built from a projected base sketch to guarantee the gears mesh, then drive-constraint animated with sectioned and exploded views.</p>
-          <details class="more">
-            <summary></summary>
-            <div class="more-body">
-              <p style="margin-top:0">Fitted with standard content-centre bearings and circlips (BS&nbsp;292 / ANSI&nbsp;B27.7M), with material selection justified on engineering grounds: a cast-iron housing for vibration damping, polished steel and brass for the shaft and gears. Alongside a set of GD&amp;T tolerancing drawings marked at 88%.</p>
-            </div>
-          </details>
-          <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">assemblies</span><span class="tag">drive constraints</span><span class="tag">rendering</span><span class="tag">GD&amp;T</span></div>
-          <div class="plinks" style="margin-top:18px"><a href="https://youtu.be/E5wqotY2ZiA" target="_blank" rel="noopener">Watch in HD on YouTube <span aria-hidden="true">&#8599;</span></a></div>
-        </div>
-      </div>
-    </article>
+      <p class="avail reveal" style="--i:4"><i aria-hidden="true"></i>Looking for a 2027/28 placement year in aerospace, defence or wherever hard engineering meets software.</p>
+    </div>
+    <ol class="hero-fallback" id="hero-fallback" aria-label="What I have shipped">
+      <li>First-author paper</li><li>Winkit CTO</li><li>UAV aero lead</li><li>Fifth9 red team</li><li>Drive-shaft design</li><li>14+ shipped</li>
+    </ol>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="block" id="about">
-  <div class="wrap about about-grid">
-    <div class="photo reveal">
-      <img src="assets/aadi.jpg" alt="Aaditya Kalwani, aerospace engineering student at the University of Bath" width="800" height="800">
+<section class="proof" aria-label="Highlights">
+  <div class="container">
+    <ul class="stats"><li class="stat reveal" style="--i:0"><span class="t-stat" data-count="0.57" data-dec="2" data-prefix="" data-suffix="%" data-final="0.57%">0.57%</span><span class="t-label">blind-test SOC error, first-author paper</span></li><li class="stat reveal" style="--i:1"><span class="t-stat" data-final="CTO">CTO</span><span class="t-label">co-founder, Winkit, live at winkit.uk</span></li><li class="stat reveal" style="--i:2"><span class="t-stat" data-count="30" data-dec="0" data-prefix="" data-suffix="%" data-final="30%">30%</span><span class="t-label">lift-to-drag gain, Team Bath Drones</span></li><li class="stat reveal" style="--i:3"><span class="t-stat" data-count="30" data-dec="0" data-prefix="~" data-suffix="" data-final="~30">~30</span><span class="t-label">PRs merged to production at Fifth9</span></li><li class="stat reveal" style="--i:4"><span class="t-stat" data-slot="1" data-final="First">First</span><span class="t-label">Year 1, 73.8% average</span></li></ul>
+  </div>
+  <div class="marquee-wrap"><div class="marquee" aria-label="Technologies">
+    <div class="mq-track"><ul class="mq-row"><li>Python</li><li>PyTorch</li><li>NumPy</li><li>three.js</li><li>Autodesk Inventor</li><li>MATLAB</li><li>Arduino</li><li>Stripe</li><li>Playwright</li><li>Apps Script</li><li>Vercel</li></ul><ul class="mq-row" aria-hidden="true"><li>Python</li><li>PyTorch</li><li>NumPy</li><li>three.js</li><li>Autodesk Inventor</li><li>MATLAB</li><li>Arduino</li><li>Stripe</li><li>Playwright</li><li>Apps Script</li><li>Vercel</li></ul></div>
+  </div><button type="button" class="mq-pause" id="mq-pause" aria-pressed="false" aria-label="Pause the scrolling technologies list"><svg class="i-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="i-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.53.85l10-6.5a1 1 0 0 0 0-1.7l-10-6.5A1 1 0 0 0 8 5.5z"/></svg></button></div>
+</section>
+
+<section class="work" id="work" aria-labelledby="work-h">
+  <div class="container work-intro">
+    <p class="t-eyebrow reveal">01 / Selected work</p>
+    <h2 class="t-h2 mask" id="work-h"><span class="ln"><span class="ln-in" style="--i:0">The work I would</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>lead with.</em></span></span></h2>
+    <p class="scrub t-lede" data-scrub>Five builds that carry the most weight: a first-author machine-learning paper, a delivery platform I co-founded, a competition UAV, a paid AI red-team engagement and the drive shaft I am designing right now. Everything else lives further down.</p>
+  </div>
+  
+<section class="scene case" id="soc" data-scene data-case="soc" style="--scene-vh:2.2" aria-labelledby="soc-h">
+  <div class="stage">
+    <span class="ghost-num" aria-hidden="true">01</span>
+    <span class="rail" aria-hidden="true"></span>
+    <div class="case-grid">
+      <div class="case-copy">
+        <span class="status reveal"><i aria-hidden="true"></i>Paper in preparation · target: <em>Energy and AI</em></span><p class="t-eyebrow reveal" style="--i:1">Battery ML research · first author</p><h2 class="t-case mask" id="soc-h"><span class="ln"><span class="ln-in" style="--i:0">Reading a battery's charge</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>from sound.</em></span></span></h2><p class="case-lede reveal" style="--i:2">Coulomb counting drifts, and the voltage curve sits flat for most of a discharge. So I fused ultrasonic time of flight and cell swelling with voltage, current and temperature, and trained an LSTM to read state of charge on real automotive duty cycles, with the test cycle locked away from training, validation and model selection alike.</p>
+        <ul class="bullets"><li style="--bi:0"><strong>0.57% mean absolute error</strong> on a blind real-world Paris electric-bus cycle, ten-seed mean.</li><li style="--bi:1"><strong>42% less error on the US06 cycle</strong> once ultrasound joins the inputs, 1.36% down to 0.79%, with the gain holding on all ten of ten seeds (p = 0.002).</li><li style="--bi:2"><strong>19% less error on blind Paris</strong> for the same fusion, 0.70% down to 0.57%.</li><li style="--bi:3"><strong>A fully blind protocol</strong>: a whole real vehicle recording held out from every step of the workflow, model selection included. The paper's positioning table finds no prior study that does the same.</li><li style="--bi:4"><strong>Built from first principles</strong>: a NumPy network with hand-derived backpropagation and a bias-corrected Adam optimiser before any framework, then PyTorch RNN, GRU and LSTM ablations.</li></ul><ul class="tags" aria-label="Tags"><li>Python</li><li>NumPy</li><li>PyTorch</li><li>LSTM</li><li>feature ablation</li><li>10-seed blind test</li></ul><p class="t-small case-role">First author · supervised by Dr Christopher Vagg and Rob Gray, Institute for Advanced Automotive Propulsion Systems</p><p class="t-label case-note">Code private until publication</p>
+      </div>
+      <div class="case-panel panel" data-panel>
+        <div class="panel-bar"><span class="panel-title">fig.2 · feature ablation, blind test</span><span class="panel-hint"></span></div>
+        <div class="panel-body">
+<div class="tabs-bar">
+  <div class="seg" role="radiogroup" aria-label="Showcase view" data-seg="soc-tab"><span class="thumb" aria-hidden="true"></span>
+    <button type="button" role="radio" aria-checked="true" data-v="abl">Ablation</button>
+    <button type="button" role="radio" aria-checked="false" data-v="sim">Live estimate</button></div>
+  <div class="seg" role="radiogroup" aria-label="Test cycle" data-seg="soc-cycle"><span class="thumb" aria-hidden="true"></span>
+    <button type="button" role="radio" aria-checked="true" data-v="paris">Paris</button>
+    <button type="button" role="radio" aria-checked="false" data-v="us06">US06</button></div>
+</div>
+<div class="soc-views">
+  <div class="soc-view soc-abl" data-view="abl">
+    <div class="abl" data-abl>
+      <p class="abl-take" data-abl-take aria-live="polite"></p>
+      <ul class="abl-rows"><li><button type="button" class="abl-row base" data-pm="0.70" data-psd="0.16" data-ps="" data-um="1.36" data-usd="0.13" data-us="" aria-label="VIT (baseline)"><span class="abl-label">VIT (baseline)</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row " data-pm="0.69" data-psd="0.30" data-ps="60" data-um="1.36" data-usd="0.10" data-us="40" aria-label="VIT + ToF"><span class="abl-label">VIT + ToF</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row " data-pm="1.02" data-psd="0.50" data-ps="30" data-um="0.91" data-usd="0.15" data-us="100" aria-label="VIT + velocity"><span class="abl-label">VIT + velocity</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row " data-pm="0.67" data-psd="0.18" data-ps="70" data-um="0.84" data-usd="0.09" data-us="100" aria-label="VIT + displacement"><span class="abl-label">VIT + displacement</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row head" data-pm="0.57" data-psd="0.19" data-ps="80" data-um="0.79" data-usd="0.09" data-us="100" aria-label="VIT + ToF + displacement"><span class="abl-label">VIT + ToF + displacement</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row " data-pm="0.75" data-psd="0.23" data-ps="60" data-um="0.84" data-usd="0.08" data-us="100" aria-label="VIT + all ultrasonic + displacement"><span class="abl-label">VIT + all ultrasonic + displacement</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li><li><button type="button" class="abl-row null" data-pm="0.70" data-psd="0.21" data-ps="70" data-um="1.32" data-usd="0.16" data-us="70" aria-label="VIT + shuffled velocity (null control)"><span class="abl-label">VIT + shuffled velocity (null control)</span><span class="abl-track"><span class="abl-bar"></span></span><span class="abl-val"></span></button></li></ul>
+      <div class="abl-axis" aria-hidden="true"><span></span><span class="abl-ticks"><i>0</i><i>0.4</i><i>0.8</i><i>1.2</i><i>1.6%</i></span><span></span></div>
+      <p class="abl-read" data-abl-read aria-live="polite">Tap a bar for its mean, spread and seed count.</p>
     </div>
-    <div class="bio reveal">
-      <span class="eyebrow">About</span>
-      <h2 class="serif">First-year engineer, <em>compulsive builder.</em></h2>
-      <p>I am Aadi, a first-year Aerospace Engineering student at the University of Bath. The course runs mechanical for two years, then a placement year in industry, then a specialising year in aerospace.</p>
-      <p>I build compulsively, ML research, live data pipelines, automation and full-stack web, because the fastest way I learn a system is to ship one. The thread through all of it is the same: applying software and machine learning to real, physical, engineering problems. Long term I want to work where hard engineering and software actually meet.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
-          Download CV
-        </a>
-        <a class="btn btn-ghost" href="mailto:aadityakalwani@gmail.com">Email me</a>
+    <table class="sr-only"><caption>Blind-test mean absolute error (percent, mean and standard deviation over ten seeds) and the share of seeds that beat the baseline, by feature variant</caption><thead><tr><th scope="col">Variant</th><th scope="col">Paris MAE</th><th scope="col">Paris seeds improved</th><th scope="col">US06 MAE</th><th scope="col">US06 seeds improved</th></tr></thead><tbody><tr><th scope="row">VIT (baseline)</th><td>0.70 ± 0.16</td><td>n/a</td><td>1.36 ± 0.13</td><td>n/a</td></tr><tr><th scope="row">VIT + ToF</th><td>0.69 ± 0.30</td><td>60%</td><td>1.36 ± 0.10</td><td>40%</td></tr><tr><th scope="row">VIT + velocity</th><td>1.02 ± 0.50</td><td>30%</td><td>0.91 ± 0.15</td><td>100%</td></tr><tr><th scope="row">VIT + displacement</th><td>0.67 ± 0.18</td><td>70%</td><td>0.84 ± 0.09</td><td>100%</td></tr><tr><th scope="row">VIT + ToF + displacement</th><td>0.57 ± 0.19</td><td>80%</td><td>0.79 ± 0.09</td><td>100%</td></tr><tr><th scope="row">VIT + all ultrasonic + displacement</th><td>0.75 ± 0.23</td><td>60%</td><td>0.84 ± 0.08</td><td>100%</td></tr><tr><th scope="row">VIT + shuffled velocity (null control)</th><td>0.70 ± 0.21</td><td>70%</td><td>1.32 ± 0.16</td><td>70%</td></tr></tbody></table>
+  </div>
+  <div class="soc-view soc-sim" data-view="sim" hidden><div class="show" id="show-soc" data-show="soc" data-state="idle"><div class="show-fallback"><p class="fb-line">Interactive state-of-charge view. <strong>0.57%</strong> blind Paris error, <strong>0.79%</strong> on US06.</p></div></div></div>
+</div></div>
+        <div class="panel-foot" data-foot>Blind-test mean absolute error, ten seeds, deployed estimate. The null control shuffles the velocity channel in time: if it scored as well as the real thing, the model would be learning noise. It does not.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ENGINEERING & HARDWARE -->
-<section class="block" id="engineering-more">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">02 / Engineering &amp; hardware</span>
-      <h2 class="serif">Hands-on <em>engineering.</em></h2>
-      <p>Aerospace, embedded sensing and mechanical design: a competition UAV, a calibrated ultrasonic rig and a team mechanism design.</p>
-    </summary>
-    <div class="toggle-body">
+<section class="scene case case--flip" id="winkit" data-scene data-case="winkit" style="--scene-vh:2.2" aria-labelledby="winkit-h">
+  <div class="stage">
+    <span class="ghost-num" aria-hidden="true">02</span>
+    <span class="rail" aria-hidden="true"></span>
+    <div class="case-grid">
+      <div class="case-copy">
+        <span class="status reveal"><i aria-hidden="true"></i>Live · winkit.uk</span><p class="t-eyebrow reveal" style="--i:1">Winkit · local food delivery · co-founder and CTO</p><h2 class="t-case mask" id="winkit-h"><span class="ln"><span class="ln-in" style="--i:0">A delivery platform,</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>co-founded and built end to end.</em></span></span></h2><p class="case-lede reveal" style="--i:2">The aggregators wanted 38 to 40% of a local kitchen's revenue to deliver for it. So three of us started our own, and I built every line of the technical stack: a customer app on live Stripe payments, adapters that land each order on the kitchen's own system, and a separate driver app.</p>
+        <ul class="bullets"><li style="--bi:0"><strong>Three zeros for the kitchen</strong>: £0 commission (the kitchen keeps its own menu price), 0 drivers to hire, 0 new hardware.</li><li style="--bi:1"><strong>Orders land on kitchens' existing systems</strong>: per-kitchen adapters have pushed live orders onto two different restaurant platforms, no extra tablet on the counter.</li><li style="--bi:2"><strong>Live Stripe card payments</strong> on winkit.uk, gated to each kitchen's real opening hours.</li><li style="--bi:3"><strong>A separate driver app</strong>: sign-up, shifts, live location, GPS dispatch and real-time order state, on Neon Postgres.</li><li style="--bi:4"><strong>Run lean on free tiers</strong>: I traced a cron keeping the database awake 24/7 and gated it by opening hours, cutting compute burn by about 68%.</li></ul><ul class="tags" aria-label="Tags"><li>full-stack</li><li>Stripe</li><li>Vercel functions</li><li>Postgres</li><li>GPS dispatch</li><li>order adapters</li></ul><p class="t-small case-role">Co-founder and CTO · architecture, build and operations</p><p class="case-links"><a class="tlink" href="https://winkit.uk" target="_blank" rel="noopener">winkit.uk <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+      </div>
+      <div class="case-panel panel" data-panel>
+        <div class="panel-bar"><span class="panel-title">fig.4 · one order, end to end</span><span class="panel-hint">simulated</span></div>
+        <div class="panel-body"><div class="show" id="show-winkit" data-show="winkit" data-state="idle"><div class="show-fallback"><p class="fb-line">One order, five stations: <strong>customer pays</strong>, the kitchen's own system, ready, dispatched, delivered.</p></div></div></div>
+        <div class="panel-foot" data-foot>A simulated order moving through the platform. Orders land on the kitchen's own system, so the counter needs no extra tablet.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe airfoil section, echoing the Team Bath Drones competition wing">
-      <span class="fig-cap">figure &middot; <b>fig.2</b> &middot; airflow over an airfoil &middot; drag to rotate</span>
-      <div class="fig-stage"><canvas id="fig-airfoil" aria-hidden="true"></canvas></div>
+<section class="scene case case--flow" id="drones" data-case="drones" aria-labelledby="drones-h">
+  <div class="stage">
+    <span class="ghost-num" aria-hidden="true">03</span>
+    <div class="case-grid">
+      <div class="case-copy">
+        <div class="cc-a"><span class="status reveal"><i aria-hidden="true"></i>Design and make · Nov 2025 to May 2026</span><p class="t-eyebrow reveal" style="--i:1">Team Bath Drones · aerodynamics lead</p><h2 class="t-case mask" id="drones-h"><span class="ln"><span class="ln-in" style="--i:0">Leading the aerodynamics</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>of a competition UAV.</em></span></span></h2><p class="case-lede reveal" style="--i:2">I ran the aerodynamics division on Team Bath Drones' design-and-make entry. The job was simple to state and hard to do: more lift for every unit of drag, on less structure.</p></div>
+        <div class="cc-b"><ul class="bullets"><li style="--bi:0"><strong>30% lift-to-drag gain</strong> from an aerofoil trade study, Clark-Y against NACA 0015.</li><li style="--bi:1"><strong>400g structural weight saving</strong>, delivered at the Critical Design Review.</li><li style="--bi:2"><strong>Co-led the "tadpole" fuselage</strong> concept and its CAD.</li><li style="--bi:3"><strong>Presented the Critical Design Review</strong> to the judging panel for the team.</li></ul><ul class="tags" aria-label="Tags"><li>aerodynamics</li><li>aerofoil trade study</li><li>CAD</li><li>CDR</li><li>Clark-Y</li><li>NACA 0015</li></ul><p class="t-small case-role">Aerodynamics division lead · University design team</p></div>
+      </div>
+      <div class="case-panel panel panel--bare" data-panel>
+        <div class="panel-bar"><span class="panel-title">fig.5 · aerofoil trade study</span><span class="panel-hint">illustrative flow</span></div>
+        <div class="panel-body"><div class="show" id="show-drones" data-show="drones" data-state="idle"><div class="show-fallback"><p class="fb-line"><strong>Clark-Y</strong> against <strong>NACA 0015</strong>: +30% lift-to-drag in the trade study.</p></div></div></div>
+        <div class="panel-foot" data-foot>Profiles come from the real section coordinates. Streamlines are illustrative, not CFD. Selected: Clark-Y · +30% lift-to-drag in the trade study.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene case case--flow case--flip" id="fifth9" data-case="fifth9" aria-labelledby="fifth9-h">
+  <div class="stage">
+    <span class="ghost-num" aria-hidden="true">04</span>
+    <div class="case-grid">
+      <div class="case-copy">
+        <div class="cc-a"><span class="status reveal"><i aria-hidden="true"></i>Paid engagement · invited back for a second year</span><p class="t-eyebrow reveal" style="--i:1">Fifth9 · applied AI · red team and build</p><h2 class="t-case mask" id="fifth9-h"><span class="ln"><span class="ln-in" style="--i:0">Attacking an enterprise AI platform,</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>then helping ship it.</em></span></span></h2><p class="case-lede reveal" style="--i:2">Fifth9 is taking an agentic AI orchestration platform into regulated enterprise, and before it reaches blue-chip clients it has to survive a determined adversary. I came in as that adversary and stayed to build.</p></div>
+        <div class="cc-b"><ul class="bullets"><li style="--bi:0"><strong>Adversarial red-teaming</strong> of the platform's agents, driving its connected tool servers end to end over MCP.</li><li style="--bi:1"><strong>Business acceptance testing</strong> across the stack before client demos.</li><li style="--bi:2"><strong>~30 pull requests merged to production</strong>, from security and data-handling fixes to new capabilities.</li><li style="--bi:3"><strong>One memory, four models</strong>: proved the platform's memory layer could carry a user's context across four major AI models on a single key.</li><li style="--bi:4"><strong>Shipped an internal code-search tool</strong> that maps the whole codebase, so the team can see what exists and what is missing. Invited back after a 2025 internship where I shipped a generative-AI product in a five-day sprint and pitched its go-to-market to the directors.</li></ul><ul class="tags" aria-label="Tags"><li>AI red-teaming</li><li>LLM evaluation</li><li>agentic AI</li><li>MCP tooling</li><li>UAT</li><li>full-stack</li></ul><p class="t-small case-role">Red team, UAT, MCP tooling and demo builds · Fifth9</p><p class="t-label case-note">Client work under NDA</p></div>
+      </div>
+      <div class="case-panel panel panel--bare" data-panel>
+        <div class="panel-bar"><span class="panel-title">fig.6 · red-team console</span><span class="panel-hint">illustrative run</span></div>
+        <div class="panel-body"><div class="show" id="show-fifth9" data-show="fifth9" data-state="idle"><div class="show-fallback"><p class="fb-line">Red-team console and a four-model memory graph, played on invented, generic probes.</p></div></div></div>
+        <div class="panel-foot" data-foot>A scripted loop of generic probes, showing the shape of the work: probe, guard, patch, retest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene case" id="shaft" data-scene data-case="shaft" style="--scene-vh:2.2" aria-labelledby="shaft-h">
+  <div class="stage">
+    <span class="ghost-num" aria-hidden="true">05</span>
+    <span class="rail" aria-hidden="true"></span>
+    <div class="case-grid">
+      <div class="case-copy">
+        <span class="status reveal"><i aria-hidden="true"></i>In progress · stage gate October 2026</span><p class="t-eyebrow reveal" style="--i:1">Year 2 design · snowmobile drive shaft</p><h2 class="t-case mask" id="shaft-h"><span class="ln"><span class="ln-in" style="--i:0">From 20kW at the motor</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>to 209Nm at the track.</em></span></span></h2><p class="case-lede reveal" style="--i:2">An electric snowmobile has to put 20kW through a shaft small enough to sit between two track sprockets, survive -40°C slush and steam cleaning, and come apart with standard tools. My half of our pair: the free-body diagrams, the loads and the drive ratio, built as an engine rather than a page of hand sums.</p>
+        <ul class="bullets"><li style="--bi:0"><strong>20kW at 3000RPM in, stepped down 3.28:1 to a 915RPM shaft carrying 209Nm</strong>, sized for 50km/h on a 290mm track sprocket.</li><li style="--bi:1"><strong>A symbolic loads engine</strong>: every reaction, moment and stress flows from named inputs, so a design change ripples through instantly. <strong>39 automated assertions pass</strong> on the calculation core.</li><li style="--bi:2"><strong>Critical section located</strong>: an 80.4Nm resultant bending moment at the drive sprocket, bearing reactions of 590.6N and 1340.1N.</li><li style="--bi:3"><strong>Stiffness checked, not assumed</strong>: 106µm peak deflection, bearing slopes of 2.26 and 3.65 arcmin.</li><li style="--bi:4"><strong>Bearings sized for a 5200h life</strong>, ten hours a week for ten years, about 285 million revolutions at shaft speed.</li></ul><ul class="tags" aria-label="Tags"><li>machine design</li><li>FBD / SFD / BMD</li><li>bearing life</li><li>three.js</li><li>JavaScript</li><li>unit tests</li></ul><p class="t-small case-role">Pair design project, ME22007 · my lane: loads, FBDs, drive ratio and shaft torque</p><p class="case-links"><a class="tlink" href="https://dmm2-pair122-guide.vercel.app" target="_blank" rel="noopener">Explore the live design guide <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a> <a class="tlink" href="https://dmm2-config-b-fbd.vercel.app" target="_blank" rel="noopener">FBD, shear and bending explainer <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+      </div>
+      <div class="case-panel panel" data-panel>
+        <div class="panel-bar"><span class="panel-title">fig.7 · track drive shaft</span><span class="panel-hint">drag to orbit</span></div>
+        <div class="panel-body"><div class="show" id="show-shaft" data-show="shaft" data-state="idle"><div class="show-fallback"><p class="fb-line"><strong>Motor 3000RPM · 63.7Nm</strong> to <strong>3.28:1</strong> to <strong>Shaft 915RPM · 209Nm</strong>.</p></div></div></div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+</section>
+
+<section class="builds" id="builds" aria-labelledby="builds-h">
+  <div class="container">
+    <div class="builds-head">
+      <p class="t-eyebrow reveal">02 / More builds</p>
+      <h2 class="t-h2 mask" id="builds-h"><span class="ln"><span class="ln-in" style="--i:0">Fourteen shipped,</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>and counting.</em></span></span></h2>
+      <p class="t-lede reveal" style="--i:2">Hardware, client sites, a tutoring business, bots and data pipelines. Most started as an itch of my own, then got hardened until they were reliable.</p>
+    </div>
+    <div class="filters seg reveal" role="radiogroup" aria-label="Filter builds" data-seg="filter" style="--i:3"><span class="thumb" aria-hidden="true"></span>
+      <button type="button" role="radio" aria-checked="true" data-v="all">All</button>
+      <button type="button" role="radio" aria-checked="false" data-v="hw">Hardware</button>
+      <button type="button" role="radio" aria-checked="false" data-v="web">Web &amp; client</button>
+      <button type="button" role="radio" aria-checked="false" data-v="auto">Automation</button>
+      <button type="button" role="radio" aria-checked="false" data-v="data">Data</button>
+    </div>
+    <ul class="grid" id="builds-grid"><li class="card card--wide" data-cat="hw" style="--i:0">
+  <div class="card-top"><span class="chip">Hardware</span><span class="t-label">Coursework · 76.6%</span></div>
+  <div class="vid"><video id="gearbox-vid" muted playsinline loop preload="none" poster="assets/gearbox-poster.jpg" aria-label="Epicyclic gearbox render" aria-describedby="gearbox-desc" disablepictureinpicture><source src="assets/gearbox.mp4" type="video/mp4"></video><p class="sr-only" id="gearbox-desc">Silent looping render of a 5:1 epicyclic gearbox: the sun gear turns the planet gears inside a fixed ring gear and the planet carrier turns slowly as output.</p><button type="button" class="vid-btn" aria-label="Play gearbox video" data-vid="gearbox-vid"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.53.85l10-6.5a1 1 0 0 0 0-1.7l-10-6.5A1 1 0 0 0 8 5.5z"/></svg></button></div><h3 class="card-title">Epicyclic gearbox</h3>
+  <p class="card-hook">A 5:1 planetary gearbox, modelled, driven and rendered in Autodesk Inventor.</p>
+  <p class="t-small card-proof">Drive-constrained from a projected base sketch so the gears always mesh, fitted with standard bearings and circlips (BS 292, ANSI B27.7M), and backed by GD&T drawings marked at 88%.</p>
+  <ul class="tags" aria-label="Tags"><li>Autodesk Inventor</li><li>GD&T</li><li>drive constraints</li><li>rendering</li></ul>
+  <p class="card-link"><a class="tlink" href="https://youtu.be/E5wqotY2ZiA" target="_blank" rel="noopener">Watch in HD <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="hw" style="--i:1">
+  <div class="card-top"><span class="chip">Hardware</span><span class="t-label">Mechatronics coursework</span></div>
+  <h3 class="card-title">Ultrasonic measurement system</h3>
+  <p class="card-hook">An Arduino ranging rig calibrated to 1.0mm RMSE against a 4.3mm datasheet spec.</p>
+  <p class="t-small card-proof">Moving-average filtering and least-squares calibration cut noise by 60%; I mapped the ±18° beam and built a variance-based motion-rejection alarm.</p>
+  <ul class="tags" aria-label="Tags"><li>Arduino</li><li>MATLAB</li><li>signal processing</li><li>calibration</li></ul>
+  
+</li><li class="card" data-cat="hw" style="--i:2">
+  <div class="card-top"><span class="chip">Hardware</span><span class="t-label">Year 1 team of 6</span></div>
+  <h3 class="card-title">Ping-pong launcher</h3>
+  <p class="card-hook">Authored the slider-crank concept the whole team's launcher was built on.</p>
+  <p class="t-small card-proof">Chosen over five alternatives on a weighted decision matrix, then taken through full Inventor CAD inside a 380×180×300mm envelope and an £85 budget.</p>
+  <ul class="tags" aria-label="Tags"><li>mechanism design</li><li>Inventor</li><li>DFM</li><li>decision matrix</li></ul>
+  
+</li><li class="card" data-cat="web" style="--i:3">
+  <div class="card-top"><span class="chip">Web &amp; client</span><span class="t-label">Founder · live</span></div>
+  <h3 class="card-title">Locus Tutors</h3>
+  <p class="card-hook">I turned my own tutoring into an online maths agency, and wrote the software that runs it.</p>
+  <p class="t-small card-proof">Stripe save-card billing and a password-gated admin CRM I built from scratch, monthly PDF progress reports generated from lesson recordings, PostHog attribution on every channel.</p>
+  <ul class="tags" aria-label="Tags"><li>Stripe</li><li>Vercel</li><li>PostHog</li><li>Apps Script</li></ul>
+  <p class="card-link"><a class="tlink" href="https://locustutors.com" target="_blank" rel="noopener">locustutors.com <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="web" style="--i:4">
+  <div class="card-top"><span class="chip">Web &amp; client</span><span class="t-label">De facto CTO · live</span></div>
+  <h3 class="card-title">Neetu's Crafts</h3>
+  <p class="card-hook">A full storefront for a family craft business, run end to end.</p>
+  <p class="t-small card-proof">Edge-cached Vercel read path, an Apps Script and Sheets backend, UPI deep-link payments instead of a gateway and automatic order emails.</p>
+  <ul class="tags" aria-label="Tags"><li>Vanilla JS</li><li>Vercel edge</li><li>Apps Script</li><li>UPI</li></ul>
+  <p class="card-link"><a class="tlink" href="https://neetus-crafts.vercel.app" target="_blank" rel="noopener">neetus-crafts.vercel.app <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="web" style="--i:5">
+  <div class="card-top"><span class="chip">Web &amp; client</span><span class="t-label">External client · live</span></div>
+  <h3 class="card-title">Ruby's Rasoi</h3>
+  <p class="card-hook">A live restaurant site, shipped for a real client.</p>
+  <p class="t-small card-proof">Built to a non-technical owner's brief on a platform I did not choose, then handed over something they can run.</p>
+  <ul class="tags" aria-label="Tags"><li>client work</li><li>web</li></ul>
+  <p class="card-link"><a class="tlink" href="https://rubysrasoi.co.uk" target="_blank" rel="noopener">rubysrasoi.co.uk <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="auto" style="--i:0">
+  <div class="card-top"><span class="chip">Automation</span><span class="t-label">Private</span></div>
+  <h3 class="card-title">LocaBot</h3>
+  <p class="card-hook">Six Chrome sessions in parallel, grabbing tickets the instant they drop.</p>
+  <p class="t-small card-proof">Driven over the DevTools Protocol and coordinated with asyncio, with staggered polling to stay under rate limits.</p>
+  <ul class="tags" aria-label="Tags"><li>Python</li><li>asyncio</li><li>Playwright</li><li>CDP</li></ul>
+  
+</li><li class="card" data-cat="auto" style="--i:1">
+  <div class="card-top"><span class="chip">Automation</span><span class="t-label">Private</span></div>
+  <h3 class="card-title">BaianaBot</h3>
+  <p class="card-hook">A ticket sniper that watches an API and checks out before a human can refresh.</p>
+  <p class="t-small card-proof">Polls a live REST API, holds a persistent session and drives a Stripe checkout through sandboxed iframes, backed by 32 unit tests.</p>
+  <ul class="tags" aria-label="Tags"><li>Python</li><li>Playwright</li><li>REST</li><li>Stripe</li></ul>
+  
+</li><li class="card" data-cat="auto" style="--i:2">
+  <div class="card-top"><span class="chip">Automation</span><span class="t-label">Live · private</span></div>
+  <h3 class="card-title">Earnings calendar</h3>
+  <p class="card-hook">A self-maintaining calendar of earnings dates for a 44-stock watchlist.</p>
+  <p class="t-small card-proof">Runs unattended on scheduled triggers and rewrites each event with the realised price reaction afterwards.</p>
+  <ul class="tags" aria-label="Tags"><li>Apps Script</li><li>Finnhub</li><li>cron</li></ul>
+  
+</li><li class="card" data-cat="auto" style="--i:3">
+  <div class="card-top"><span class="chip">Automation</span><span class="t-label">Live</span></div>
+  <h3 class="card-title">TES resource engine</h3>
+  <p class="card-hook">Turns exam specifications and past papers into typeset worked-solution packs.</p>
+  <p class="t-small card-proof">Generated as LaTeX, compiled with tectonic and published to the TES marketplace.</p>
+  <ul class="tags" aria-label="Tags"><li>LaTeX</li><li>tectonic</li><li>automation</li></ul>
+  
+</li><li class="card" data-cat="auto" style="--i:4">
+  <div class="card-top"><span class="chip">Automation</span><span class="t-label">Live · local</span></div>
+  <h3 class="card-title">WhatsApp scheduler</h3>
+  <p class="card-hook">Queue a message, and it sends itself at a sensible hour.</p>
+  <p class="t-small card-proof">A local web UI and a self-restarting background worker with retry and backoff, standard library only.</p>
+  <ul class="tags" aria-label="Tags"><li>Python</li><li>launchd</li></ul>
+  
+</li><li class="card" data-cat="data" style="--i:5">
+  <div class="card-top"><span class="chip">Data</span><span class="t-label">Private</span></div>
+  <h3 class="card-title">Family portfolio tracker</h3>
+  <p class="card-hook">Nine accounts and 37 holdings in one self-reconciling dashboard.</p>
+  <p class="t-small card-proof">Pulls live positions from the Trading 212 API, handles multi-currency pricing and failed feeds, and reconciles to the penny.</p>
+  <ul class="tags" aria-label="Tags"><li>Apps Script</li><li>Trading 212 API</li><li>GOOGLEFINANCE</li></ul>
+  
+</li><li class="card" data-cat="data" style="--i:0">
+  <div class="card-top"><span class="chip">Data</span><span class="t-label">Personal project</span></div>
+  <h3 class="card-title">Poker tracker</h3>
+  <p class="card-hook">A session tracker with real variance analytics.</p>
+  <p class="t-small card-proof">Standard deviation, 95% confidence intervals, breakeven win rate and expected value per session, computed from the raw data.</p>
+  <ul class="tags" aria-label="Tags"><li>Vanilla JS</li><li>Apps Script</li><li>statistics</li></ul>
+  <p class="card-link"><a class="tlink" href="https://bobsmith.netlify.app" target="_blank" rel="noopener">Live demo <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="data" style="--i:1">
+  <div class="card-top"><span class="chip">Data</span><span class="t-label">Personal project</span></div>
+  <h3 class="card-title">Pool tracker</h3>
+  <p class="card-hook">A scoring app for a custom multiplayer pool game.</p>
+  <p class="t-small card-proof">Per-turn undo, persistent state and an all-time leaderboard on a serverless Sheets store.</p>
+  <ul class="tags" aria-label="Tags"><li>Vanilla JS</li><li>localStorage</li><li>Google Sheets</li></ul>
+  <p class="card-link"><a class="tlink" href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener">Live demo <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
+</li><li class="card" data-cat="data" style="--i:2">
+  <div class="card-top"><span class="chip">Data</span><span class="t-label">Private</span></div>
+  <h3 class="card-title">Cricket tracker</h3>
+  <p class="card-hook">Play-Cricket scorecards scraped into a clean stats database.</p>
+  <p class="t-small card-proof">A logged-in Playwright scraper with match-level de-duplication, which also migrated an old manual dataset across.</p>
+  <ul class="tags" aria-label="Tags"><li>Python</li><li>Playwright</li><li>Google Sheets</li></ul>
+  
+</li></ul>
+  </div>
+</section>
+
+<section class="about" id="about" aria-labelledby="about-h">
+  <div class="container about-grid">
+    <figure class="about-photo reveal">
+      <div class="photo-frame"><img src="assets/aadi.jpg" width="800" height="800" alt="Aaditya Kalwani" loading="lazy" decoding="async"></div>
     </figure>
-
-    <div class="cards eng-cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Aerospace &middot; design &amp; make</span><span class="pill pill-research">Division lead</span></div>
-        <h3>Autonomous UAV &middot; Team Bath Drones</h3>
-        <p>Aerodynamics division lead on a competition UAV.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Evaluated Clark-Y against NACA&nbsp;0015 profiles for a 30% lift-to-drag gain, co-led the tadpole fuselage and its CAD, and delivered the Critical Design Review with a 400&nbsp;g structural weight saving.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Aerodynamics</span><span class="tag">CAD</span><span class="tag">Clark-Y / NACA</span><span class="tag">CDR</span></div>
-        <div class="plinks"><span class="muted">University design team</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Embedded &middot; sensing &amp; DSP</span><span class="pill pill-live">Built &amp; tested</span></div>
-        <h3>Ultrasonic Measurement System</h3>
-        <p>An Arduino and HC-SR04 ranging rig I calibrated to 1.0&nbsp;mm RMSE, against a 4.3&nbsp;mm datasheet spec.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">A moving-average filter and least-squares regression cut noise 60%. I mapped the &plusmn;18&deg; beam field of view and drove a three-state alert machine with a variance-based motion-rejection filter.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Arduino</span><span class="tag">MATLAB</span><span class="tag">signal processing</span><span class="tag">calibration</span></div>
-        <div class="plinks"><span class="muted">Mechatronics coursework</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Mechanical design &middot; team of 6</span><span class="pill pill-private">Design &amp; CAD &middot; build Y2</span></div>
-        <h3>Ping-Pong Launcher</h3>
-        <p>Authored the winning launch-mechanism concept, a slider-crank hammer, that the group's entire final design was built on.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Chosen over five alternatives on a weighted decision matrix. The team produced full Inventor CAD, a quick-return kinematic model predicting a 27.8&nbsp;m/s launch, and a laser-cut and 3D-printed build package inside a 380&times;180&times;300&nbsp;mm envelope and an &pound;85 budget. Manufacture is scheduled for Year&nbsp;2.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">mechanism design</span><span class="tag">DFM</span><span class="tag">decision matrix</span></div>
-        <div class="plinks"><span class="muted">Year-1 group design project</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- WEB & CLIENT -->
-<section class="block" id="web">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">03 / Web &amp; client work</span>
-      <h2 class="serif">Shipping for real people, <em>not just myself.</em></h2>
-      <p>Production websites under real constraints, including my only external client build and a full storefront I run end to end.</p>
-    </summary>
-    <div class="toggle-body">
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Neetu's Crafts &middot; family business</span>
-        <span class="pill pill-live">Live</span>
+    <div class="about-copy">
+      <p class="t-eyebrow reveal">About</p>
+      <h2 class="t-h2 mask" id="about-h"><span class="ln"><span class="ln-in" style="--i:0">Second-year engineer,</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>compulsive builder.</em></span></span></h2>
+      <div class="t-body about-body reveal" style="--i:2">
+        <p>I am Aadi, a second-year Aerospace Engineering student at the University of Bath. The course runs mechanical for two years, then a placement year in industry, then a specialising year in aerospace.</p>
+        <p>I build compulsively, because the fastest way I learn a system is to ship one. The thread through all of it is the same: software and machine learning pointed at real, physical engineering problems. A battery that cannot report its own charge, a shaft that has to carry 209Nm through slush, a kitchen that should not need a second tablet.</p>
+        <p>Year 1 finished as a First, at 73.8%. Long term I want to work where hard engineering and software actually meet.</p>
       </div>
-      <h3>A full storefront for a craft business, <em>end to end.</em></h3>
-      <p class="case-summary">A single-file Vercel storefront for a family craft business, with a Google Apps Script and Sheets backend, UPI deep-link payments instead of a gateway, and order emails. Live with checkout shipped, and I run it as de facto CTO.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Handmade mirror-work wall art with nowhere to sell it, no budget for platform fees, and no payment gateway or KYC to lean on.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>A single-file vanilla storefront on Vercel with an edge-cached read path, a Google Apps Script and Sheets backend as the database, UPI deep-link payments instead of a gateway, and order-notification emails via MailApp. A GitHub Actions cron keeps the function warm.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live, with checkout shipped, and I run it as de facto CTO. The most complete end-to-end product I have built, from serverless read path to payments to fulfilment emails.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Vanilla JS</span><span class="tag">Vercel edge fn</span><span class="tag">Apps Script</span><span class="tag">Google Sheets</span><span class="tag">UPI</span>
+      <dl class="facts reveal" style="--i:3">
+        <div><dt class="t-label">University</dt><dd>University of Bath · MEng Aerospace with Placement</dd></div>
+        <div><dt class="t-label">Placement window</dt><dd>2027/28</dd></div>
+        <div><dt class="t-label">Based in</dt><dd>Bath, UK</dd></div>
+      </dl>
+      <div class="about-cta reveal" style="--i:4">
+        <a class="btn btn-primary btn-lg" href="mailto:aadityakalwani@gmail.com"><svg class="ico ico-mail" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg><span>Email me</span></a>
+        <a class="btn btn-ghost btn-lg" href="assets/Aadi-Kalwani-CV.pdf" download><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg><span>Download CV</span></a>
       </div>
-      <div class="case-foot">
-        <span>De-facto CTO &middot; architecture, build and ops</span>
-        <span class="plinks"><a href="https://neetus-crafts.vercel.app" target="_blank" rel="noopener">neetus-crafts.vercel.app <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Ruby's Rasoi &middot; restaurant client</span>
-        <span class="pill pill-client">Client</span>
-      </div>
-      <h3>A live restaurant site, <em>shipped for a real client.</em></h3>
-      <p class="case-summary">My only external client build. I designed and shipped a live restaurant site to a non-technical owner's brief, on a platform I did not get to choose, then handed over something they can run.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>A friend's restaurant needed a public presence, fast, under a non-technical owner's brief and on a platform I did not get to choose.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Designed and built the whole thing to the client's content and constraints rather than my own preferences, which is the compromise real client work actually is.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live and in use. My only external client build, and proof I can ship for someone other than myself and hand over something they can run.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags"><span class="tag">Web</span><span class="tag">client work</span><span class="tag">shipped</span></div>
-      <div class="case-foot">
-        <span>External client &middot; delivered and handed over</span>
-        <span class="plinks"><a href="https://rubysrasoi.co.uk" target="_blank" rel="noopener">rubysrasoi.co.uk <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Locus Tutors &middot; maths tutoring agency</span>
-        <span class="pill pill-live">Live</span>
-      </div>
-      <h3>I turned my tutoring into an <em>agency, and built the software that runs it.</em></h3>
-      <p class="case-summary">I started tutoring GCSE and A-Level maths myself, then turned it into Locus Tutors, an online agency. Now I recruit and vet the tutors, match each student to the right one and run the sales, billing and reporting, all on an operating stack I built myself so the business runs on software instead of my hours.</p>
-      <div class="tags">
-        <span class="tag">Tiered client pricing ladder</span>
-        <span class="tag">3 tutors, incl. a Cambridge mathematician</span>
-        <span class="tag">Auto-generated monthly PDF reports</span>
-        <span class="tag">Stripe CRM + PostHog, built solo</span>
-      </div>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <p style="margin-top:0"><strong>The pivot.</strong> I went from tutoring every hour myself to a founder and ops role, and I no longer teach. I bring in the tutors, currently Sam (Cambridge maths, A*A*A*A*A*), Noah (Bath, sat Edexcel Maths and Further Maths last year) and my sister Aanchal (Bath, Maths and Economics), match each student to the right one, and take the margin between what the tutor is paid and what the client pays.</p>
-          <p><strong>Booking and billing.</strong> A static front end on Vercel with a Stripe backend I wrote from scratch. Parents save a card at zero pounds through a save-card link with no subscription, and I charge any amount from a password-gated admin CRM that tracks balance due, margin per hour and lifetime totals per client and per tutor, all held in Stripe customer metadata so there is no separate database to babysit.</p>
-          <p><strong>Monthly progress reports, generated automatically.</strong> I pull what each tutor actually covered straight from the lesson recordings, write it up lesson by lesson, and bake the invoice into the same PDF. One document is both the progress report and the payment ask.</p>
-          <p><strong>Analytics and attribution.</strong> PostHog runs on the site for sessions, replays and full CTA tracking, and tracked redirect links tag every channel by source, with the worksheet link sitting in the footer of every worked-solution pack I publish.</p>
-          <p><strong>Lead-gen.</strong> A Facebook ad-card generator plus a group-posting rotation, backed by Meta ads, marketplace listings and a live Superprof profile, all feeding one free-first-lesson funnel. The forward-ready card lives at <a href="https://tutoring-with-aadi.vercel.app" target="_blank" rel="noopener">tutoring-with-aadi.vercel.app</a> and the marketing site at <a href="https://maths-agency.vercel.app" target="_blank" rel="noopener">maths-agency.vercel.app</a>.</p>
-          <p><strong>Pricing.</strong> A tiered pricing structure that scales with exam level, from GCSE up through Oxbridge and TMUA prep, with a healthy margin retained on every booking, and a free full-hour first lesson as the conversion hook.</p>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Stripe</span><span class="tag">Vercel</span><span class="tag">PostHog</span><span class="tag">Apps Script</span><span class="tag">Meta ads</span>
-      </div>
-      <div class="case-foot">
-        <span>Founder &amp; operator &middot; recruiting, matching, billing and reporting</span>
-        <!-- [confirm] locustutors.com resolves live before shipping; not in the recon known-live URL list -->
-        <span class="plinks"><a href="https://locustutors.com" target="_blank" rel="noopener">locustutors.com <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- AUTOMATION -->
-<section class="block" id="automation">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">04 / Automation</span>
-      <h2 class="serif">Bots and pipelines that <em>run themselves.</em></h2>
-      <p>Concurrency, anti-bot engineering and always-on scheduling. Mostly built to scratch my own itch, then hardened until they were reliable.</p>
-    </summary>
-    <div class="toggle-body">
-    <div class="cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Ticket sniper</span><span class="pill pill-private">Private</span></div>
-        <h3>BaianaBot</h3>
-        <p>Snipes club-night tickets the instant they drop.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Polls Fatsoma's API, defeats Cloudflare, holds a persistent login and drives a Stripe checkout through sandboxed iframes. Hardened with 32 unit tests.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">REST polling</span><span class="tag">Stripe</span></div>
-        <div class="plinks"><span class="muted">Local automation</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Concurrent sniper</span><span class="pill pill-private">Private</span></div>
-        <h3>LocaBot</h3>
-        <p>Six Chrome sessions in parallel to grab multiple discounted tickets at drop time.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Driven over the DevTools Protocol, coordinated with asyncio and staggered polling to dodge rate limits.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">asyncio</span><span class="tag">Playwright</span><span class="tag">CDP</span></div>
-        <div class="plinks"><span class="muted">Local automation</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Self-maintaining</span><span class="pill pill-live">Live</span></div>
-        <h3>Earnings Calendar</h3>
-        <p>A hands-off Apps Script service that syncs a 44-stock watchlist's earnings dates onto a calendar.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It then rewrites each event with the realised price reaction, and runs unattended on scheduled triggers.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Finnhub API</span><span class="tag">Yahoo API</span><span class="tag">cron</span></div>
-        <div class="plinks"><span class="muted">Private calendar service</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Always-on tool</span><span class="pill pill-live">Live</span></div>
-        <h3>WhatsApp Scheduler</h3>
-        <p>A self-restarting scheduler that fires queued messages inside quiet hours.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">A small web UI and a background worker with retry and backoff. Standard library only, no dependencies.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span><span class="tag">launchd</span><span class="tag">web UI</span></div>
-        <div class="plinks"><span class="muted">Local tool</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Content pipeline</span><span class="pill pill-live">Live</span></div>
-        <h3>TES Resource Engine</h3>
-        <p>Turns official exam specifications and hundreds of past papers into professionally typeset worked-solution packs.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Generated as LaTeX and compiled with tectonic, then published to the TES marketplace.</p></div>
-        </details>
-        <div class="tags"><span class="tag">LaTeX</span><span class="tag">tectonic</span><span class="tag">automation</span></div>
-        <div class="plinks"><span class="muted">On the TES marketplace</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- DATA & TRACKERS -->
-<section class="block" id="data">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">05 / Data &amp; trackers</span>
-      <h2 class="serif">Turning messy data into <em>something you can read.</em></h2>
-      <p>Live API pipelines and analytics dashboards behind a single clean surface.</p>
-    </summary>
-    <div class="toggle-body">
-
-    <figure class="fig-panel reveal" aria-label="A rotating 3D wireframe data globe with packets orbiting on great circles, representing live data feeds">
-      <span class="fig-cap">figure &middot; <b>fig.3</b> &middot; live data feeds &middot; drag to rotate</span>
-      <div class="fig-stage"><canvas id="fig-globe" aria-hidden="true"></canvas></div>
-    </figure>
-
-    <div class="cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Financial pipeline</span><span class="pill pill-private">Private</span></div>
-        <h3>Family Portfolio Tracker</h3>
-        <p>A live pipeline pulling positions from the Trading 212 API into a self-reconciling Google Sheets dashboard.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It handles multi-currency conversion, sold-position deletion and price-failure fallbacks across 9 accounts and 37 holdings, reconciled to the penny.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Trading 212 API</span><span class="tag">GOOGLEFINANCE</span></div>
-        <div class="plinks"><span class="muted">Private dashboard</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Variance analytics</span><span class="pill pill-live">Live</span></div>
-        <h3>Poker Tracker</h3>
-        <p>A mobile-first session tracker with a genuinely quantitative dashboard.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Standard deviation, 95% confidence intervals, breakeven win-rate and expected value per session, computed from the raw session data rather than a running total.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Apps Script</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://bobsmith.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Poker Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Scoring app</span><span class="pill pill-live">Live</span></div>
-        <h3>Pool Tracker</h3>
-        <p>A dependency-free scoring app for a custom multiplayer pool game.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Per-turn undo, persistent state and an aggregated all-time leaderboard on a serverless Sheets store.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">localStorage</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Pool Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Scraper pipeline</span><span class="pill pill-private">Private</span></div>
-        <h3>Cricket Tracker</h3>
-        <p>A logged-in Playwright scraper that turns Play-Cricket scorecards into a clean, de-duplicated Google Sheets stats database.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It migrated an existing manual dataset across in the process.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><span class="muted">Private dashboard</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- CONTACT / FINAL -->
-<section class="final" id="contact">
-  <div class="wrap reveal">
-    <svg class="plot-mini" viewBox="0 0 128 46" fill="none" aria-hidden="true">
-      <path d="M4 8 C 34 10, 46 18, 64 26 S 100 40, 124 42" stroke="#1E48E0" stroke-width="2.6" stroke-linecap="round"/>
-      <circle cx="4" cy="8" r="3.4" fill="#1E48E0"/><circle cx="124" cy="42" r="3.4" fill="#1E48E0"/>
-    </svg>
-    <span class="eyebrow" style="justify-content:center">Get in touch</span>
-    <h2 class="serif">Building something where this <em>fits?</em></h2>
-    <p>I am looking for a placement year in industry and always up for a conversation about hard engineering, ML or anything I have shipped here.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
-        Download CV
-      </a>
-      <a class="btn btn-ghost" href="mailto:aadityakalwani@gmail.com">aadityakalwani@gmail.com</a>
-    </div>
-    <div class="socials">
-      <a href="https://github.com/aadityakalwani" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
-        GitHub
-      </a>
-      <a href="https://www.linkedin.com/in/aadityakalwani/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://www.instagram.com/aadityakalwani/" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
-        Instagram
-      </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="wrap foot-in">
-    <a class="foot-brand" href="#top">
-      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0E1B2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 L10 12 L14 14 L20 6"/></svg></span>
-      <span>Aaditya Kalwani</span>
-    </a>
-    <p class="foot-note">&copy; 2026 Aaditya Kalwani &middot; Aerospace Engineering, University of Bath</p>
+<section class="contact" id="contact" aria-labelledby="contact-h">
+  <div class="contact-band">
+    <svg class="rings" viewBox="0 0 600 600" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="600" cy="300" r="140"/><circle cx="600" cy="300" r="250"/><circle cx="600" cy="300" r="370"/><circle cx="600" cy="300" r="500"/></g></svg>
+    <div class="contact-in">
+      <p class="t-eyebrow reveal">Get in touch</p>
+      <h2 class="t-h2 mask" id="contact-h"><span class="ln"><span class="ln-in" style="--i:0">Building something</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>where this fits?</em></span></span></h2>
+      <p class="contact-body reveal" style="--i:2">I am looking for a 2027/28 placement year in industry, and I am always up for a conversation about hard engineering, machine learning or anything on this page.</p>
+      <div class="contact-actions reveal" style="--i:3">
+        <a class="btn btn-cream btn-xl" href="assets/Aadi-Kalwani-CV.pdf" download><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg><span>Download CV</span></a>
+        <button type="button" class="btn btn-line btn-xl" id="email-btn" data-email="aadityakalwani@gmail.com"><span class="e-ico"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg></span><span class="e-txt">aadityakalwani@gmail.com</span></button>
+      </div>
+      <ul class="socials reveal" style="--i:4">
+        <li><a class="btn btn-line" href="https://github.com/aadityakalwani" target="_blank" rel="noopener"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg><span>GitHub</span></a></li>
+        <li><a class="btn btn-line" href="https://www.linkedin.com/in/aadityakalwani/" target="_blank" rel="noopener"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span></a></li>
+        <li><a class="btn btn-line" href="https://www.instagram.com/aadityakalwani/" target="_blank" rel="noopener"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span>Instagram</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-in">
+    <p class="t-small">© 2026 Aaditya Kalwani · Aerospace Engineering, University of Bath</p>
+    <p class="t-small footer-r"><span>Built by hand. No framework, no build step.</span><a class="tlink" href="#top" id="to-top">Back to top ↑</a></p>
   </div>
 </footer>
-
-<script>
-  /* nav shadow on scroll */
-  var nav = document.getElementById("nav");
-  var onScroll = function(){ nav.classList.toggle("scrolled", window.scrollY > 12); };
-  onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
-
-  /* reveal on scroll (staggered: siblings cascade in) */
-  var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  var reveals = document.querySelectorAll(".reveal");
-  if(reduce || !("IntersectionObserver" in window)){
-    reveals.forEach(function(el){ el.classList.add("in"); });
-  } else {
-    try {
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if(!e.isIntersecting) return;
-          var sibs = e.target.parentElement ? e.target.parentElement.querySelectorAll(":scope > .reveal") : null;
-          var idx = sibs ? Array.prototype.indexOf.call(sibs, e.target) : 0;
-          e.target.style.transitionDelay = (Math.min(idx, 5) * 70) + "ms";   // cascade, capped ~350ms
-          e.target.classList.add("in");
-          io.unobserve(e.target);
-        });
-      }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
-      reveals.forEach(function(el){ io.observe(el); });
-    } catch(err){
-      reveals.forEach(function(el){ el.classList.add("in"); });   // observer broke -> show everything, never leave content hidden
-    }
-  }
-</script>
-<script type="module">
-/* smooth-scroll (Lenis) — the "vixion" inertia layer. Native-scroll mode, so every
-   getBoundingClientRect + IntersectionObserver already in this file keeps working.
-   Skipped under reduced-motion; if the vendored file 404s, native scroll survives. */
-(async function(){
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(reduce) return;
-  var Lenis;
-  try { Lenis = (await import('lenis')).default; }
-  catch(e){ return; }                        // vendored file missing -> native scroll stays fully functional
-  var lenis;
-  try { lenis = new Lenis({ lerp:0.15, smoothWheel:true, syncTouch:false, wheelMultiplier:1 }); }   /* lerp = inertia weight: higher=snappier/less floaty, lower=heavier. 0.15 leans snappy per Aadi. */
-  catch(e){ return; }
-  window.__lenis = lenis;   // Lenis adds its own `lenis`/`lenis-smooth` classes to <html>; CSS gates native smooth-scroll off them
-
-  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }   // one top-level driver, never IO-gated
-  requestAnimationFrame(raf);
-
-  /* anchor clicks -> smooth. No offset: the section's own scroll-margin-top:88px (which Lenis
-     honours) already clears the sticky nav; passing -88 on top double-counted it to 176px. */
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a[href^="#"]');
-    if(!a) return;
-    var id = a.getAttribute('href');
-    if(!id || id.length < 2) return;
-    var t = document.querySelector(id);
-    if(!t) return;
-    e.preventDefault();
-    var d = (t.matches && t.matches('details')) ? t : (t.querySelector ? t.querySelector('details') : null);
-    if(d) d.open = true;                        // jumping to a section auto-opens its collapsed toggle
-    lenis.scrollTo(t);
-  });
-  /* keyboard focus: only pull an OFF-screen focused element into view (never yank a visible one).
-     Focusable targets have no scroll-margin, so use a -100 offset to clear the 70px sticky nav. */
-  document.addEventListener('focusin', function(e){
-    var el = e.target; if(!el || !el.getBoundingClientRect) return;
-    var r = el.getBoundingClientRect();
-    if(r.top < 90 || r.bottom > window.innerHeight) lenis.scrollTo(el, { offset: -100 });
-  });
-
-  /* subtle parallax on a few panels — independent `translate` property so it composes
-     with the reveal's `transform` instead of overwriting it. translateY only (overflow-x guard). */
-  var pxEls = Array.prototype.slice.call(document.querySelectorAll('.fig-panel, .photo'));
-  if(pxEls.length){
-    var vh = window.innerHeight, geom = [];
-    function measure(){ vh = window.innerHeight; geom = pxEls.map(function(el){ var r = el.getBoundingClientRect(); return { el:el, mid:r.top + window.scrollY + r.height/2 }; }); }
-    measure();
-    window.addEventListener('resize', measure, { passive:true });
-    document.addEventListener('toggle', measure, true);   // a <details> opening changes layout -> re-measure parallax geometry
-    lenis.on('scroll', function(){
-      var mid = window.scrollY + vh/2;
-      for(var i=0;i<geom.length;i++){
-        var y = (geom[i].mid - mid) * 0.05;
-        if(y > 42) y = 42; else if(y < -42) y = -42;
-        geom[i].el.style.translate = '0 ' + y.toFixed(1) + 'px';
-      }
-    });
-  }
-})();
-</script>
-<script>
-/* hero: flanking input/output labels — plain script so they always render,
-   even if the CDN or WebGL is unavailable and the 3D never boots */
-(function(){
-  var inputs=[{t:"Aaditya Kalwani"},{t:"Aerospace · Bath"},{t:"Age 19"},{t:"ML for physical systems"},{t:"First-class · Yr 1"},{t:"Compulsive builder"}];
-  var outputs=[{t:"Battery-SOC paper",s:"first author"},{t:"Co-founder &amp; CTO",s:"Winkit"},{t:"Aerodynamics lead",s:"Team Bath Drones"},{t:"Full-stack intern",s:"Fifth-9"},{t:"Founder · tutoring",s:"15+ students"},{t:"Neetu's Crafts",s:"live storefront"},{t:"14+ shipped",s:"bots, trackers, sites"}];
-  var stage=document.getElementById("fp-stage");
-  if(!stage)return;
-  function place(arr,cls,base){var n=arr.length;arr.forEach(function(it,idx){
-    var d=document.createElement("div");d.className="fp-label "+cls;
-    d.style.top=(n===1?50:7+idx*(86/(n-1)))+"%";
-    d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");
-    if(cls==="out")d.style.setProperty("--d",(base+idx*0.09).toFixed(3)+"s");
-    stage.appendChild(d);});}
-  place(inputs,"in",0);place(outputs,"out",2.15);
-})();
-</script>
-<script type="module">
-/* forward-pass hero — a real-time 3D neural network in three.js.
-   Identity in on the left, the things I have built resolving out on the right. */
-try{
-  const THREE=await import('three');
-  const { OrbitControls }=await import('three/addons/controls/OrbitControls.js');
-  let post=null;
-  try{
-    const { EffectComposer }=await import('three/addons/postprocessing/EffectComposer.js');
-    const { RenderPass }=await import('three/addons/postprocessing/RenderPass.js');
-    const { UnrealBloomPass }=await import('three/addons/postprocessing/UnrealBloomPass.js');
-    const { OutputPass }=await import('three/addons/postprocessing/OutputPass.js');
-    post={EffectComposer,RenderPass,UnrealBloomPass,OutputPass};
-  }catch(_){ post=null; }   // bloom is a bonus; the hero still runs without it
-  initHero(THREE,OrbitControls,post);
-}catch(err){
-  const s=document.getElementById('fp-stage'); if(s) s.setAttribute('data-webgl','off');
-}
-
-function makeDot(THREE){
-  const s=128,c=document.createElement('canvas');c.width=c.height=s;
-  const g=c.getContext('2d');
-  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
-  grd.addColorStop(0,'rgba(255,255,255,1)');
-  grd.addColorStop(0.22,'rgba(232,240,255,0.95)');
-  grd.addColorStop(0.5,'rgba(147,177,255,0.42)');
-  grd.addColorStop(1,'rgba(147,177,255,0)');
-  g.fillStyle=grd;g.fillRect(0,0,s,s);
-  const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
-}
-
-function initHero(THREE,OrbitControls,post){
-  const panel=document.getElementById('fp');
-  const stage=document.getElementById('fp-stage');
-  const canvas=document.getElementById('fp-canvas');
-  if(!panel||!stage||!canvas)return;
-
-  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const coarse=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  const hash=x=>{const s=Math.sin(x)*43758.5453;return s-Math.floor(s);};
-
-  // architecture: layer counts read from the labels already in the DOM
-  const nIn=stage.querySelectorAll('.fp-label.in').length||6;
-  const nOut=stage.querySelectorAll('.fp-label.out').length||7;
-  const sizes=[nIn,8,8,nOut];
-  const layerX=[-3.4,-1.15,1.15,3.4];
-  const ySpan=3.4;
-  const X0=layerX[0]-0.9, X1=layerX[layerX.length-1]+0.9;
-
-  const C_POS=new THREE.Color('#93B1FF');   // positive weight
-  const C_NEG=new THREE.Color('#E48AA0');    // negative weight
-  const C_NODE=new THREE.Color('#dbe6ff');
-  const C_HOT=new THREE.Color('#ffffff');
-
-  // node positions, with per-node depth so orbiting reveals real volume
-  const layers=sizes.map((n,li)=>{
-    const arr=[];
-    for(let i=0;i<n;i++){
-      const y=n===1?0:(ySpan/2 - i*(ySpan/(n-1)));
-      const z=(hash(li*31.7+i*7.3)-0.5)*2.2;
-      arr.push(new THREE.Vector3(layerX[li],y,z));
-    }
-    return arr;
-  });
-
-  let renderer;
-  try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }
-  catch(e){ stage.setAttribute('data-webgl','off'); return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-
-  const scene=new THREE.Scene();
-  scene.background=new THREE.Color('#0a1322');   // opaque field so bloom composites cleanly
-  const camera=new THREE.PerspectiveCamera(42,2.3,0.1,100);
-  camera.position.set(0.2,0.25,8.2);
-  const group=new THREE.Group(); group.rotation.y=-0.4; scene.add(group);
-
-  // nodes as glowing additive points
-  const nodeList=[];
-  layers.forEach((L,li)=>L.forEach(p=>nodeList.push({p,li})));
-  const nPos=new Float32Array(nodeList.length*3);
-  const nCol=new Float32Array(nodeList.length*3);
-  nodeList.forEach((nd,i)=>{ nPos[i*3]=nd.p.x; nPos[i*3+1]=nd.p.y; nPos[i*3+2]=nd.p.z; });
-  const nodeGeo=new THREE.BufferGeometry();
-  nodeGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));
-  nodeGeo.setAttribute('color',new THREE.BufferAttribute(nCol,3));
-  const nodeMat=new THREE.PointsMaterial({size:0.5,map:makeDot(THREE),vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true});
-  group.add(new THREE.Points(nodeGeo,nodeMat));
-
-  // edges: full connectivity between adjacent layers, coloured by weight sign
-  const ePos=[]; const eMeta=[];
-  for(let li=0;li<layers.length-1;li++){
-    const A=layers[li],B=layers[li+1];
-    for(let i=0;i<A.length;i++)for(let j=0;j<B.length;j++){
-      ePos.push(A[i].x,A[i].y,A[i].z, B[j].x,B[j].y,B[j].z);
-      eMeta.push({sign:hash(li*97.1+i*13.3+j*4.7)>0.5?1:-1, mid:(layerX[li]+layerX[li+1])/2});
-    }
-  }
-  const eCol=new Float32Array(eMeta.length*6);
-  const edgeGeo=new THREE.BufferGeometry();
-  edgeGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(ePos),3));
-  edgeGeo.setAttribute('color',new THREE.BufferAttribute(eCol,3));
-  const edgeMat=new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:1,depthWrite:false,blending:THREE.AdditiveBlending});
-  group.add(new THREE.LineSegments(edgeGeo,edgeMat));
-
-  // orbit: drag on desktop, gentle auto-rotate; touch keeps page scroll free
-  const controls=new OrbitControls(camera,canvas);
-  controls.enableDamping=true; controls.dampingFactor=0.08;
-  controls.enablePan=false; controls.enableZoom=false;
-  controls.autoRotate=!reduce; controls.autoRotateSpeed=0.65;
-  controls.minPolarAngle=Math.PI*0.28; controls.maxPolarAngle=Math.PI*0.72;
-  if(coarse){ controls.enableRotate=false; canvas.style.touchAction='pan-y'; stage.classList.add('no-grab'); }
-  controls.addEventListener('start',()=>{ if(!coarse&&!reduce) controls.autoRotate=false; });
-  controls.addEventListener('end',()=>{ if(!coarse&&!reduce) controls.autoRotate=true; });
-
-  // real volumetric bloom (desktop only; skipped on touch to protect frame rate)
-  const useBloom=!coarse && post;
-  let composer=null;
-  if(useBloom){
-    composer=new post.EffectComposer(renderer);
-    composer.addPass(new post.RenderPass(scene,camera));
-    composer.addPass(new post.UnrealBloomPass(new THREE.Vector2(1,1),0.82,0.5,0.2));
-    composer.addPass(new post.OutputPass());
-  }
-  function resize(){
-    const w=stage.clientWidth||1,h=stage.clientHeight||1;
-    renderer.setSize(w,h,false);
-    camera.aspect=w/h; camera.updateProjectionMatrix();
-    if(composer) composer.setSize(w,h);
-  }
-  resize();
-  if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
-  else window.addEventListener('resize',resize);
-
-  // the forward pass: a wavefront sweeps left to right, lighting the network
-  const PASS_MS=2200;
-  let waveStart=null, wave=reduce?1:0;
-  function play(){ if(reduce)return; waveStart=performance.now(); }
-
-  // cinematic pin: on desktop with motion allowed, SCROLL drives the forward pass
-  const heroPin=document.querySelector('.hero-pin');
-  const cue=document.querySelector('.hero-scrollcue');
-  const outLabels=stage.querySelectorAll('.fp-label.out');
-  const pinMQ=window.matchMedia('(min-width:901px) and (pointer:fine) and (prefers-reduced-motion:no-preference)');
-  let pinned = !reduce && !!heroPin && pinMQ.matches;
-  if(pinned) outLabels.forEach(l=>{ l.style.opacity='0'; });
-  if(pinMQ.addEventListener) pinMQ.addEventListener('change',()=>{   // resize across the breakpoint: re-evaluate, never leave the net stuck dark
-    pinned = !reduce && !!heroPin && pinMQ.matches;
-    if(pinned){ outLabels.forEach(l=>{ l.style.opacity='0'; l.style.transform=''; }); }
-    else { outLabels.forEach(l=>{ l.style.opacity=''; l.style.transform=''; }); if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){ play(); markPlaying(); } }   // re-read reduce live: a mid-session reduce-ON must not start motion
-  });
-  function pinProgress(){
-    const span=heroPin.offsetHeight-window.innerHeight;
-    return span>0 ? clamp(-heroPin.getBoundingClientRect().top/span,0,1) : 0;
-  }
-  function paintOutputs(w){
-    for(let i=0;i<outLabels.length;i++){
-      const lit=clamp((w*outLabels.length - i)*1.4,0,1);
-      outLabels[i].style.opacity=lit.toFixed(3);
-      outLabels[i].style.transform='translateY(-50%) translateX('+((1-lit)*10).toFixed(1)+'px)';
-    }
-    if(cue) cue.style.opacity=(1-clamp(w*1.35,0,1)).toFixed(2);
-  }
-
-  function paint(){
-    const waveX=X0+wave*(X1-X0);
-    for(let i=0;i<nodeList.length;i++){
-      const a=clamp((waveX-nodeList[i].p.x)/0.55,0,1);
-      const c=C_NODE.clone().lerp(C_HOT,a*0.55).multiplyScalar(0.55+0.95*a);
-      nCol[i*3]=c.r; nCol[i*3+1]=c.g; nCol[i*3+2]=c.b;
-    }
-    nodeGeo.attributes.color.needsUpdate=true;
-    for(let k=0;k<eMeta.length;k++){
-      const m=eMeta[k];
-      const pulse=Math.max(0,1-Math.abs(waveX-m.mid)/0.95);
-      const inten=clamp(0.10+0.16*(waveX>m.mid?1:0)+0.9*pulse,0,1.6);
-      const base=m.sign>0?C_POS:C_NEG, r=base.r*inten,g=base.g*inten,b=base.b*inten,o=k*6;
-      eCol[o]=r;eCol[o+1]=g;eCol[o+2]=b; eCol[o+3]=r;eCol[o+4]=g;eCol[o+5]=b;
-    }
-    edgeGeo.attributes.color.needsUpdate=true;
-  }
-  function scrollTilt(){
-    if(reduce) return;                       // reduced-motion: hero pose stays static
-    const rect=panel.getBoundingClientRect();
-    const sp=clamp((window.innerHeight*0.5-rect.top)/window.innerHeight,-0.35,0.7);
-    group.rotation.x=sp*0.32;
-    group.position.y=sp*-0.3;                // gentle rise as the hero scrolls away (depth parallax)
-    group.rotation.z=sp*0.04;                // a whisper of roll — group only, OrbitControls' camera untouched
-  }
-  function render(){ controls.update(); paint(); scrollTilt(); (composer?composer.render():renderer.render(scene,camera)); }
-
-  let raf=null, running=false;
-  function loop(now){
-    if(pinned){ wave=clamp(pinProgress()/0.82,0,1); paintOutputs(wave); }
-    else if(waveStart!=null){ wave=Math.min(1,(now-waveStart)/PASS_MS); }
-    render(); raf=requestAnimationFrame(loop);
-  }
-  function start(){ if(running)return; running=true; raf=requestAnimationFrame(loop); }
-  function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
-
-  const rb=document.getElementById('fp-replay');
-  function markPlaying(){ panel.classList.remove('playing'); void panel.offsetWidth; panel.classList.add('playing'); }
-  if(rb) rb.addEventListener('click',()=>{
-    if(pinned){ if(window.__lenis) window.__lenis.scrollTo(0); else window.scrollTo(0,0); return; }
-    if(!reduce){ play(); if(!running) start(); } markPlaying();
-  });
-
-  if(reduce){
-    controls.addEventListener('change',render);
-    paint(); render(); panel.classList.add('playing');
-  } else if('IntersectionObserver' in window){
-    let first=true;
-    new IntersectionObserver(es=>es.forEach(e=>{
-      if(e.isIntersecting){ start(); if(!pinned){ play(); if(first){ markPlaying(); first=false; } } }
-      else stop();
-    }),{threshold:0.12}).observe(panel);
-  } else { start(); if(!pinned){ play(); markPlaying(); } }
-}
-</script>
-<script type="module">
-/* section figures — recurring interactive 3D "figures" in the hero's language.
-   Drag to orbit (desktop), gentle idle sway, IntersectionObserver-gated so an
-   off-screen figure renders nothing. Each figure animates real content. */
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-function softDot(){
-  const s=128,c=document.createElement('canvas');c.width=c.height=s;const g=c.getContext('2d');
-  const gr=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
-  gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.25,'rgba(232,240,255,0.9)');
-  gr.addColorStop(0.55,'rgba(147,177,255,0.34)');gr.addColorStop(1,'rgba(147,177,255,0)');
-  g.fillStyle=gr;g.fillRect(0,0,s,s);const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
-}
-const DOT=softDot();
-
-const clamp01=v=>v<0?0:v>1?1:v;
-
-function addPoints(group,nodes,o){
-  const P=new Float32Array(nodes.length*3);
-  nodes.forEach((n,i)=>{P[i*3]=n[0];P[i*3+1]=n[1];P[i*3+2]=n[2];});
-  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(P,3));
-  group.add(new THREE.Points(g,new THREE.PointsMaterial({size:o.size||0.12,map:DOT,color:new THREE.Color(o.color||'#dbe6ff'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
-  return g;
-}
-function addLines(group,nodes,edges,o){
-  const P=new Float32Array(edges.length*6);
-  edges.forEach((e,k)=>{const a=nodes[e[0]],b=nodes[e[1]],q=k*6; P[q]=a[0];P[q+1]=a[1];P[q+2]=a[2];P[q+3]=b[0];P[q+4]=b[1];P[q+5]=b[2];});
-  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(P,3));
-  group.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:new THREE.Color(o.color||'#7fa0ff'),transparent:true,opacity:o.opacity==null?0.5:o.opacity,depthWrite:false,blending:THREE.AdditiveBlending})));
-}
-function textSprite(txt,opts){
-  opts=opts||{}; const size=opts.size||60,color=opts.color||'#e6edff',weight=opts.weight||500;
-  const font=weight+" "+size+"px 'IBM Plex Mono', ui-monospace, monospace";
-  let cv=document.createElement('canvas'),g=cv.getContext('2d'); g.font=font;
-  const pad=10,w=Math.ceil(g.measureText(txt).width)+pad*2,h=size+pad*2;
-  cv.width=w; cv.height=h; g=cv.getContext('2d'); g.font=font; g.textBaseline='middle'; g.textAlign='center';
-  g.fillStyle=color; g.fillText(txt,w/2,h/2);
-  const tex=new THREE.CanvasTexture(cv); tex.needsUpdate=true;
-  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
-  const sc=opts.scale||0.42; sp.scale.set(w/h*sc,sc,1); return sp;
-}
-
-/* generic mount: renderer + orbit controls + IO gating + idle sway.
-   opts.build({THREE,group}) adds the geometry and returns {tick, radius}. */
-function mountFigure(canvas,opts){
-  let renderer;
-  try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }
-  catch(e){ return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-  const scene=new THREE.Scene();
-  const cam=new THREE.PerspectiveCamera(opts.fov||42,1.8,0.1,100);
-  const group=new THREE.Group(); scene.add(group);
-
-  const built=opts.build({THREE,group})||{};
-  const contentTick=built.tick;
-  const box=new THREE.Box3().setFromObject(group);
-  const sphere=box.getBoundingSphere(new THREE.Sphere());
-  const center=sphere.center.clone();
-  const radius=built.radius||sphere.radius||3;
-
-  const coarse=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
-  const controls=new OrbitControls(cam,canvas);
-  controls.enableDamping=!reduce; controls.dampingFactor=0.09;
-  controls.enablePan=false; controls.enableZoom=false; controls.autoRotate=false;
-  controls.minPolarAngle=Math.PI*0.14; controls.maxPolarAngle=Math.PI*0.86;
-  controls.target.copy(center);
-  if(coarse){ controls.enableRotate=false; canvas.style.touchAction='pan-y'; if(canvas.parentElement) canvas.parentElement.classList.add('no-grab'); }
-
-  const view=opts.view||[0.12,0.16,1];
-  function frameCam(){
-    const vHalf=(cam.fov*Math.PI/180)/2,hHalf=Math.atan(Math.tan(vHalf)*cam.aspect);
-    const half=opts.fit==='width'?hHalf:Math.min(vHalf,hHalf);
-    const dist=radius/Math.sin(half)*(opts.margin||1.12);
-    const d=new THREE.Vector3(view[0],view[1],view[2]).normalize().multiplyScalar(dist);
-    cam.position.copy(center).add(d); controls.target.copy(center); controls.update();
-  }
-  function size(){ const w=canvas.clientWidth||1,h=canvas.clientHeight||1; renderer.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); frameCam(); }
-  size();
-  if('ResizeObserver' in window) new ResizeObserver(size).observe(canvas); else window.addEventListener('resize',size);
-
-  const swayAmp=opts.sway==null?0.2:opts.sway, baseY=opts.baseRotY||0;
-  let raf=null,running=false,t=0,last=0,dragging=false;
-  controls.addEventListener('start',()=>{dragging=true;});
-  controls.addEventListener('end',()=>{dragging=false;});
-  function loop(now){
-    const dt=last?Math.min(0.05,(now-last)/1000):0.016; last=now; t+=dt;
-    if(!dragging){ group.rotation.y=baseY+Math.sin(t*0.35)*swayAmp; group.rotation.x=Math.sin(t*0.26)*0.045; }
-    controls.update(); if(contentTick) contentTick(t,dt); renderer.render(scene,cam);
-    raf=requestAnimationFrame(loop);
-  }
-  function start(){ if(running)return; running=true; last=0; raf=requestAnimationFrame(loop); }
-  function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; }
-
-  if(reduce){ group.rotation.y=baseY; if(contentTick)contentTick(0,0); controls.update(); renderer.render(scene,cam); controls.addEventListener('change',()=>renderer.render(scene,cam)); }
-  else if('IntersectionObserver' in window){ new IntersectionObserver(es=>es.forEach(e=>{ e.isIntersecting?start():stop(); }),{threshold:0.05}).observe(canvas); }
-  else start();
-}
-
-/* spec: a NACA-4-digit wireframe wing (Team Bath Drones) */
-function airfoilRib(m,p,t,steps){
-  const up=[],lo=[];
-  for(let i=0;i<=steps;i++){
-    const x=0.5*(1-Math.cos(Math.PI*i/steps));   // cosine spacing packs points at the leading edge
-    const yt=5*t*(0.2969*Math.sqrt(x)-0.1260*x-0.3516*x*x+0.2843*x*x*x-0.1015*x*x*x*x);
-    let yc,dy;
-    if(x<p){ yc=m/(p*p)*(2*p*x-x*x); dy=2*m/(p*p)*(p-x); }
-    else { yc=m/((1-p)*(1-p))*((1-2*p)+2*p*x-x*x); dy=2*m/((1-p)*(1-p))*(p-x); }
-    const th=Math.atan(dy);
-    up.push([x-yt*Math.sin(th),yc+yt*Math.cos(th)]);
-    lo.push([x+yt*Math.sin(th),yc-yt*Math.cos(th)]);
-  }
-  return up.concat(lo.slice(1,-1).reverse());   // closed loop: upper LE->TE, lower TE->LE
-}
-/* the wing wireframe + live airflow streaming over it (faster & brighter over
-   the top => the pressure difference that makes lift) */
-function buildAirfoil({THREE,group}){
-  const steps=16,ribs=6,chord=3.4,span=3.8,CH=chord;
-  const rib=airfoilRib(0.02,0.4,0.12,steps),per=rib.length;
-  const nodes=[],edges=[];
-  for(let r=0;r<ribs;r++){ const z=-span/2+span*r/(ribs-1);
-    for(let k=0;k<per;k++) nodes.push([(rib[k][0]-0.5)*CH, rib[k][1]*CH, z]); }
-  for(let r=0;r<ribs;r++){ const b=r*per; for(let k=0;k<per;k++) edges.push([b+k,b+(k+1)%per]); }
-  for(let r=0;r<ribs-1;r++){ for(let k=0;k<per;k+=2) edges.push([r*per+k,(r+1)*per+k]); }
-  addLines(group,nodes,edges,{color:'#6f8bf2',opacity:0.4});
-  addPoints(group,nodes,{size:0.09,color:'#dbe6ff'});
-
-  const th=u=>(u<=0||u>=1)?0:5*0.12*(0.2969*Math.sqrt(u)-0.1260*u-0.3516*u*u+0.2843*u*u*u-0.1015*u*u*u*u);
-  const cb=u=>{const m=0.02,p=0.4; if(u<=0||u>=1)return 0; return u<p?m/(p*p)*(2*p*u-u*u):m/((1-p)*(1-p))*((1-2*p)+2*p*u-u*u);};
-  const flowY=(x,by)=>{ const u=clamp01(x/CH+0.5),nb=(u>0&&u<1)?Math.sin(Math.PI*u):0,camber=cb(u)*CH,halfT=th(u)*CH,side=by>=camber?1:-1,fall=Math.exp(-Math.abs(by-camber)*1.15); return by+side*halfT*nb*fall*1.5+camber*nb*0.35; };
-  const xMin=-3.7,xMax=3.7;
-
-  // faint static streamlines so the flow reads as flow even before it animates
-  const slH=[-1.3,-0.9,-0.55,-0.25,0.25,0.55,0.9,1.3], slZ=[-1.5,-0.5,0.5,1.5], SX=56, slSeg=[];
-  slZ.forEach(z=>slH.forEach(by=>{ let prev=null;
-    for(let s=0;s<=SX;s++){ const x=xMin+(xMax-xMin)*s/SX, cur=[x,flowY(x,by),z]; if(prev){slSeg.push(prev,cur);} prev=cur; } }));
-  const slP=new Float32Array(slSeg.length*3);
-  slSeg.forEach((p,i)=>{slP[i*3]=p[0];slP[i*3+1]=p[1];slP[i*3+2]=p[2];});
-  const slg=new THREE.BufferGeometry(); slg.setAttribute('position',new THREE.BufferAttribute(slP,3));
-  group.add(new THREE.LineSegments(slg,new THREE.LineBasicMaterial({color:new THREE.Color('#3f5fe6'),transparent:true,opacity:0.12,depthWrite:false,blending:THREE.AdditiveBlending})));
-
-  const NP=520;
-  const P=new Float32Array(NP*3),C=new Float32Array(NP*3),part=[];
-  for(let i=0;i<NP;i++){
-    const by=(-1.35+2.7*((i%22)/21));                       // streamline height band
-    const z=-span/2*1.05 + span*1.05*((i*89%NP)/NP);        // spread across the span
-    part.push({by,z,x:xMin+(xMax-xMin)*((i*53%NP)/NP),spd:1.0+0.2*((i*17%NP)/NP)});
-  }
-  const g=new THREE.BufferGeometry();
-  g.setAttribute('position',new THREE.BufferAttribute(P,3)); g.setAttribute('color',new THREE.BufferAttribute(C,3));
-  group.add(new THREE.Points(g,new THREE.PointsMaterial({size:0.07,map:DOT,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
-  const cHot=new THREE.Color('#eaf1ff'),cCool=new THREE.Color('#5f8bf6'),tmp=new THREE.Color();
-  function tick(t,dt){
-    for(let i=0;i<NP;i++){
-      const p=part[i], u0=clamp01(p.x/CH+0.5), over=p.by>=cb(u0)*CH;
-      const near0=(u0>0&&u0<1)?Math.sin(Math.PI*u0):0;
-      p.x+=dt*1.35*p.spd*(1+(over?near0*0.9:near0*0.15));    // bunch & accelerate over the top
-      if(p.x>xMax) p.x=xMin+(p.x-xMax);
-      const u=clamp01(p.x/CH+0.5), nb=(u>0&&u<1)?Math.sin(Math.PI*u):0;
-      const camber=cb(u)*CH, halfT=th(u)*CH, side=p.by>=camber?1:-1;
-      const fall=Math.exp(-Math.abs(p.by-camber)*1.15);
-      P[i*3]=p.x; P[i*3+1]=p.by+side*halfT*nb*fall*1.5+camber*nb*0.35; P[i*3+2]=p.z;
-      const hot=Math.min(1,(over?nb*fall*1.3:nb*fall*0.45));
-      tmp.copy(cCool).lerp(cHot,hot).multiplyScalar(0.55+0.85*hot);
-      C[i*3]=tmp.r; C[i*3+1]=tmp.g; C[i*3+2]=tmp.b;
-    }
-    g.attributes.position.needsUpdate=true; g.attributes.color.needsUpdate=true;
-  }
-  return {tick,radius:3.2};
-}
-
-/* an LSTM cell: the cell-state conveyor along the top, the four gates below,
-   with computation flowing L->R through the gates each timestep. This is the
-   architecture behind the SOC model. */
-function buildLSTM({THREE,group}){
-  const N={
-    Cprev:[-2.9,0.9,0], mulF:[-1.35,0.9,0], addI:[0.35,0.9,0], Cnext:[2.9,0.9,0],
-    input:[-2.9,-1.05,0], f:[-1.35,-0.15,0], i:[-0.5,-0.15,0], g:[0.25,-0.15,0], mulIG:[0.35,0.38,0], o:[1.55,-0.15,0],
-    tanhC:[2.15,0.4,0], mulO:[2.15,-0.15,0], h:[2.9,-0.15,0]
-  };
-  const keys=Object.keys(N), pos=keys.map(k=>N[k]), idx={}; keys.forEach((k,ii)=>idx[k]=ii);
-  const E=[
-    ['input','f'],['input','i'],['input','g'],['input','o'],
-    ['Cprev','mulF'],['f','mulF'],['mulF','addI'],
-    ['i','mulIG'],['g','mulIG'],['mulIG','addI'],
-    ['addI','Cnext'],['Cnext','tanhC'],['tanhC','mulO'],['o','mulO'],['mulO','h']
-  ];
-  const edges=E.map(e=>[idx[e[0]],idx[e[1]]]);
-  addLines(group,pos,edges,{color:'#4f6ff0',opacity:0.32});
-  addPoints(group,pos,{size:0.14,color:'#e6edff'});
-  addPoints(group,[N.f,N.i,N.g,N.o],{size:0.42,color:'#9fb8ff'});              // gates
-  addPoints(group,[N.mulF,N.addI,N.mulIG,N.mulO,N.tanhC],{size:0.3,color:'#bcd0ff'}); // operators
-
-  function lab(txt,p,o){ o=o||{}; const s=textSprite(txt,o); s.position.set(p[0]+(o.dx||0),p[1]+(o.dy||0),p[2]+0.03); group.add(s); }
-  lab('σ',N.f,{scale:0.38,dy:0.26,color:'#dfeaff'}); lab('σ',N.i,{scale:0.38,dy:0.26,color:'#dfeaff'});
-  lab('tanh',N.g,{scale:0.28,dy:0.28,color:'#dfeaff'}); lab('σ',N.o,{scale:0.38,dy:0.26,color:'#dfeaff'});
-  lab('forget',N.f,{scale:0.2,dy:-0.3,color:'#6f83a6'}); lab('input',N.i,{scale:0.2,dy:-0.3,color:'#6f83a6'});
-  lab('cell',N.g,{scale:0.2,dy:-0.3,color:'#6f83a6'}); lab('output',N.o,{scale:0.2,dy:-0.3,color:'#6f83a6'});
-  lab('×',N.mulF,{scale:0.32}); lab('+',N.addI,{scale:0.4}); lab('×',N.mulIG,{scale:0.28}); lab('×',N.mulO,{scale:0.28}); lab('tanh',N.tanhC,{scale:0.24});
-  lab('c(t-1)',N.Cprev,{scale:0.3,dy:0.32,color:'#9fb0cc'}); lab('c(t)',N.Cnext,{scale:0.32,dy:0.32,color:'#e6edff'});
-  lab('x(t), h(t-1)',N.input,{scale:0.3,dy:-0.34,color:'#9fb0cc'}); lab('h(t)',N.h,{scale:0.34,dy:-0.34,color:'#e6edff'});
-
-  // flowing packets travelling along every edge, staged L->R so it reads as one forward pass
-  const NE=edges.length, seg=E.map(e=>({a:N[e[0]],b:N[e[1]],phase:(N[e[1]][0]+3.2)/6.4}));
-  const PK=new Float32Array(NE*3),KC=new Float32Array(NE*3);
-  const pg=new THREE.BufferGeometry();
-  pg.setAttribute('position',new THREE.BufferAttribute(PK,3)); pg.setAttribute('color',new THREE.BufferAttribute(KC,3));
-  group.add(new THREE.Points(pg,new THREE.PointsMaterial({size:0.28,map:DOT,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
-  const cA=new THREE.Color('#eaf1ff'),cB=new THREE.Color('#6f8bf6'),tmp=new THREE.Color();
-  function tick(t,dt){
-    for(let k=0;k<NE;k++){
-      const s=seg[k], fr=(t*0.32+s.phase)%1;
-      PK[k*3]=s.a[0]+(s.b[0]-s.a[0])*fr; PK[k*3+1]=s.a[1]+(s.b[1]-s.a[1])*fr; PK[k*3+2]=s.a[2]+(s.b[2]-s.a[2])*fr;
-      const glow=Math.sin(fr*Math.PI);
-      tmp.copy(cB).lerp(cA,glow).multiplyScalar(0.5+0.95*glow);
-      KC[k*3]=tmp.r; KC[k*3+1]=tmp.g; KC[k*3+2]=tmp.b;
-    }
-    pg.attributes.position.needsUpdate=true; pg.attributes.color.needsUpdate=true;
-  }
-  return {tick,radius:3.5};
-}
-
-/* a wireframe data globe with packets orbiting on great circles (live feeds) */
-function buildGlobe({THREE,group}){
-  const R=2.0, lat=6, lon=16;
-  const nodes=[[0,R,0]];                       // north pole = index 0
-  const ring=(i,j)=>1+(i-1)*lon+((j%lon+lon)%lon);
-  for(let i=1;i<=lat;i++){ const th=Math.PI*i/(lat+1), y=R*Math.cos(th), r=R*Math.sin(th);
-    for(let j=0;j<lon;j++){ const ph=2*Math.PI*j/lon; nodes.push([r*Math.cos(ph),y,r*Math.sin(ph)]); } }
-  const south=nodes.length; nodes.push([0,-R,0]);
-  const edges=[];
-  for(let i=1;i<=lat;i++) for(let j=0;j<lon;j++) edges.push([ring(i,j),ring(i,j+1)]);          // latitude rings
-  for(let j=0;j<lon;j++){ edges.push([0,ring(1,j)]); for(let i=1;i<lat;i++) edges.push([ring(i,j),ring(i+1,j)]); edges.push([ring(lat,j),south]); }
-  addLines(group,nodes,edges,{color:'#3f5fe0',opacity:0.28});
-  addPoints(group,nodes,{size:0.09,color:'#cfe0ff'});
-
-  const NPK=6, orb=[];
-  for(let k=0;k<NPK;k++){
-    const axis=new THREE.Vector3(Math.sin(k*1.3),Math.cos(k*1.9),Math.cos(k*0.7)).normalize();
-    let u=new THREE.Vector3(0,1,0).cross(axis); if(u.lengthSq()<0.02) u.set(1,0,0); u.normalize();
-    const v=axis.clone().cross(u).normalize();
-    orb.push({u,v,r:R*1.05,spd:0.5+0.16*k,phase:k*1.7});
-  }
-  const PK=new Float32Array(NPK*3),KC=new Float32Array(NPK*3);
-  const pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(PK,3)); pg.setAttribute('color',new THREE.BufferAttribute(KC,3));
-  group.add(new THREE.Points(pg,new THREE.PointsMaterial({size:0.34,map:DOT,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true})));
-  const cA=new THREE.Color('#eaf1ff');
-  function tick(t){
-    for(let k=0;k<NPK;k++){ const o=orb[k],a=t*o.spd+o.phase,ca=Math.cos(a)*o.r,sa=Math.sin(a)*o.r;
-      PK[k*3]=o.u.x*ca+o.v.x*sa; PK[k*3+1]=o.u.y*ca+o.v.y*sa; PK[k*3+2]=o.u.z*ca+o.v.z*sa;
-      KC[k*3]=cA.r; KC[k*3+1]=cA.g; KC[k*3+2]=cA.b; }
-    pg.attributes.position.needsUpdate=true; pg.attributes.color.needsUpdate=true;
-  }
-  return {tick,radius:R*1.18};
-}
-
-const a=document.getElementById('fig-airfoil');
-if(a) mountFigure(a,{build:buildAirfoil, fit:'width', margin:1.12, view:[0.34,0.24,1], sway:0.16, fov:42});
-const b=document.getElementById('fig-lstm');
-if(b) mountFigure(b,{build:buildLSTM, fit:'width', margin:1.16, view:[0.06,0.08,1], sway:0.1, fov:40});
-const gl=document.getElementById('fig-globe');
-if(gl) mountFigure(gl,{build:buildGlobe, margin:1.2, view:[0.3,0.22,1], sway:0.14, fov:42});
-</script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="assets/js/site.js"></script>
 </body>
 </html>

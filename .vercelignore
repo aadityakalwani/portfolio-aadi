@@ -1,13 +1,21 @@
 .git
 .vercel
+.claude
 .DS_Store
+**/.DS_Store
 node_modules
 .playwright-mcp/
-portfolio-*.png
 
-# Internal working docs — never deploy publicly
-CLAUDE.md
-MEMORY.md
-ERRORS.md
-DESIGN_BRIEF.md
-PORTFOLIO_CONTENT_INVENTORY.md
+# Working docs: every root markdown file (CLAUDE.md, MEMORY.md, ERRORS.md, DESIGN_BRIEF.md, PORTFOLIO_CONTENT_INVENTORY.md)
+/*.md
+
+# Rebuild notes, demos and backups
+.rebuild/
+.build-11sep/
+.gauntlet/
+*.bak*
+index.html.bak-11sep
+forward-pass-hero.html
+
+# Screenshots at the root (og.jpg is kept: it is a .jpg and is the link-preview image)
+/*.png
