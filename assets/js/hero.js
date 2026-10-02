@@ -414,15 +414,12 @@ function createInstance(container, o) {
     const F = '"Inter","Helvetica Neue",Arial,sans-serif';
     g.textBaseline = 'alphabetic';
     g.fillStyle = '#F4F2E8'; g.font = '700 22px ' + F; g.fillText('CYLINDRICAL CELL', 78, 25);
-    g.textAlign = 'right'; g.fillText('21700', 548, 25); g.textAlign = 'left';
+    g.textAlign = 'right'; g.fillText('RESEARCH GRADE', 548, 25); g.textAlign = 'left';
     g.fillStyle = '#0E1B2E'; g.font = '800 88px ' + F; g.fillText('Li-ion', 74, 140);
-    g.font = '600 28px ' + F; g.fillText('NMC \u00b7 3.6V nominal', 78, 184);
-    g.fillStyle = 'rgba(14,27,46,.18)'; g.fillRect(74, 206, 474, 3);
-    g.fillStyle = '#0E1B2E'; g.font = '600 25px ' + F;
-    g.fillText('5000mAh', 78, 248); g.fillText('18Wh', 252, 248); g.fillText('4.20V max', 360, 248);
-    g.globalAlpha = 0.6; g.font = '500 21px ' + F;
-    g.fillText('Charge 4.2V \u00b7 2.5A', 78, 284); g.fillText('Cut-off 2.5V', 78, 312);
-    g.globalAlpha = 1;
+    g.fillStyle = 'rgba(14,27,46,.18)'; g.fillRect(74, 170, 474, 3);
+    g.fillStyle = 'rgba(14,27,46,.55)'; g.fillRect(78, 206, 300, 8); g.fillRect(78, 232, 210, 8);
+    g.fillStyle = 'rgba(14,27,46,.28)'; g.fillRect(78, 266, 400, 4); g.fillRect(78, 288, 330, 4); g.fillRect(78, 310, 370, 4);
+    g.fillStyle = '#0E1B2E';
     for (let i = 0, x = 78; x < 300; i++) { const w = 2 + ((i * 7) % 4); g.fillRect(x, 336, w, 40); x += w + 2 + ((i * 5) % 3); }
     g.font = '600 19px ' + F; g.fillText('SOC RESEARCH CELL', 330, 366);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return track(t);
