@@ -442,7 +442,6 @@ if (vid) {
   vid.addEventListener('play', () => wrap.classList.add('is-playing'));
   vid.addEventListener('pause', () => wrap.classList.remove('is-playing'));
   btn.addEventListener('click', () => { vid.paused ? playV() : vid.pause(); });
-  vid.addEventListener('click', () => { if (!vid.paused) vid.pause(); });
   if (finePointer.matches && !reduceMQ.matches) {
     new IntersectionObserver((ents) => {
       for (const en of ents) { if (en.isIntersecting) { vid.preload = 'auto'; playV(); } else vid.pause(); }
