@@ -1,20 +1,31 @@
 {
-  "rewrites": [
+  "headers": [
     {
-      "source": "/",
-      "has": [{ "type": "header", "key": "user-agent", "value": "(?i).*(iphone|ipod|android.+mobile|windows phone|blackberry|opera mini|mobile safari).*" }],
-      "destination": "/m.html"
+      "source": "/assets/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
-      "source": "/",
-      "has": [{ "type": "header", "key": "sec-ch-ua-mobile", "value": "\\?1" }],
-      "destination": "/m.html"
+      "source": "/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)\\.(jpg|png|mp4|pdf)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
     }
-  ],
-  "headers": [
-    { "source": "/", "headers": [{ "key": "Vary", "value": "User-Agent, Sec-CH-UA-Mobile" }] },
-    { "source": "/assets/fonts/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/vendor/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }] },
-    { "source": "/assets/(.*)\\.(jpg|png|mp4|pdf)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }] }
   ]
 }
