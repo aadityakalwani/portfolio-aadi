@@ -20,5 +20,15 @@ all WebGL stripped and the SVG forward-pass hero from 6239b48 put back. Served a
 2. Gate: vercel.json rewrite on mobile UA (no redirect), plus inline head script in index.html (viewport/touch) that location.replace()s to /m.html before any 3D import.
 3. Cache headers for fonts/vendor/images.
 
-## Status
-(see git log)
+## Result (live, Lighthouse 12 mobile, 3 runs each; before = /?view=3d which still serves the 3D page)
+Mobile before: perf 0.88-0.91, TBT 210-260ms, 392KiB, observed FCP 590ms / LCP 1.3s, three.js + hero.js loaded.
+Mobile after (m.html): perf 0.87-0.99 (lab FCP swings 1.1-2.9s with font timing, observed FCP 245-455ms), TBT 0ms, 201KiB, 16 requests, 0 three/WebGL requests.
+Desktop: 1.00 before, 0.99 after (noise). 3D unchanged.
+
+## How the gate works
+1. middleware.js (Vercel Routing Middleware) rewrites / to /m.html for phone UAs or Sec-CH-UA-Mobile ?1. No redirect hop.
+2. index.html head script (first thing): width<768 or (pointer:coarse and hover:none) sets window.__lite and location.replace('/m.html'). site.js is only injected when not lite, so no 3D code is requested.
+3. ?view=3d forces the 3D site on any device.
+
+## Next action
+None required. Possible: stop the idle rAF loop in site.js when nothing moves.
