@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aaditya Kalwani · Engineer &amp; Builder</title>
+<title>Aaditya Kalwani · Aerospace engineer and builder</title>
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%230E1B2E'/><path d='M4 17 L10 12 L14 14 L20 6' fill='none' stroke='%231E48E0' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/><circle cx='4' cy='17' r='1.5' fill='%231E48E0'/><circle cx='20' cy='6' r='1.5' fill='%231E48E0'/></svg>">
-<meta name="description" content="Aaditya Kalwani, first-year Aerospace Engineering student at the University of Bath. Machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites.">
+<meta name="description" content="Second-year Aerospace Engineering at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead, AI red-teaming and a snowmobile drive-shaft design. Fourteen shipped, and counting.">
 
 <!-- Link preview (Open Graph + Twitter) -->
 <link rel="canonical" href="https://aadikalwani.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aaditya Kalwani">
 <meta property="og:url" content="https://aadikalwani.vercel.app/">
-<meta property="og:title" content="Aaditya Kalwani · Engineer &amp; Builder">
-<meta property="og:description" content="First-year aerospace engineer at Bath. ML research on battery state estimation, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
+<meta property="og:title" content="Aaditya Kalwani · Aerospace engineer and builder">
+<meta property="og:description" content="Second-year aerospace engineer at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead and AI red-teaming. Fourteen shipped, and counting.">
 <!-- TODO: create /og.jpg (1200x630) and it will be picked up here -->
 <meta property="og:image" content="https://aadikalwani.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Aaditya Kalwani · Engineer &amp; Builder">
-<meta name="twitter:description" content="ML research, live data pipelines, automation bots and real client sites. Fourteen shipped, and counting.">
+<meta name="twitter:title" content="Aaditya Kalwani · Aerospace engineer and builder">
+<meta name="twitter:description" content="Second-year aerospace engineer at Bath. First-author battery ML research, co-founder and CTO of Winkit, UAV aerodynamics lead and AI red-teaming. Fourteen shipped, and counting.">
 <meta name="twitter:image" content="https://aadikalwani.vercel.app/og.jpg">
 
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -55,6 +55,15 @@
   .fp-stage{cursor:default}
   @media(max-width:620px){.fp-label{display:none}}
   @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-edge,.fp-panel.playing .fp-node{animation:none}}
+  .stats-m{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .stats-m li{display:flex;flex-direction:column;gap:6px}
+  .stats-m b{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:500;color:var(--accent)}
+  .stats-m span{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+  @media(max-width:720px){.stats-m{grid-template-columns:repeat(2,1fr)}}
+  .abl-wrap{overflow-x:auto;margin:10px 0}
+  .abl{border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:11.5px;min-width:520px;width:100%}
+  .abl th,.abl td{text-align:left;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .abl th{color:rgba(255,255,255,.55);font-weight:500}
 </style>
 
 <style>
@@ -483,10 +492,9 @@
     </a>
     <div class="nav-links">
       <a class="link" href="#engineering">Work</a>
+      <a class="link" href="#builds">Builds</a>
       <a class="link" href="#about">About</a>
-      <a class="link" href="#web">Web</a>
-      <a class="link" href="#automation">Automation</a>
-      <a class="link" href="#data">Data</a>
+      <a class="link" href="#contact">Contact</a>
       <!-- TODO: drop CV at assets/Aadi-Kalwani-CV.pdf and this button works -->
       <a class="btn btn-primary btn-nav" href="assets/Aadi-Kalwani-CV.pdf" download>Download CV</a>
     </div>
@@ -500,9 +508,9 @@
   <div class="hero-pin"><div class="hero-stage">
   <div class="wrap">
     <div class="hero-head">
-      <span class="eyebrow">Aerospace Engineering &middot; University of Bath</span>
-      <h1 class="serif">I turn engineering problems into things that <em>actually ship.</em></h1>
-      <p class="lede">First-year Aerospace Engineering at Bath. Between lectures I build: machine-learning research on battery state estimation, live data pipelines, automation bots and real client websites. Fourteen shipped, and counting.</p>
+      <span class="eyebrow">Aerospace Engineering &middot; University of Bath &middot; Year 2</span>
+      <h1 class="serif">I turn engineering problems <em>into things that ship.</em></h1>
+      <p class="lede">Second-year aerospace engineer at Bath. First author on a battery machine-learning paper, co-founder and CTO of a live delivery platform, aerodynamics lead on a competition UAV. Fourteen shipped, and counting.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
@@ -510,7 +518,7 @@
         </a>
         <a class="btn btn-ghost" href="#engineering">See the work</a>
       </div>
-      <p class="assure"><span class="dot" aria-hidden="true"></span> Lining up a placement year in industry, aerospace, defence or wherever hard engineering meets software.</p>
+      <p class="assure"><span class="dot" aria-hidden="true"></span> Looking for a 2027/28 placement year in aerospace, defence or wherever hard engineering meets software.</p>
     </div>
 
     <figure class="fp-panel" id="fp" aria-label="An animated neural network with my identity as the inputs on the left resolving into the things I have built as the outputs on the right, drawn as a forward pass">
@@ -522,7 +530,7 @@
         <svg class="fp-svg" id="fp-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
       </div>
       <figcaption class="fp-foot">
-        <span class="fp-wink">A forward pass, <b>if the network's only job were to compute me.</b> Identity in, the things I have built resolving out. Yes, I know that is not how inference works.</span>
+        <span class="fp-wink">A forward pass, <b>if the network's only job were to compute me.</b> Yes, I know that is not how inference works.</span>
         <button class="fp-replay" id="fp-replay" type="button">&#9654; replay</button>
       </figcaption>
     </figure>
@@ -530,184 +538,286 @@
   <div class="hero-scrollcue" aria-hidden="true">scroll to compute<span class="cue-arrow"></span></div>
   </div></div>
 
-  <div class="trust">
-    <div class="wrap trust-in">
-      <span>Python / PyTorch</span>
-      <span>Machine learning</span>
-      <span>CAD &middot; Autodesk Inventor</span>
-      <span>MATLAB &middot; embedded</span>
-      <span>Playwright automation</span>
-      <span>Full-stack web</span>
-      <span>Google Apps Script</span>
-      <span>Vercel &middot; CI/CD</span>
-    </div>
-  </div>
+  <div class="wrap"><ul class="stats-m">
+  <li><b>0.57%</b><span>blind-test SOC error, first-author paper</span></li>
+  <li><b>CTO</b><span>co-founder, Winkit, live at winkit.uk</span></li>
+  <li><b>30%</b><span>lift-to-drag gain, Team Bath Drones</span></li>
+  <li><b>~30</b><span>PRs merged to production at Fifth9</span></li>
+  <li><b>First</b><span>Year 1, 73.8% average</span></li></ul></div>
+  <div class="trust"><div class="wrap trust-in"><span>Python</span><span>PyTorch</span><span>NumPy</span><span>three.js</span><span>Autodesk Inventor</span><span>MATLAB</span><span>Arduino</span><span>Stripe</span><span>Playwright</span><span>Apps Script</span><span>Vercel</span></div></div>
 </header>
 
-<!-- ENGINEERING & ML -->
+<!-- WORK -->
 <section class="block" id="engineering">
   <div class="wrap">
     <div class="block-head reveal">
       <span class="eyebrow">01 / Selected work</span>
       <h2 class="serif">The work I would <em>lead with.</em></h2>
-      <p>My highest-leverage builds up front: machine-learning battery research, a food-delivery platform I co-founded, and a mechanical design piece. Everything else is further down.</p>
+      <p>Five builds that carry the most weight: a first-author machine-learning paper, a delivery platform I co-founded, a competition UAV, a paid AI red-team engagement and the drive shaft I am designing right now. Everything else lives further down.</p>
     </div>
-
     <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">SOC battery research &middot; University of Bath</span>
-        <span class="pill pill-private">Private repo &middot; paper in view</span>
-      </div>
-      <h3>Teaching a neural network to read a battery's charge <em>from sound.</em></h3>
-      <p class="case-summary">I fuse ultrasound with the usual battery signals and teach a 200-step LSTM to read state of charge to 0.57% sealed error on real EDF Paris bus data, hand-deriving the maths before any framework touched it.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Lithium-ion state of charge is deceptively hard to measure. Coulomb counting drifts, the voltage curve sits flat for most of a discharge, and the ultrasound signal that does carry charge is tangled up in hysteresis, temperature and current. There is no clean mapping to invert.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Built from first principles: a NumPy MLP with backpropagation and a bias-corrected Adam optimiser derived and coded by hand, before any framework touched it. Then PyTorch RNN, GRU and a 200-step LSTM that fuse the acoustic features, time of flight, wave velocity and displacement, with voltage, current, temperature and coulomb counting. Memory is the point: the LSTM resolves the charge-discharge hysteresis a memoryless model physically cannot.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>On real EDF Paris bus data it holds a sealed-test error of 0.57%, and 0.79% on the public US06 cycle, both sealed from training and from model selection, the protocol most published work quietly skips. The open problem I am on now: generalising cleanly from controlled cycles to messy real-world mission profiles.</p>
-            </div>
-          </div>
-        </div>
-      </details>
+      <div class="case-kick"><span class="eyebrow">Battery ML research &middot; first author</span><span class="pill pill-private">Paper in preparation &middot; target: Energy and AI</span></div>
+      <h3>Reading a battery&#39;s charge <em>from sound.</em></h3>
+      <p class="case-summary">Coulomb counting drifts, and the voltage curve sits flat for most of a discharge. So I fused ultrasonic time of flight and cell swelling with voltage, current and temperature, and trained an LSTM to read state of charge on real automotive duty cycles, with the test cycle locked away from training, validation and model selection alike.</p>
       <div class="case-metrics">
-        <div class="metric win"><span class="mval">0.57%</span><span class="mlab">Sealed Paris MAE &middot; real EDF bus data</span></div>
-        <div class="metric"><span class="mval">0.79%</span><span class="mlab">Sealed US06 MAE &middot; public cycle</span></div>
-        <div class="metric"><span class="mval">1.87%</span><span class="mlab">Coulomb counting &middot; same Paris cycle</span></div>
+        <div class="metric win"><span class="mval">0.57%</span><span class="mlab">mean absolute error on a blind real-world Paris electric-bus cycle, ten-seed mean</span></div>
+        <div class="metric win"><span class="mval">42%</span><span class="mlab">less error on the US06 cycle once ultrasound joins the inputs, 1.36% down to 0.79%, holding on all ten of ten seeds (p = 0.002)</span></div>
+        <div class="metric"><span class="mval">19%</span><span class="mlab">less error on blind Paris for the same fusion, 0.70% down to 0.57%</span></div>
       </div>
-      <p class="case-cap">Sealed-test mean absolute error, mean over ten seeds, headline of the ultrasound feature-ablation set. Paris is real EDF bus data; US06 is the public benchmark cycle; coulomb counting is shown on the same sealed Paris cycle for reference. Lower is better.</p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">NumPy (hand-derived backprop)</span>
-        <span class="tag">PyTorch</span>
-        <span class="tag">GRU / LSTM</span>
-        <span class="tag">feature ablation</span>
-        <span class="tag">10-seed sealed test</span>
-      </div>
-      <div class="case-foot">
-        <span>Supervised research &middot; Dr Christopher Vagg &amp; Rob Gray &middot; target: <em>Energy and AI</em></span>
-        <span class="plinks"><span class="muted">Code private until publication</span></span>
-      </div>
+      <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0"><strong>A fully blind protocol</strong>. A whole real vehicle recording held out from every step of the workflow, model selection included. The paper&#39;s positioning table finds no prior study that does the same.</p><p><strong>Built from first principles</strong>. A NumPy network with hand-derived backpropagation and a bias-corrected Adam optimiser before any framework, then PyTorch RNN, GRU and LSTM ablations.</p><p><strong>Feature ablation, blind test.</strong> Mean absolute error (percent, mean and standard deviation over ten seeds) and the share of seeds that beat the baseline.</p>
+ <div class="abl-wrap"><table class="abl"><thead><tr><th>Variant</th><th>Paris MAE</th><th>Paris seeds improved</th><th>US06 MAE</th><th>US06 seeds improved</th></tr></thead><tbody>
+ <tr><td>VIT (baseline)</td><td>0.70 &plusmn; 0.16</td><td>n/a</td><td>1.36 &plusmn; 0.13</td><td>n/a</td></tr>
+ <tr><td>VIT + ToF</td><td>0.69 &plusmn; 0.30</td><td>60%</td><td>1.36 &plusmn; 0.10</td><td>40%</td></tr>
+ <tr><td>VIT + velocity</td><td>1.02 &plusmn; 0.50</td><td>30%</td><td>0.91 &plusmn; 0.15</td><td>100%</td></tr>
+ <tr><td>VIT + displacement</td><td>0.67 &plusmn; 0.18</td><td>70%</td><td>0.84 &plusmn; 0.09</td><td>100%</td></tr>
+ <tr><td>VIT + ToF + displacement</td><td>0.57 &plusmn; 0.19</td><td>80%</td><td>0.79 &plusmn; 0.09</td><td>100%</td></tr>
+ <tr><td>VIT + all ultrasonic + displacement</td><td>0.75 &plusmn; 0.23</td><td>60%</td><td>0.84 &plusmn; 0.08</td><td>100%</td></tr>
+ <tr><td>VIT + shuffled velocity (null control)</td><td>0.70 &plusmn; 0.21</td><td>70%</td><td>1.32 &plusmn; 0.16</td><td>70%</td></tr>
+ </tbody></table></div>
+ <p>Blind-test mean absolute error, ten seeds, deployed estimate. The null control shuffles the velocity channel in time: if it scored as well as the real thing, the model would be learning noise. It does not.</p></div></details>
+      <div class="tags"><span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">PyTorch</span><span class="tag">LSTM</span><span class="tag">feature ablation</span><span class="tag">10-seed blind test</span></div>
+      <div class="case-foot"><span>First author &middot; supervised by Dr Christopher Vagg and Rob Gray, Institute for Advanced Automotive Propulsion Systems</span><span class="plinks"><span class="muted">Code private until publication</span></span></div>
     </article>
 
     <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Winkit &middot; local food-delivery platform</span>
-        <span class="pill pill-live">Live &middot; real orders</span>
-      </div>
-      <h3>A food-delivery platform, <em>co-founded and built end to end.</em></h3>
-      <p class="case-summary">I co-founded Winkit and own the whole technical stack as CTO: a customer app taking live Stripe payments, per-kitchen adapters that drop orders onto the restaurant's own system, and a separate driver app. Live now with its first partner kitchens taking real orders.</p>
+      <div class="case-kick"><span class="eyebrow">Winkit &middot; local food delivery &middot; co-founder and CTO</span><span class="pill pill-live">Live &middot; winkit.uk</span></div>
+      <h3>A delivery platform, <em>co-founded and built end to end.</em></h3>
+      <p class="case-summary">The aggregators wanted 38 to 40% of a local kitchen&#39;s revenue to deliver for it. So three of us started our own, and I built every line of the technical stack: a customer app on live Stripe payments, adapters that land each order on the kitchen&#39;s own system, and a separate driver app.</p>
       <div class="case-apps">
-        <figure class="case-app">
-          <div class="case-app-img"><img src="assets/winkit-logo.webp" width="1574" height="353" decoding="async" alt="Winkit customer app brand" loading="lazy"></div>
-          <figcaption>Customer app &middot; order &amp; pay, live Stripe</figcaption>
-        </figure>
-        <figure class="case-app">
-          <div class="case-app-img"><img src="assets/winkit-drivers.webp" width="1200" height="630" decoding="async" alt="Winkit driver app brand" loading="lazy"></div>
-          <figcaption>Driver app &middot; shifts, GPS dispatch, live state</figcaption>
-        </figure>
+        <figure class="case-app"><div class="case-app-img"><img src="assets/winkit-logo.webp" width="1574" height="353" decoding="async" alt="Winkit customer app brand" loading="lazy"></div><figcaption>Customer app</figcaption></figure>
+        <figure class="case-app"><div class="case-app-img"><img src="assets/winkit-drivers.webp" width="1200" height="630" decoding="async" alt="Winkit driver app brand" loading="lazy"></div><figcaption>Driver app</figcaption></figure>
       </div>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Local kitchens hand heavy commissions to the aggregators and juggle a separate point-of-sale tablet for every platform they join. Every order lands on hardware that is not their own.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Built the full stack myself: a customer web app taking live Stripe card payments, per-restaurant adapters that drop each order straight onto the kitchen's own system, and a separate driver app handling sign-up, shifts, GPS dispatch and real-time order state. No extra hardware for the kitchen.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live with its first partner restaurants taking real end-to-end orders, ahead of a wider launch. I co-founded it and own the entire technical stack as CTO.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Full-stack web</span><span class="tag">Stripe payments</span><span class="tag">per-kitchen adapters</span><span class="tag">driver app</span><span class="tag">GPS dispatch</span>
-      </div>
-      <div class="case-foot">
-        <span>Co-founder &amp; CTO &middot; architecture, build and ops</span>
-        <span class="plinks"><span class="muted">Live with partner kitchens &middot; launch soon</span></span>
-      </div>
+      <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0"><strong>Three zeros for the kitchen</strong>: &pound;0 commission (the kitchen keeps its own menu price), 0 drivers to hire, 0 new hardware.</p><p><strong>Orders land on kitchens&#39; existing systems</strong>: per-kitchen adapters have pushed live orders onto two different restaurant platforms, no extra tablet on the counter.</p><p><strong>Live Stripe card payments</strong> on winkit.uk, gated to each kitchen&#39;s real opening hours.</p><p><strong>A separate driver app</strong>: sign-up, shifts, live location, GPS dispatch and real-time order state, on Neon Postgres.</p><p><strong>Run lean on free tiers</strong>: I traced a cron keeping the database awake 24/7 and gated it by opening hours, cutting compute burn by about 68%.</p><p>One order, five stations: customer pays, the kitchen&#39;s own system, ready, dispatched, delivered. Orders land on the kitchen&#39;s own system, so the counter needs no extra tablet.</p></div></details>
+      <div class="tags"><span class="tag">full-stack</span><span class="tag">Stripe</span><span class="tag">Vercel functions</span><span class="tag">Postgres</span><span class="tag">GPS dispatch</span><span class="tag">order adapters</span></div>
+      <div class="case-foot"><span>Co-founder and CTO &middot; architecture, build and operations</span><span class="plinks"><a href="https://winkit.uk" target="_blank" rel="noopener">winkit.uk <span aria-hidden="true">&#8599;</span></a></span></div>
     </article>
 
     <article class="case dark reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Fifth9 &middot; applied AI</span>
-        <span class="pill pill-live">Live engagement</span>
+      <div class="case-kick"><span class="eyebrow">Team Bath Drones &middot; aerodynamics lead</span><span class="pill pill-research">Design and make &middot; Nov 2025 to May 2026</span></div>
+      <h3>Leading the aerodynamics <em>of a competition UAV.</em></h3>
+      <p class="case-summary">I ran the aerodynamics division on Team Bath Drones&#39; design-and-make entry. The job was simple to state and hard to do: more lift for every unit of drag, on less structure.</p>
+      <div class="case-metrics">
+        <div class="metric win"><span class="mval">30%</span><span class="mlab">lift-to-drag gain from an aerofoil trade study, Clark-Y against NACA 0015</span></div>
+        <div class="metric win"><span class="mval">400g</span><span class="mlab">structural weight saving, delivered at the Critical Design Review</span></div>
       </div>
-      <h3>Red-teaming, then hardening, a <em>pre-launch enterprise AI platform.</em></h3>
-      <p class="case-summary">A paid engagement with Fifth9, a UK technology consultancy, on their agentic AI orchestration platform for regulated enterprise. I came in as the adversary and stayed to build: I stress-tested the product and its connected tool servers over MCP, then helped harden and ship what I found, from security and data-handling fixes to new capabilities.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The brief</h4>
-              <p>Fifth9 is taking an agentic AI orchestration platform into regulated enterprise. Before it reaches blue-chip clients it has to survive a determined adversary, and then actually be usable.</p>
-            </div>
-            <div class="case-col">
-              <h4>My role</h4>
-              <p>Two jobs at once. First the adversary: red-teaming the agents, driving the full stack of tool servers over MCP, and running business acceptance testing. Then the builder: fixing what I broke, proving the platform's memory layer could carry a user's context across four major AI models with a single key, and shipping an internal tool that maps and searches the whole codebase so the team can see what exists and what is missing.</p>
-            </div>
-            <div class="case-col">
-              <h4>The impact</h4>
-              <p>Around thirty pull requests merged into their production codebase across the engagement, from security fixes to the cross-model memory work to the final code-search tool. Strong enough that they invited me back for a second year.</p>
-            </div>
-          </div>
-          <div class="case-metrics">
-            <div class="metric win"><span class="mval">~30</span><span class="mlab">PRs merged to production</span></div>
-            <div class="metric win"><span class="mval">4</span><span class="mlab">AI models on one memory</span></div>
-            <div class="metric"><span class="mval">2nd</span><span class="mlab">year invited back</span></div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">AI red-teaming</span><span class="tag">LLM evaluation</span><span class="tag">agentic AI</span><span class="tag">MCP tooling</span><span class="tag">full-stack</span><span class="tag">enterprise UAT</span>
-      </div>
-      <div class="case-foot">
-        <span>Paid engagement &middot; Fifth9 &middot; red-team then build</span>
-        <span class="plinks"><span class="muted">Under NDA</span></span>
-      </div>
+      <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0"><strong>Co-led the &quot;tadpole&quot; fuselage</strong> concept and its CAD.</p><p><strong>Presented the Critical Design Review</strong> to the judging panel for the team.</p><p><strong>Aerofoil trade study</strong>. Clark-Y against NACA 0015: +30% lift-to-drag in the trade study. Profiles come from the real section coordinates. Streamlines are illustrative, not CFD.</p></div></details>
+      <div class="tags"><span class="tag">aerodynamics</span><span class="tag">aerofoil trade study</span><span class="tag">CAD</span><span class="tag">CDR</span><span class="tag">Clark-Y</span><span class="tag">NACA 0015</span></div>
+      <div class="case-foot"><span>Aerodynamics division lead &middot; University design team</span><span class="plinks"></span></div>
+    </article>
+
+    <article class="case dark reveal">
+      <div class="case-kick"><span class="eyebrow">Fifth9 &middot; applied AI &middot; red team and build</span><span class="pill pill-live">Paid engagement &middot; invited back for a second year</span></div>
+      <h3>Attacking an enterprise AI platform, <em>then helping ship it.</em></h3>
+      <p class="case-summary">Fifth9 is taking an agentic AI orchestration platform into regulated enterprise, and before it reaches blue-chip clients it has to survive a determined adversary. I came in as that adversary and stayed to build.</p>
+      
+      <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0"><strong>Adversarial red-teaming</strong> of the platform&#39;s agents, driving its connected tool servers end to end over MCP.</p><p><strong>Business acceptance testing</strong> across the stack before client demos.</p><p><strong>~30 pull requests merged to production</strong>, from security and data-handling fixes to new capabilities.</p><p><strong>One memory, four models</strong>: proved the platform&#39;s memory layer could carry a user&#39;s context across four major AI models on a single key.</p><p><strong>Shipped an internal code-search tool</strong> that maps the whole codebase, so the team can see what exists and what is missing. Invited back after a 2025 internship where I shipped a generative-AI product in a five-day sprint and pitched its go-to-market to the directors.</p><p>Red-team console and a four-model memory graph, played on invented, generic probes: probe, guard, patch, retest.</p></div></details>
+      <div class="tags"><span class="tag">AI red-teaming</span><span class="tag">LLM evaluation</span><span class="tag">agentic AI</span><span class="tag">MCP tooling</span><span class="tag">UAT</span><span class="tag">full-stack</span></div>
+      <div class="case-foot"><span>Red team, UAT, MCP tooling and demo builds &middot; Fifth9</span><span class="plinks"><span class="muted">Client work under NDA</span></span></div>
     </article>
 
     <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Epicyclic gearbox &middot; Autodesk Inventor</span>
-        <span class="pill pill-private">Coursework &middot; 76.6%</span>
-      </div>
-      <div class="vidfeat">
-        <video controls preload="none" playsinline poster="assets/gearbox-poster.webp">
-          <source src="assets/gearbox.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div>
-          <h3>A 5:1 planetary gearbox, <em>modelled, driven and rendered.</em></h3>
-          <p>Built from a projected base sketch to guarantee the gears mesh, then drive-constraint animated with sectioned and exploded views.</p>
-          <details class="more">
-            <summary></summary>
-            <div class="more-body">
-              <p style="margin-top:0">Fitted with standard content-centre bearings and circlips (BS&nbsp;292 / ANSI&nbsp;B27.7M), with material selection justified on engineering grounds: a cast-iron housing for vibration damping, polished steel and brass for the shaft and gears. Alongside a set of GD&amp;T tolerancing drawings marked at 88%.</p>
-            </div>
-          </details>
-          <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">assemblies</span><span class="tag">drive constraints</span><span class="tag">rendering</span><span class="tag">GD&amp;T</span></div>
-          <div class="plinks" style="margin-top:18px"><a href="https://youtu.be/E5wqotY2ZiA" target="_blank" rel="noopener">Watch in HD on YouTube <span aria-hidden="true">&#8599;</span></a></div>
-        </div>
-      </div>
+      <div class="case-kick"><span class="eyebrow">Year 2 design &middot; snowmobile drive shaft</span><span class="pill pill-private">In progress &middot; stage gate October 2026</span></div>
+      <h3>From 20kW at the motor <em>to 209Nm at the track.</em></h3>
+      <p class="case-summary">An electric snowmobile has to put 20kW through a shaft small enough to sit between two track sprockets, survive -40&deg;C slush and steam cleaning, and come apart with standard tools. My half of our pair: the free-body diagrams, the loads and the drive ratio, built as an engine rather than a page of hand sums.</p>
+      
+      <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0"><strong>20kW at 3000RPM in, stepped down 3.28:1 to a 915RPM shaft carrying 209Nm</strong>, sized for 50km/h on a 290mm track sprocket.</p><p><strong>A symbolic loads engine</strong>: every reaction, moment and stress flows from named inputs, so a design change ripples through instantly.</p><p><strong>39 automated assertions pass</strong> on the calculation core.</p><p><strong>Critical section located</strong>: an 80.4Nm resultant bending moment at the drive sprocket, bearing reactions of 590.6N and 1340.1N.</p><p><strong>Stiffness checked, not assumed</strong>: 106&micro;m peak deflection, bearing slopes of 2.26 and 3.65 arcmin.</p><p><strong>Bearings sized for a 5200h life</strong>, ten hours a week for ten years, about 285 million revolutions at shaft speed.</p><p>Motor 3000RPM &middot; 63.7Nm to 3.28:1 to Shaft 915RPM &middot; 209Nm.</p><p><a href="https://dmm2-pair122-guide.vercel.app" target="_blank" rel="noopener">Explore the live design guide <span aria-hidden="true">&#8599;</span></a> &nbsp; <a href="https://dmm2-config-b-fbd.vercel.app" target="_blank" rel="noopener">FBD, shear and bending explainer <span aria-hidden="true">&#8599;</span></a></p></div></details>
+      <div class="tags"><span class="tag">machine design</span><span class="tag">FBD / SFD / BMD</span><span class="tag">bearing life</span><span class="tag">three.js</span><span class="tag">JavaScript</span><span class="tag">unit tests</span></div>
+      <div class="case-foot"><span>Pair design project, ME22007 &middot; my lane: loads, FBDs, drive ratio and shaft torque</span><span class="plinks"><a href="https://dmm2-pair122-guide.vercel.app" target="_blank" rel="noopener">Live design guide <span aria-hidden="true">&#8599;</span></a></span></div>
     </article>
+
+  </div>
+</section>
+
+<!-- BUILDS -->
+<section class="block" id="builds"><div class="wrap"><div class="block-head reveal"><span class="eyebrow">02 / More builds</span><h2 class="serif">Fourteen shipped, <em>and counting.</em></h2><p>Hardware, client sites, a tutoring business, bots and data pipelines. Most started as an itch of my own, then got hardened until they were reliable.</p></div></div></section>
+<section class="block" id="engineering-more">
+  <div class="wrap">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
+      <span class="eyebrow">Hardware</span>
+      <h2 class="serif">Hands-on <em>engineering.</em></h2>
+      <p>Epicyclic gearbox, ultrasonic measurement system, ping-pong launcher.</p>
+    </summary>
+    <div class="toggle-body">
+      <article class="case reveal">
+        <div class="case-kick"><span class="eyebrow">Hardware</span><span class="pill pill-private">Coursework &middot; 76.6%</span></div>
+        <div class="vidfeat">
+          <video controls preload="none" playsinline poster="assets/gearbox-poster.webp" aria-label="Silent looping render of a 5:1 epicyclic gearbox: the sun gear turns the planet gears inside a fixed ring gear and the planet carrier turns slowly as output.">
+            <source src="assets/gearbox.mp4" type="video/mp4">
+          </video>
+          <div>
+            <h3>Epicyclic gearbox</h3>
+            <p>A 5:1 planetary gearbox, modelled, driven and rendered in Autodesk Inventor.</p>
+            <p>Drive-constrained from a projected base sketch so the gears always mesh, fitted with standard bearings and circlips (BS 292, ANSI B27.7M), and backed by GD&amp;T drawings marked at 88%.</p>
+            <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">GD&amp;T</span><span class="tag">drive constraints</span><span class="tag">rendering</span></div>
+            <div class="plinks" style="margin-top:18px"><a href="https://youtu.be/E5wqotY2ZiA" target="_blank" rel="noopener">Watch in HD <span aria-hidden="true">&#8599;</span></a></div>
+          </div>
+        </div>
+      </article>
+    <div class="cards eng-cards">
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Hardware</span><span class="pill pill-live">Mechatronics coursework</span></div>
+        <h3>Ultrasonic measurement system</h3>
+        <p>An Arduino ranging rig calibrated to 1.0mm RMSE against a 4.3mm datasheet spec.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Moving-average filtering and least-squares calibration cut noise by 60%; I mapped the &plusmn;18&deg; beam and built a variance-based motion-rejection alarm.</p></div></details>
+        <div class="tags"><span class="tag">Arduino</span><span class="tag">MATLAB</span><span class="tag">signal processing</span><span class="tag">calibration</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Hardware</span><span class="pill pill-private">Year 1 team of 6</span></div>
+        <h3>Ping-pong launcher</h3>
+        <p>Authored the slider-crank concept the whole team&#39;s launcher was built on.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Chosen over five alternatives on a weighted decision matrix, then taken through full Inventor CAD inside a 380&times;180&times;300mm envelope and an &pound;85 budget.</p></div></details>
+        <div class="tags"><span class="tag">mechanism design</span><span class="tag">Inventor</span><span class="tag">DFM</span><span class="tag">decision matrix</span></div>
+        <div class="plinks"></div>
+      </article>
+    </div>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="block" id="web">
+  <div class="wrap">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
+      <span class="eyebrow">Web &amp; client</span>
+      <h2 class="serif">Shipping for <em>real people.</em></h2>
+      <p>Locus Tutors, Neetu&#39;s Crafts, Ruby&#39;s Rasoi.</p>
+    </summary>
+    <div class="toggle-body">
+    <div class="cards">
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Web &amp; client</span><span class="pill pill-live">Founder &middot; live</span></div>
+        <h3>Locus Tutors</h3>
+        <p>I turned my own tutoring into an online maths agency, and wrote the software that runs it.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Stripe save-card billing and a password-gated admin CRM I built from scratch, monthly PDF progress reports generated from lesson recordings, PostHog attribution on every channel.</p></div></details>
+        <div class="tags"><span class="tag">Stripe</span><span class="tag">Vercel</span><span class="tag">PostHog</span><span class="tag">Apps Script</span></div>
+        <div class="plinks"><a href="https://locustutors.com" target="_blank" rel="noopener">locustutors.com <span aria-hidden="true">&#8599;</span></a></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Web &amp; client</span><span class="pill pill-live">De facto CTO &middot; live</span></div>
+        <h3>Neetu&#39;s Crafts</h3>
+        <p>A full storefront for a family craft business, run end to end.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Edge-cached Vercel read path, an Apps Script and Sheets backend, UPI deep-link payments instead of a gateway and automatic order emails.</p></div></details>
+        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Vercel edge</span><span class="tag">Apps Script</span><span class="tag">UPI</span></div>
+        <div class="plinks"><a href="https://neetus-crafts.vercel.app" target="_blank" rel="noopener">neetus-crafts.vercel.app <span aria-hidden="true">&#8599;</span></a></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Web &amp; client</span><span class="pill pill-client">External client &middot; live</span></div>
+        <h3>Ruby&#39;s Rasoi</h3>
+        <p>A live restaurant site, shipped for a real client.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Built to a non-technical owner&#39;s brief on a platform I did not choose, then handed over something they can run.</p></div></details>
+        <div class="tags"><span class="tag">client work</span><span class="tag">web</span></div>
+        <div class="plinks"><a href="https://rubysrasoi.co.uk" target="_blank" rel="noopener">rubysrasoi.co.uk <span aria-hidden="true">&#8599;</span></a></div>
+      </article>
+    </div>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="block" id="automation">
+  <div class="wrap">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
+      <span class="eyebrow">Automation</span>
+      <h2 class="serif">Bots and pipelines that <em>run themselves.</em></h2>
+      <p>LocaBot, BaianaBot, earnings calendar, TES resource engine, WhatsApp scheduler.</p>
+    </summary>
+    <div class="toggle-body">
+    <div class="cards">
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Automation</span><span class="pill pill-private">Private</span></div>
+        <h3>LocaBot</h3>
+        <p>Six Chrome sessions in parallel, grabbing tickets the instant they drop.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Driven over the DevTools Protocol and coordinated with asyncio, with staggered polling to stay under rate limits.</p></div></details>
+        <div class="tags"><span class="tag">Python</span><span class="tag">asyncio</span><span class="tag">Playwright</span><span class="tag">CDP</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Automation</span><span class="pill pill-private">Private</span></div>
+        <h3>BaianaBot</h3>
+        <p>A ticket sniper that watches an API and checks out before a human can refresh.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Polls a live REST API, holds a persistent session and drives a Stripe checkout through sandboxed iframes, backed by 32 unit tests.</p></div></details>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">REST</span><span class="tag">Stripe</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Automation</span><span class="pill pill-live">Live &middot; private</span></div>
+        <h3>Earnings calendar</h3>
+        <p>A self-maintaining calendar of earnings dates for a 44-stock watchlist.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Runs unattended on scheduled triggers and rewrites each event with the realised price reaction afterwards.</p></div></details>
+        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Finnhub</span><span class="tag">cron</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Automation</span><span class="pill pill-live">Live</span></div>
+        <h3>TES resource engine</h3>
+        <p>Turns exam specifications and past papers into typeset worked-solution packs.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Generated as LaTeX, compiled with tectonic and published to the TES marketplace.</p></div></details>
+        <div class="tags"><span class="tag">LaTeX</span><span class="tag">tectonic</span><span class="tag">automation</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Automation</span><span class="pill pill-live">Live &middot; local</span></div>
+        <h3>WhatsApp scheduler</h3>
+        <p>Queue a message, and it sends itself at a sensible hour.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">A local web UI and a self-restarting background worker with retry and backoff, standard library only.</p></div></details>
+        <div class="tags"><span class="tag">Python</span><span class="tag">launchd</span></div>
+        <div class="plinks"></div>
+      </article>
+    </div>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="block" id="data">
+  <div class="wrap">
+    <details class="toggle">
+    <summary class="block-head toggle-head reveal">
+      <span class="eyebrow">Data</span>
+      <h2 class="serif">Turning messy data into <em>something you can read.</em></h2>
+      <p>Family portfolio tracker, poker tracker, pool tracker, cricket tracker.</p>
+    </summary>
+    <div class="toggle-body">
+    <div class="cards">
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Data</span><span class="pill pill-private">Private</span></div>
+        <h3>Family portfolio tracker</h3>
+        <p>Nine accounts and 37 holdings in one self-reconciling dashboard.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Pulls live positions from the Trading 212 API, handles multi-currency pricing and failed feeds, and reconciles to the penny.</p></div></details>
+        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Trading 212 API</span><span class="tag">GOOGLEFINANCE</span></div>
+        <div class="plinks"></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Data</span><span class="pill pill-live">Personal project</span></div>
+        <h3>Poker tracker</h3>
+        <p>A session tracker with real variance analytics.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Standard deviation, 95% confidence intervals, breakeven win rate and expected value per session, computed from the raw data.</p></div></details>
+        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Apps Script</span><span class="tag">statistics</span></div>
+        <div class="plinks"><a href="https://bobsmith.netlify.app" target="_blank" rel="noopener">Live demo <span aria-hidden="true">&#8599;</span></a></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Data</span><span class="pill pill-live">Personal project</span></div>
+        <h3>Pool tracker</h3>
+        <p>A scoring app for a custom multiplayer pool game.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">Per-turn undo, persistent state and an all-time leaderboard on a serverless Sheets store.</p></div></details>
+        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">localStorage</span><span class="tag">Google Sheets</span></div>
+        <div class="plinks"><a href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener">Live demo <span aria-hidden="true">&#8599;</span></a></div>
+      </article>
+      <article class="card reveal">
+        <div class="proj-top"><span class="proj-cat">Data</span><span class="pill pill-private">Private</span></div>
+        <h3>Cricket tracker</h3>
+        <p>Play-Cricket scorecards scraped into a clean stats database.</p>
+        <details class="more"><summary></summary><div class="more-body"><p style="margin-top:0">A logged-in Playwright scraper with match-level de-duplication, which also migrated an old manual dataset across.</p></div></details>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">Google Sheets</span></div>
+        <div class="plinks"></div>
+      </article>
+    </div>
+    </div>
+    </details>
   </div>
 </section>
 
@@ -719,9 +829,11 @@
     </div>
     <div class="bio reveal">
       <span class="eyebrow">About</span>
-      <h2 class="serif">First-year engineer, <em>compulsive builder.</em></h2>
-      <p>I am Aadi, a first-year Aerospace Engineering student at the University of Bath. The course runs mechanical for two years, then a placement year in industry, then a specialising year in aerospace.</p>
-      <p>I build compulsively, ML research, live data pipelines, automation and full-stack web, because the fastest way I learn a system is to ship one. The thread through all of it is the same: applying software and machine learning to real, physical, engineering problems. Long term I want to work where hard engineering and software actually meet.</p>
+      <h2 class="serif">Second-year engineer, <em>compulsive builder.</em></h2>
+      <p>I am Aadi, a second-year Aerospace Engineering student at the University of Bath. The course runs mechanical for two years, then a placement year in industry, then a specialising year in aerospace.</p>
+      <p>I build compulsively, because the fastest way I learn a system is to ship one. The thread through all of it is the same: software and machine learning pointed at real, physical engineering problems. A battery that cannot report its own charge, a shaft that has to carry 209Nm through slush, a kitchen that should not need a second tablet.</p>
+      <p>Year 1 finished as a First, at 73.8%. Long term I want to work where hard engineering and software actually meet.</p>
+      <p class="muted" style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.9">University: University of Bath &middot; MEng Aerospace with Placement<br>Placement window: 2027/28<br>Based in: Bath, UK</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
@@ -733,308 +845,6 @@
   </div>
 </section>
 
-<!-- ENGINEERING & HARDWARE -->
-<section class="block" id="engineering-more">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">02 / Engineering &amp; hardware</span>
-      <h2 class="serif">Hands-on <em>engineering.</em></h2>
-      <p>Aerospace, embedded sensing and mechanical design: a competition UAV, a calibrated ultrasonic rig and a team mechanism design.</p>
-    </summary>
-    <div class="toggle-body">
-
-    <div class="cards eng-cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Aerospace &middot; design &amp; make</span><span class="pill pill-research">Division lead</span></div>
-        <h3>Autonomous UAV &middot; Team Bath Drones</h3>
-        <p>Aerodynamics division lead on a competition UAV.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Evaluated Clark-Y against NACA&nbsp;0015 profiles for a 30% lift-to-drag gain, co-led the tadpole fuselage and its CAD, and delivered the Critical Design Review with a 400&nbsp;g structural weight saving.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Aerodynamics</span><span class="tag">CAD</span><span class="tag">Clark-Y / NACA</span><span class="tag">CDR</span></div>
-        <div class="plinks"><span class="muted">University design team</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Embedded &middot; sensing &amp; DSP</span><span class="pill pill-live">Built &amp; tested</span></div>
-        <h3>Ultrasonic Measurement System</h3>
-        <p>An Arduino and HC-SR04 ranging rig I calibrated to 1.0&nbsp;mm RMSE, against a 4.3&nbsp;mm datasheet spec.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">A moving-average filter and least-squares regression cut noise 60%. I mapped the &plusmn;18&deg; beam field of view and drove a three-state alert machine with a variance-based motion-rejection filter.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Arduino</span><span class="tag">MATLAB</span><span class="tag">signal processing</span><span class="tag">calibration</span></div>
-        <div class="plinks"><span class="muted">Mechatronics coursework</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Mechanical design &middot; team of 6</span><span class="pill pill-private">Design &amp; CAD &middot; build Y2</span></div>
-        <h3>Ping-Pong Launcher</h3>
-        <p>Authored the winning launch-mechanism concept, a slider-crank hammer, that the group's entire final design was built on.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Chosen over five alternatives on a weighted decision matrix. The team produced full Inventor CAD, a quick-return kinematic model predicting a 27.8&nbsp;m/s launch, and a laser-cut and 3D-printed build package inside a 380&times;180&times;300&nbsp;mm envelope and an &pound;85 budget. Manufacture is scheduled for Year&nbsp;2.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Autodesk Inventor</span><span class="tag">mechanism design</span><span class="tag">DFM</span><span class="tag">decision matrix</span></div>
-        <div class="plinks"><span class="muted">Year-1 group design project</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- WEB & CLIENT -->
-<section class="block" id="web">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">03 / Web &amp; client work</span>
-      <h2 class="serif">Shipping for real people, <em>not just myself.</em></h2>
-      <p>Production websites under real constraints, including my only external client build and a full storefront I run end to end.</p>
-    </summary>
-    <div class="toggle-body">
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Neetu's Crafts &middot; family business</span>
-        <span class="pill pill-live">Live</span>
-      </div>
-      <h3>A full storefront for a craft business, <em>end to end.</em></h3>
-      <p class="case-summary">A single-file Vercel storefront for a family craft business, with a Google Apps Script and Sheets backend, UPI deep-link payments instead of a gateway, and order emails. Live with checkout shipped, and I run it as de facto CTO.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>Handmade mirror-work wall art with nowhere to sell it, no budget for platform fees, and no payment gateway or KYC to lean on.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>A single-file vanilla storefront on Vercel with an edge-cached read path, a Google Apps Script and Sheets backend as the database, UPI deep-link payments instead of a gateway, and order-notification emails via MailApp. A GitHub Actions cron keeps the function warm.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live, with checkout shipped, and I run it as de facto CTO. The most complete end-to-end product I have built, from serverless read path to payments to fulfilment emails.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Vanilla JS</span><span class="tag">Vercel edge fn</span><span class="tag">Apps Script</span><span class="tag">Google Sheets</span><span class="tag">UPI</span>
-      </div>
-      <div class="case-foot">
-        <span>De-facto CTO &middot; architecture, build and ops</span>
-        <span class="plinks"><a href="https://neetus-crafts.vercel.app" target="_blank" rel="noopener">neetus-crafts.vercel.app <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Ruby's Rasoi &middot; restaurant client</span>
-        <span class="pill pill-client">Client</span>
-      </div>
-      <h3>A live restaurant site, <em>shipped for a real client.</em></h3>
-      <p class="case-summary">My only external client build. I designed and shipped a live restaurant site to a non-technical owner's brief, on a platform I did not get to choose, then handed over something they can run.</p>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <div class="case-cols">
-            <div class="case-col">
-              <h4>The problem</h4>
-              <p>A friend's restaurant needed a public presence, fast, under a non-technical owner's brief and on a platform I did not get to choose.</p>
-            </div>
-            <div class="case-col">
-              <h4>The approach</h4>
-              <p>Designed and built the whole thing to the client's content and constraints rather than my own preferences, which is the compromise real client work actually is.</p>
-            </div>
-            <div class="case-col">
-              <h4>The result</h4>
-              <p>Live and in use. My only external client build, and proof I can ship for someone other than myself and hand over something they can run.</p>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div class="tags"><span class="tag">Web</span><span class="tag">client work</span><span class="tag">shipped</span></div>
-      <div class="case-foot">
-        <span>External client &middot; delivered and handed over</span>
-        <span class="plinks"><a href="https://rubysrasoi.co.uk" target="_blank" rel="noopener">rubysrasoi.co.uk <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-
-    <article class="case reveal">
-      <div class="case-kick">
-        <span class="eyebrow">Locus Tutors &middot; maths tutoring agency</span>
-        <span class="pill pill-live">Live</span>
-      </div>
-      <h3>I turned my tutoring into an <em>agency, and built the software that runs it.</em></h3>
-      <p class="case-summary">I started tutoring GCSE and A-Level maths myself, then turned it into Locus Tutors, an online agency. Now I recruit and vet the tutors, match each student to the right one and run the sales, billing and reporting, all on an operating stack I built myself so the business runs on software instead of my hours.</p>
-      <div class="tags">
-        <span class="tag">Tiered client pricing ladder</span>
-        <span class="tag">3 tutors, incl. a Cambridge mathematician</span>
-        <span class="tag">Auto-generated monthly PDF reports</span>
-        <span class="tag">Stripe CRM + PostHog, built solo</span>
-      </div>
-      <details class="more">
-        <summary></summary>
-        <div class="more-body">
-          <p style="margin-top:0"><strong>The pivot.</strong> I went from tutoring every hour myself to a founder and ops role, and I no longer teach. I bring in the tutors, currently Sam (Cambridge maths, A*A*A*A*A*), Noah (Bath, sat Edexcel Maths and Further Maths last year) and my sister Aanchal (Bath, Maths and Economics), match each student to the right one, and take the margin between what the tutor is paid and what the client pays.</p>
-          <p><strong>Booking and billing.</strong> A static front end on Vercel with a Stripe backend I wrote from scratch. Parents save a card at zero pounds through a save-card link with no subscription, and I charge any amount from a password-gated admin CRM that tracks balance due, margin per hour and lifetime totals per client and per tutor, all held in Stripe customer metadata so there is no separate database to babysit.</p>
-          <p><strong>Monthly progress reports, generated automatically.</strong> I pull what each tutor actually covered straight from the lesson recordings, write it up lesson by lesson, and bake the invoice into the same PDF. One document is both the progress report and the payment ask.</p>
-          <p><strong>Analytics and attribution.</strong> PostHog runs on the site for sessions, replays and full CTA tracking, and tracked redirect links tag every channel by source, with the worksheet link sitting in the footer of every worked-solution pack I publish.</p>
-          <p><strong>Lead-gen.</strong> A Facebook ad-card generator plus a group-posting rotation, backed by Meta ads, marketplace listings and a live Superprof profile, all feeding one free-first-lesson funnel. The forward-ready card lives at <a href="https://tutoring-with-aadi.vercel.app" target="_blank" rel="noopener">tutoring-with-aadi.vercel.app</a> and the marketing site at <a href="https://maths-agency.vercel.app" target="_blank" rel="noopener">maths-agency.vercel.app</a>.</p>
-          <p><strong>Pricing.</strong> A tiered pricing structure that scales with exam level, from GCSE up through Oxbridge and TMUA prep, with a healthy margin retained on every booking, and a free full-hour first lesson as the conversion hook.</p>
-        </div>
-      </details>
-      <div class="tags">
-        <span class="tag">Stripe</span><span class="tag">Vercel</span><span class="tag">PostHog</span><span class="tag">Apps Script</span><span class="tag">Meta ads</span>
-      </div>
-      <div class="case-foot">
-        <span>Founder &amp; operator &middot; recruiting, matching, billing and reporting</span>
-        <!-- [confirm] locustutors.com resolves live before shipping; not in the recon known-live URL list -->
-        <span class="plinks"><a href="https://locustutors.com" target="_blank" rel="noopener">locustutors.com <span aria-hidden="true">&#8599;</span></a></span>
-      </div>
-    </article>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- AUTOMATION -->
-<section class="block" id="automation">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">04 / Automation</span>
-      <h2 class="serif">Bots and pipelines that <em>run themselves.</em></h2>
-      <p>Concurrency, anti-bot engineering and always-on scheduling. Mostly built to scratch my own itch, then hardened until they were reliable.</p>
-    </summary>
-    <div class="toggle-body">
-    <div class="cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Ticket sniper</span><span class="pill pill-private">Private</span></div>
-        <h3>BaianaBot</h3>
-        <p>Snipes club-night tickets the instant they drop.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Polls Fatsoma's API, defeats Cloudflare, holds a persistent login and drives a Stripe checkout through sandboxed iframes. Hardened with 32 unit tests.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">REST polling</span><span class="tag">Stripe</span></div>
-        <div class="plinks"><span class="muted">Local automation</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Concurrent sniper</span><span class="pill pill-private">Private</span></div>
-        <h3>LocaBot</h3>
-        <p>Six Chrome sessions in parallel to grab multiple discounted tickets at drop time.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Driven over the DevTools Protocol, coordinated with asyncio and staggered polling to dodge rate limits.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">asyncio</span><span class="tag">Playwright</span><span class="tag">CDP</span></div>
-        <div class="plinks"><span class="muted">Local automation</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Self-maintaining</span><span class="pill pill-live">Live</span></div>
-        <h3>Earnings Calendar</h3>
-        <p>A hands-off Apps Script service that syncs a 44-stock watchlist's earnings dates onto a calendar.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It then rewrites each event with the realised price reaction, and runs unattended on scheduled triggers.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Finnhub API</span><span class="tag">Yahoo API</span><span class="tag">cron</span></div>
-        <div class="plinks"><span class="muted">Private calendar service</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Always-on tool</span><span class="pill pill-live">Live</span></div>
-        <h3>WhatsApp Scheduler</h3>
-        <p>A self-restarting scheduler that fires queued messages inside quiet hours.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">A small web UI and a background worker with retry and backoff. Standard library only, no dependencies.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">stdlib</span><span class="tag">launchd</span><span class="tag">web UI</span></div>
-        <div class="plinks"><span class="muted">Local tool</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Content pipeline</span><span class="pill pill-live">Live</span></div>
-        <h3>TES Resource Engine</h3>
-        <p>Turns official exam specifications and hundreds of past papers into professionally typeset worked-solution packs.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Generated as LaTeX and compiled with tectonic, then published to the TES marketplace.</p></div>
-        </details>
-        <div class="tags"><span class="tag">LaTeX</span><span class="tag">tectonic</span><span class="tag">automation</span></div>
-        <div class="plinks"><span class="muted">On the TES marketplace</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<!-- DATA & TRACKERS -->
-<section class="block" id="data">
-  <div class="wrap">
-    <details class="toggle">
-    <summary class="block-head toggle-head reveal">
-      <span class="eyebrow">05 / Data &amp; trackers</span>
-      <h2 class="serif">Turning messy data into <em>something you can read.</em></h2>
-      <p>Live API pipelines and analytics dashboards behind a single clean surface.</p>
-    </summary>
-    <div class="toggle-body">
-
-    <div class="cards">
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Financial pipeline</span><span class="pill pill-private">Private</span></div>
-        <h3>Family Portfolio Tracker</h3>
-        <p>A live pipeline pulling positions from the Trading 212 API into a self-reconciling Google Sheets dashboard.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It handles multi-currency conversion, sold-position deletion and price-failure fallbacks across 9 accounts and 37 holdings, reconciled to the penny.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Apps Script</span><span class="tag">Trading 212 API</span><span class="tag">GOOGLEFINANCE</span></div>
-        <div class="plinks"><span class="muted">Private dashboard</span></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Variance analytics</span><span class="pill pill-live">Live</span></div>
-        <h3>Poker Tracker</h3>
-        <p>A mobile-first session tracker with a genuinely quantitative dashboard.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Standard deviation, 95% confidence intervals, breakeven win-rate and expected value per session, computed from the raw session data rather than a running total.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Apps Script</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://bobsmith.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Poker Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Scoring app</span><span class="pill pill-live">Live</span></div>
-        <h3>Pool Tracker</h3>
-        <p>A dependency-free scoring app for a custom multiplayer pool game.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">Per-turn undo, persistent state and an aggregated all-time leaderboard on a serverless Sheets store.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">localStorage</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><a href="https://aadipooltracker.netlify.app" target="_blank" rel="noopener" aria-label="Live demo of the Pool Tracker">Live demo <span aria-hidden="true">&#8599;</span></a></div>
-      </article>
-      <article class="card reveal">
-        <div class="proj-top"><span class="proj-cat">Scraper pipeline</span><span class="pill pill-private">Private</span></div>
-        <h3>Cricket Tracker</h3>
-        <p>A logged-in Playwright scraper that turns Play-Cricket scorecards into a clean, de-duplicated Google Sheets stats database.</p>
-        <details class="more">
-          <summary></summary>
-          <div class="more-body"><p style="margin-top:0">It migrated an existing manual dataset across in the process.</p></div>
-        </details>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Playwright</span><span class="tag">Google Sheets</span></div>
-        <div class="plinks"><span class="muted">Private dashboard</span></div>
-      </article>
-    </div>
-    </div>
-    </details>
-  </div>
-</section>
-
 <!-- CONTACT / FINAL -->
 <section class="final" id="contact">
   <div class="wrap reveal">
@@ -1043,8 +853,8 @@
       <circle cx="4" cy="8" r="3.4" fill="#1E48E0"/><circle cx="124" cy="42" r="3.4" fill="#1E48E0"/>
     </svg>
     <span class="eyebrow" style="justify-content:center">Get in touch</span>
-    <h2 class="serif">Building something where this <em>fits?</em></h2>
-    <p>I am looking for a placement year in industry and always up for a conversation about hard engineering, ML or anything I have shipped here.</p>
+    <h2 class="serif">Building something<br>where this <em>fits?</em></h2>
+    <p>I am looking for a 2027/28 placement year in industry, and I am always up for a conversation about hard engineering, machine learning or anything on this page.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
@@ -1061,7 +871,7 @@
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg>
         LinkedIn
       </a>
-      <a href="https://www.instagram.com/aadityakalwani/" target="_blank" rel="noopener" aria-label="Instagram">
+      <a href="https://www.instagram.com/kalwaniaaditya/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
         Instagram
       </a>
@@ -1122,8 +932,8 @@ document.addEventListener("click",function(e){
 <script>
 /* forward-pass hero network */
 (function(){
-  var inputs=[{t:"Aaditya Kalwani"},{t:"Aerospace · Bath"},{t:"Age 19"},{t:"ML for physical systems"},{t:"First-class · Yr 1"},{t:"Compulsive builder"}];
-  var outputs=[{t:"Battery-SOC paper",s:"first author"},{t:"Co-founder &amp; CTO",s:"Winkit"},{t:"Aerodynamics lead",s:"Team Bath Drones"},{t:"Full-stack intern",s:"Fifth9"},{t:"Founder · tutoring",s:"15+ students"},{t:"Neetu's Crafts",s:"live storefront"},{t:"14+ shipped",s:"bots, trackers, sites"}];
+  var inputs=[{t:"Aaditya Kalwani"},{t:"Aerospace · Bath"},{t:"Year 2"},{t:"ML for physical systems"},{t:"First · Year 1"},{t:"Compulsive builder"}];
+  var outputs=[{t:"First-author paper",s:"battery SOC"},{t:"Winkit CTO",s:"live delivery platform"},{t:"UAV aero lead",s:"competition UAV"},{t:"Fifth9 red team",s:"AI red-teaming"},{t:"Drive-shaft design",s:"electric snowmobile"},{t:"14+ shipped",s:"and counting"}];
   var panel=document.getElementById("fp"),svg=document.getElementById("fp-svg"),stage=document.getElementById("fp-stage");
   if(!panel||!svg||!stage)return;
   var NS="http://www.w3.org/2000/svg";

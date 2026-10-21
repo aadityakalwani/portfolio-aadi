@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>
-/* Phones and touch-first devices get the lightweight page (m.html) before any 3D code is requested.
-   Add ?view=3d to force the full 3D site on any device. */
+/* Phones and touch-first devices get the lightweight page (m.html) before any 3D code is requested. */
 (function(){try{
   var m=window.matchMedia;
-  var lite=!/[?&]view=3d(&|$)/.test(location.search)&&(innerWidth<768||(m('(pointer:coarse)').matches&&m('(hover:none)').matches));
+  var lite=innerWidth<768||(m('(pointer:coarse)').matches&&m('(hover:none)').matches);
   if(lite){window.__lite=true;location.replace('/m.html'+location.search+location.hash);}
 }catch(e){}})();
 </script>
