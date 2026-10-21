@@ -19,7 +19,7 @@
       ]
     },
     {
-      "source": "/assets/(.*)\\.(jpg|png|mp4|pdf)",
+      "source": "/assets/(.*)\\.(jpg|png|webp|mp4|pdf)",
       "headers": [
         {
           "key": "Cache-Control",
