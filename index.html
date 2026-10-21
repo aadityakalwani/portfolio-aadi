@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Phones and touch-first devices get the lightweight page (m.html) before any 3D code is requested.
+   Add ?view=3d to force the full 3D site on any device. */
+(function(){try{
+  var m=window.matchMedia;
+  var lite=!/[?&]view=3d(&|$)/.test(location.search)&&(innerWidth<768||(m('(pointer:coarse)').matches&&m('(hover:none)').matches));
+  if(lite){window.__lite=true;location.replace('/m.html'+location.search+location.hash);}
+}catch(e){}})();
+</script>
 <title>Aaditya Kalwani · Aerospace engineer and builder</title>
 <script>
 (function(){var t='light';try{t=localStorage.getItem('aadi-theme')||'light'}catch(e){}
@@ -415,6 +424,6 @@ setTimeout(function(){if(!window.__siteReady){document.documentElement.classList
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="assets/js/site.js"></script>
+<script>if(!window.__lite){var s=document.createElement("script");s.type="module";s.src="assets/js/site.js";document.body.appendChild(s);}</script>
 </body>
 </html>
