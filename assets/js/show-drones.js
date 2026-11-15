@@ -452,7 +452,7 @@ function mountInner(container, opts) {
   let morphTarget = 1, morphCur = 1, morphAnim = null;
   let autoOn = false, userTouched = false, autoT0 = 0;
   let running = false, visible = true, disposed = false, raf = 0, lastT = 0;
-  let dirty = true;
+  let dirty = true, lastSolve = 0;
   let W = 0, H = 0, dpr = 1;
   let viewW = 2.6, scale = 1, ox = 0, oy = 0, vLeft = -0.8, vRight = 1.8, vTop = 0.7, vBottom = -0.7;
   const coarse = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
@@ -805,7 +805,8 @@ function mountInner(container, opts) {
     }
     const d = alphaTarget - alphaCur;
     if (Math.abs(d) > 0.002) { alphaCur += d * Math.min(1, dt * 9); dirty = true; } else if (d !== 0) { alphaCur = alphaTarget; dirty = true; }
-    if (dirty) { recompute(); updateReadout(); }
+    /* the auto sweep moves alpha slowly, so re-solve the 128-panel system at 15Hz there; user input stays instant */
+    if (dirty && (!autoOn || now - lastSolve > 66)) { lastSolve = now; recompute(); updateReadout(); }
     if (prewarmPending) prewarm();
     advance(dt);
     render();

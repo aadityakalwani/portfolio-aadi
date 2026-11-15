@@ -59,8 +59,39 @@ function stopLenis() {
 startLenis();
 
 /* ------------------------------------------------------------------ scenes */
-const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false }));
+/* play-on-reach: a scene starts its timeline once it is reached, then plays at its own pace whatever the scroll does next */
+const SPEED = 0.7; // one knob for every reach-triggered timeline: 1 = original pace, lower = slower
+const SCENE_MS = { top: 9000, soc: 7000, winkit: 3500, shaft: 7000 };
+const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: (SCENE_MS[el.id] || 6000) / SPEED }));
 const sceneById = Object.fromEntries(scenes.map((s) => [s.id, s]));
+const sceneIO = new IntersectionObserver((ents) => {
+  for (const en of ents) {
+    if (!en.isIntersecting) continue;
+    const s = scenes.find((x) => x.el === en.target);
+    if (s && !s.t0) s.t0 = performance.now();
+    sceneIO.unobserve(en.target);
+  }
+}, { threshold: 0.4 });
+/* the hero is the top of the page, so it is 'reached' by scrolling a little way into its pinned stage (see frame) */
+scenes.forEach((s) => { if (s.id !== 'top') sceneIO.observe(s.el); });
+const HERO_GO = 0.3; // fraction of a viewport scrolled before the forward pass starts
+
+/* replay: once a scene's timeline has finished, offer to run it again */
+const REPLAY_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>';
+for (const s of scenes) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'replay'; b.hidden = true;
+  b.innerHTML = REPLAY_SVG + '<span>Replay</span>';
+  b.setAttribute('aria-label', 'Replay this animation');
+  b.addEventListener('click', () => {
+    delete s.el.dataset.manual;
+    s.p = s.ps = 0; s.t0 = performance.now(); b.hidden = true; frameDirty = true;
+    if (s.id === 'top') { const y = Math.ceil(innerHeight * HERO_GO) + 2; lenis ? lenis.scrollTo(y) : scrollTo({ top: y }); }
+  });
+  s.el.querySelector('.stage').appendChild(b);
+  s.replay = b;
+}
+const sceneP = (s, now) => (!pinned ? 1 : s.t0 ? clamp((now - s.t0) / s.dur, 0, 1) : 0);
 const secEls = ['work', 'builds', 'about', 'contact'].map((id) => ({ id, el: document.getElementById(id), top: 0 }));
 let vh = innerHeight;
 let docMax = 1;
@@ -253,7 +284,7 @@ function buildScrub() {
       });
     };
     walk(el);
-    scrubEls.push({ el, words });
+    scrubEls.push({ el, words, t0: 0 });
   });
 }
 buildScrub();
@@ -475,8 +506,8 @@ if (emailBtn) {
 
 /* ------------------------------------------------------------------ hero mount */
 const heroEl = $('#hero-stage');
-const heroText = $('#hero-text');
 const heroScene = sceneById.top;
+const heroText = $('#hero-text');
 let heroInst = null;
 let heroStatic = false;
 const heroStage = heroEl.closest('.stage');
@@ -552,52 +583,75 @@ let last = performance.now();
 const aboutEl = $('#about');
 const photo = $('.photo-frame');
 const contactBand = $('.contact-band');
-let lastY = -1, lastVh = -1, lastLayoutV = -1, lastPinned = null, lastHero = null, lastHeroStatic = null;
+let lastY = -1, lastVh = -1, lastLayoutV = -1, lastPinned = null, lastHero = null, lastHeroStatic = null, lastHeroPs = -1, scrubbing = false;
 function frame(t) {
   const dt = Math.min(0.05, (t - last) / 1000);
   last = t;
   if (lenis) lenis.raf(t);
   const y = scrollY;
-  let settling = false;
 
   for (const s of scenes) {
     if (!s.init) {
-      s.p = pinned ? clamp((y - s.top) / s.len, 0, 1) : 1;
+      s.p = sceneP(s, t);
       s.ps = s.p; s.init = true;
       s.el.style.setProperty('--p', s.ps.toFixed(4));
       if (s.on) s.on(s.ps, s.p, dt);
-      settling = true;
       continue;
     }
-    const near = y + vh * 1.3 > s.top && y < s.top + s.len + vh * 1.2;
-    if (!near) continue;
-    s.p = pinned ? clamp((y - s.top) / s.len, 0, 1) : 1;
+    s.p = sceneP(s, t);
     const was = s.ps;
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
-    if (Math.abs(s.ps - s.p) > 0.0004 || s.ps !== was) settling = true;
     if (s.ps !== was) s.el.style.setProperty('--p', s.ps.toFixed(4));
     if (s.on) s.on(s.ps, s.p, dt);
+    const done = pinned && s.p >= 1;
+    if (s.replay.hidden === done) s.replay.hidden = !done;
   }
 
-  /* everything below only recomputes when the scroll position, the viewport, the layout or a scene has moved */
+  /* below, each block only runs when its own inputs changed: no layout reads on frames where nothing scrolled */
   const moved = y !== lastY || vh !== lastVh || layoutV !== lastLayoutV || pinned !== lastPinned || heroInst !== lastHero || heroStatic !== lastHeroStatic || frameDirty;
-  if (moved || settling) {
-    /* hero */
-    if (heroScene) {
-      if (pinned && !heroStatic) {
-        const ps = heroScene.ps;
-        if (heroInst) heroInst.setProgress(ps);
-        const f = clamp(ps / 0.12, 0, 1);
-        heroText.style.opacity = String(1 - f);
-        heroText.style.transform = 'translate3d(0,' + (-48 * f).toFixed(1) + 'px,0)';
-        heroText.classList.toggle('gone', f > 0.92);
-      } else {
-        heroText.style.opacity = '';
-        heroText.style.transform = '';
-        heroText.classList.remove('gone');
+  const heroPs = heroScene ? heroScene.ps : 1;
+  if (heroScene && (moved || heroPs !== lastHeroPs)) {
+    lastHeroPs = heroPs;
+    if (pinned && !heroStatic) {
+      if (heroInst) heroInst.setProgress(heroPs);
+      /* the headline clears as you scroll into the pinned stage; the cell only starts moving once it has gone */
+      const f = clamp(y / (vh * HERO_GO), 0, 1);
+      if (!heroScene.t0 && f >= 1) heroScene.t0 = t;
+      heroText.style.opacity = String(1 - f);
+      heroText.style.transform = 'translate3d(0,' + (-48 * f).toFixed(1) + 'px,0)';
+      heroText.classList.toggle('gone', f > 0.92);
+      /* back at the top after it has played: dim the network so it never sits on the headline */
+      heroEl.style.opacity = heroScene.t0 ? (0.12 + 0.88 * f).toFixed(3) : '';
+    } else {
+      heroText.style.opacity = '';
+      heroText.style.transform = '';
+      heroText.classList.remove('gone');
+      heroEl.style.opacity = '';
+    }
+  }
+
+  /* word scrub: starts once reached, then runs on its own clock */
+  if ((moved || scrubbing) && !reduceMQ.matches) {
+    scrubbing = false;
+    for (const sc of scrubEls) {
+      if (!sc.t0) {
+        const r = sc.el.getBoundingClientRect();
+        if (r.top > vh * 0.75 || r.bottom < 0) continue;
+        sc.t0 = t;
+      }
+      const tt = clamp((t - sc.t0) / (1600 / SPEED), 0, 1);
+      if (tt < 1) scrubbing = true;
+      else if (sc.done) continue;
+      sc.done = tt >= 1;
+      const n = sc.words.length;
+      for (let i = 0; i < n; i++) {
+        const w = seg(tt, (i / n) * 0.8, (i / n) * 0.8 + 0.2);
+        sc.words[i].style.setProperty('--wo', (0.22 + 0.78 * w).toFixed(3));
       }
     }
+  }
 
+  if (moved) {
     /* nav */
     nav.classList.toggle('is-scrolled', y > 24);
     if (contactBand) {
@@ -609,20 +663,6 @@ function frame(t) {
     let act = null;
     for (const s of secEls) if (s.top <= probe) act = s.id;
     setActive(act);
-
-    /* word scrub */
-    if (!reduceMQ.matches) {
-      for (const sc of scrubEls) {
-        const r = sc.el.getBoundingClientRect();
-        if (r.bottom < -40 || r.top > vh + 40) continue;
-        const tt = clamp((vh * 0.85 - r.top) / (vh * 0.5), 0, 1);
-        const n = sc.words.length;
-        for (let i = 0; i < n; i++) {
-          const w = seg(tt, (i / n) * 0.8, (i / n) * 0.8 + 0.2);
-          sc.words[i].style.setProperty('--wo', (0.22 + 0.78 * w).toFixed(3));
-        }
-      }
-    }
 
     /* about parallax */
     if (pinned && aboutEl && photo) {

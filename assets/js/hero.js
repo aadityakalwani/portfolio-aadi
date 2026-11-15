@@ -43,7 +43,7 @@ const OUTPUTS = [
   { t: 'UAV aero lead', s: 'Competition UAV' },
   { t: 'Fifth9 red team', s: 'Adversarial AI red-teaming' },
   { t: 'Drive-shaft design', s: 'Electric snowmobile drive train' },
-  { t: '14+ shipped', s: 'And counting' },
+  { t: '20+ shipped', s: 'And counting' },
 ];
 const CHAPTERS = [
   ['01', 'The cell', 'A battery cannot tell you how full it is.'],
@@ -1065,7 +1065,7 @@ function createInstance(container, o) {
     compact,
     mode,
     getP: () => st.ps,
-    setProgress(p, imm) { extP = clamp(p, 0, 1); if (imm) { st.ps = extP; } if (!raf) renderOnce(); },
+    setProgress(p, imm) { extP = clamp(p, 0, 1); if (imm) { st.ps = extP; } if (!raf && onScreen) renderOnce(); }, // off-screen: the io kick renders it on return
     setTheme(t) { applyTheme(t); if (!raf) renderOnce(); },
     play() { startTimeline(); },
     dispose() {
