@@ -566,13 +566,12 @@ let last = performance.now();
 const aboutEl = $('#about');
 const photo = $('.photo-frame');
 const contactBand = $('.contact-band');
-let lastY = -1, lastVh = -1, lastLayoutV = -1, lastPinned = null, lastHero = null, lastHeroStatic = null;
+let lastY = -1, lastVh = -1, lastLayoutV = -1, lastPinned = null, lastHero = null, lastHeroStatic = null, lastHeroPs = -1, scrubbing = false;
 function frame(t) {
   const dt = Math.min(0.05, (t - last) / 1000);
   last = t;
   if (lenis) lenis.raf(t);
   const y = scrollY;
-  let settling = false;
 
   for (const s of scenes) {
     if (!s.init) {
@@ -580,36 +579,55 @@ function frame(t) {
       s.ps = s.p; s.init = true;
       s.el.style.setProperty('--p', s.ps.toFixed(4));
       if (s.on) s.on(s.ps, s.p, dt);
-      settling = true;
       continue;
     }
     s.p = sceneP(s, t);
     const was = s.ps;
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
-    if (Math.abs(s.ps - s.p) > 0.0004 || s.ps !== was) settling = true;
     if (s.ps !== was) s.el.style.setProperty('--p', s.ps.toFixed(4));
     if (s.on) s.on(s.ps, s.p, dt);
   }
 
-  /* everything below only recomputes when the scroll position, the viewport, the layout or a scene has moved */
+  /* below, each block only runs when its own inputs changed: no layout reads on frames where nothing scrolled */
   const moved = y !== lastY || vh !== lastVh || layoutV !== lastLayoutV || pinned !== lastPinned || heroInst !== lastHero || heroStatic !== lastHeroStatic || frameDirty;
-  if (moved || settling) {
-    /* hero */
-    if (heroScene) {
-      if (pinned && !heroStatic) {
-        const ps = heroScene.ps;
-        if (heroInst) heroInst.setProgress(ps);
-        const f = clamp(ps / 0.12, 0, 1);
-        heroText.style.opacity = String(1 - f);
-        heroText.style.transform = 'translate3d(0,' + (-48 * f).toFixed(1) + 'px,0)';
-        heroText.classList.toggle('gone', f > 0.92);
-      } else {
-        heroText.style.opacity = '';
-        heroText.style.transform = '';
-        heroText.classList.remove('gone');
+  const heroPs = heroScene ? heroScene.ps : 1;
+  if (heroScene && (moved || heroPs !== lastHeroPs)) {
+    lastHeroPs = heroPs;
+    if (pinned && !heroStatic) {
+      if (heroInst) heroInst.setProgress(heroPs);
+      const f = clamp(heroPs / 0.12, 0, 1);
+      heroText.style.opacity = String(1 - f);
+      heroText.style.transform = 'translate3d(0,' + (-48 * f).toFixed(1) + 'px,0)';
+      heroText.classList.toggle('gone', f > 0.92);
+    } else {
+      heroText.style.opacity = '';
+      heroText.style.transform = '';
+      heroText.classList.remove('gone');
+    }
+  }
+
+  /* word scrub: starts once reached, then runs on its own clock */
+  if ((moved || scrubbing) && !reduceMQ.matches) {
+    scrubbing = false;
+    for (const sc of scrubEls) {
+      if (!sc.t0) {
+        const r = sc.el.getBoundingClientRect();
+        if (r.top > vh * 0.75 || r.bottom < 0) continue;
+        sc.t0 = t;
+      }
+      const tt = clamp((t - sc.t0) / (1600 / SPEED), 0, 1);
+      if (tt < 1) scrubbing = true;
+      else if (sc.done) continue;
+      sc.done = tt >= 1;
+      const n = sc.words.length;
+      for (let i = 0; i < n; i++) {
+        const w = seg(tt, (i / n) * 0.8, (i / n) * 0.8 + 0.2);
+        sc.words[i].style.setProperty('--wo', (0.22 + 0.78 * w).toFixed(3));
       }
     }
+  }
 
+  if (moved) {
     /* nav */
     nav.classList.toggle('is-scrolled', y > 24);
     if (contactBand) {
@@ -621,24 +639,6 @@ function frame(t) {
     let act = null;
     for (const s of secEls) if (s.top <= probe) act = s.id;
     setActive(act);
-
-    /* word scrub */
-    if (!reduceMQ.matches) {
-      for (const sc of scrubEls) {
-        if (!sc.t0) {
-          const r = sc.el.getBoundingClientRect();
-          if (r.top > vh * 0.75 || r.bottom < 0) continue;
-          sc.t0 = t;
-        }
-        const tt = clamp((t - sc.t0) / (1600 / SPEED), 0, 1);
-        if (tt < 1) settling = true;
-        const n = sc.words.length;
-        for (let i = 0; i < n; i++) {
-          const w = seg(tt, (i / n) * 0.8, (i / n) * 0.8 + 0.2);
-          sc.words[i].style.setProperty('--wo', (0.22 + 0.78 * w).toFixed(3));
-        }
-      }
-    }
 
     /* about parallax */
     if (pinned && aboutEl && photo) {

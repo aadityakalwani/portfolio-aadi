@@ -21,8 +21,7 @@ const WK = { orange: '#F89400', orangeSoft: '#FFB547', blue: '#0A31A0' };
 
 const PAL = {
   light: {
-    land: '#F0EEE2', block: '#E9E6D6', blockEdge: 'rgba(14,27,46,.055)', plot: 'rgba(14,27,46,.028)',
-    park: 'rgba(21,122,67,.10)', tree: 'rgba(21,122,67,.16)', water: '#DBE4F8', waterLine: 'rgba(30,72,224,.10)',
+    land: '#F0EEE2', block: '#E9E6D6', blockEdge: 'rgba(14,27,46,.055)',
     road: '#FBFAF5', roadEdge: 'rgba(14,27,46,.075)', lane: 'rgba(14,27,46,.11)',
     ink: '#0E1B2E', muted: '#5B6577', accent: '#1E48E0', accentGlow: 'rgba(30,72,224,.30)',
     house: '#FFFFFF', houseLine: 'rgba(14,27,46,.24)', roof: '#8A93A5', shadow: 'rgba(14,27,46,.16)',
@@ -30,8 +29,7 @@ const PAL = {
     card: 'rgba(255,255,255,.96)', cardLine: 'rgba(14,27,46,.14)', cardRow: 'rgba(14,27,46,.045)', driverRing: '#FFFFFF'
   },
   dark: {
-    land: '#0B1324', block: '#0F1A31', blockEdge: 'rgba(234,238,247,.06)', plot: 'rgba(234,238,247,.04)',
-    park: 'rgba(76,195,138,.11)', tree: 'rgba(76,195,138,.20)', water: '#13244A', waterLine: 'rgba(127,156,255,.10)',
+    land: '#0B1324', block: '#0F1A31', blockEdge: 'rgba(234,238,247,.06)',
     road: '#1A2644', roadEdge: 'rgba(234,238,247,.05)', lane: 'rgba(234,238,247,.10)',
     ink: '#EAEEF7', muted: '#9AA6BD', accent: '#6F92FF', accentGlow: 'rgba(111,146,255,.38)',
     house: '#E8ECF6', houseLine: 'rgba(0,0,0,.45)', roof: '#6C7891', shadow: 'rgba(0,0,0,.45)',
@@ -316,7 +314,7 @@ function realMount(container, opts, onFatal, ref) {
   let w = 0, h = 0, dpr = 1, size = 'l';
   let L = null;                         // layout
   let world = null;                     // entities
-  let simT = 0, nextSpawn = 0.5, seq = 1039, nextSwap = 17, delivered = 0;
+  let simT = 0, nextSpawn = 0.5, seq = 1039, delivered = 0;
   const orders = [];
   const toasts = [];
   const feed = [];
@@ -335,8 +333,8 @@ function realMount(container, opts, onFatal, ref) {
     const bottom = size === 's' ? 88 : 90;
     const x0 = pad, x1 = Math.max(x0 + 80, w - sideW - pad);
     const y0 = top, y1 = Math.max(y0 + 80, h - bottom);
-    const C = clamp(Math.round((x1 - x0) / 104) + 1, 4, 9);
-    const R = clamp(Math.round((y1 - y0) / 88) + 1, 3, 7);
+    const C = clamp(Math.round((x1 - x0) / 130) + 1, 4, 6);
+    const R = clamp(Math.round((y1 - y0) / 110) + 1, 3, 4);
     const nx = [], ny = [];
     for (let i = 0; i < C; i++) nx.push(lerp(x0, x1, C === 1 ? 0 : i / (C - 1)));
     for (let j = 0; j < R; j++) ny.push(lerp(y0, y1, R === 1 ? 0 : j / (R - 1)));
@@ -357,17 +355,15 @@ function realMount(container, opts, onFatal, ref) {
     const { C, R } = L;
     const rng = mulberry32(11);
     const k1 = { i: Math.round((C - 1) * 0.27), j: Math.max(1, Math.round((R - 1) * 0.36)) };
-    let k2 = { i: Math.round((C - 1) * 0.74), j: Math.min(R - 2, Math.round((R - 1) * 0.68)) };
-    if (manhattan(k1, k2) < 3) k2 = { i: clamp(k1.i + 3, 0, C - 1), j: clamp(k1.j + 1, 0, R - 1) };
-    const kitchens = [k1, k2].map((k, n) => ({ i: k.i, j: k.j, tickets: [], flash: 0, name: n }));
+    const kitchens = [k1].map((k, n) => ({ i: k.i, j: k.j, tickets: [], flash: 0, name: n }));
 
     const all = [];
     for (let i = 0; i < C; i++) for (let j = 0; j < R; j++) all.push({ i, j });
     for (let n = all.length - 1; n > 0; n--) { const m = Math.floor(rng() * (n + 1)); [all[n], all[m]] = [all[m], all[n]]; }
-    const want = clamp(Math.round(C * R / 4), 5, 11);
+    const want = 5;
     const houses = [];
     const okNode = (nd, minK, minH) =>
-      kitchens.every(k => manhattan(k, nd) >= minK) && houses.every(hh => manhattan(hh, nd) >= minH);
+      nd.j > 0 && kitchens.every(k => manhattan(k, nd) >= minK) && houses.every(hh => manhattan(hh, nd) >= minH); // top row sits under the HUD chips
     for (const [minK, minH] of [[2, 2], [2, 1]]) {
       for (const nd of all) {
         if (houses.length >= want) break;
@@ -376,7 +372,7 @@ function realMount(container, opts, onFatal, ref) {
     }
     const taken = nd => kitchens.some(k => k.i === nd.i && k.j === nd.j) || houses.some(hh => hh.i === nd.i && hh.j === nd.j);
     const dn = all.filter(nd => !taken(nd) && kitchens.some(k => { const d = manhattan(k, nd); return d >= 1 && d <= 2; }));
-    const nDrv = C * R > 28 ? 4 : 3;
+    const nDrv = 2;
     const drivers = [];
     for (let n = 0; n < nDrv && n < dn.length; n++) {
       const nd = dn[n * Math.max(1, Math.floor(dn.length / nDrv))] || dn[n];
@@ -387,7 +383,7 @@ function realMount(container, opts, onFatal, ref) {
     }
     world = { kitchens, houses, drivers, key: C + 'x' + R };
     orders.length = 0; toasts.length = 0; feed.length = 0;
-    simT = 0; nextSpawn = 0.5; nextSwap = 17; feedDirty = true;
+    simT = 0; nextSpawn = 0.5; feedDirty = true;
     stepLevel = [0, 0, 0, 0, 0];
   }
 
@@ -448,7 +444,7 @@ function realMount(container, opts, onFatal, ref) {
     if (!free.length) return false;
     const house = forceHouse && free.includes(forceHouse) ? forceHouse : free[Math.floor(rng2() * free.length)];
     const ks = world.kitchens.slice().sort((a, b) => manhattan(a, house) - manhattan(b, house));
-    const kitchen = rng2() < 0.78 ? ks[0] : ks[1];
+    const kitchen = ks[0];
     const o = {
       id: ++seq, house, kitchen, phase: 'pay', t: 0, f: 0, hf: rng2() < 0.5, paid: false,
       cookDur: 2.1 + rng2() * 1.3, driver: null, ticket: null, pickT: 0
@@ -493,12 +489,12 @@ function realMount(container, opts, onFatal, ref) {
     const { u, hr } = L;
 
     /* spawn cadence */
-    if (simT >= nextSpawn) {
+    if (!orders.length && simT >= nextSpawn) {
       spawnOrder();
-      nextSpawn = simT + 3.1 + rng2() * 1.5;
+      nextSpawn = simT + 1.2;
     }
 
-    /* driver shifts: clock on at start, occasional swap while idle */
+    /* driver shifts: clock on at start */
     for (const d of world.drivers) {
       if (!d.onShift && simT >= d.shiftAt && simT >= d.offUntil) {
         d.onShift = true;
@@ -507,16 +503,6 @@ function realMount(container, opts, onFatal, ref) {
       }
       d.ramp = clamp(d.ramp + (d.onShift ? dt * 3 : -dt * 3), 0, 1);
       d.ping += dt;
-    }
-    if (simT >= nextSwap) {
-      nextSwap = simT + 15 + rng2() * 6;
-      const on = world.drivers.filter(d => d.onShift);
-      const cand = on.filter(d => d.state === 'idle');
-      if (on.length >= 3 && cand.length) {
-        const d = cand[Math.floor(rng2() * cand.length)];
-        d.onShift = false; d.shiftAt = simT + 2.4; d.offUntil = simT + 2.4;
-        toast(L.nx[d.node.i], L.ny[d.node.j] - hr - 6, 'Shift ended', 'off');
-      }
     }
 
     /* orders */
@@ -660,7 +646,6 @@ function realMount(container, opts, onFatal, ref) {
     const c = bctx;
     c.setTransform(dpr, 0, 0, dpr, 0, 0);
     c.fillStyle = P.land; c.fillRect(0, 0, w, h);
-    const rng = mulberry32(5);
     const { nx, ny, rw } = L;
     const xs = [-40].concat(nx, [w + 40]);
     const ys = [-40].concat(ny, [h + 40]);
@@ -672,41 +657,11 @@ function realMount(container, opts, onFatal, ref) {
         const bx = xs[a] + (a === 0 ? 0 : rw / 2 + gap), bw = xs[a + 1] - (a === xs.length - 2 ? 0 : rw / 2 + gap) - bx;
         const by = ys[b] + (b === 0 ? 0 : rw / 2 + gap), bh = ys[b + 1] - (b === ys.length - 2 ? 0 : rw / 2 + gap) - by;
         if (bw < 8 || bh < 8) continue;
-        const park = rng() < 0.16;
-        c.fillStyle = park ? P.park : P.block;
+        c.fillStyle = P.block;
         rr(c, bx, by, bw, bh, 7); c.fill();
         c.strokeStyle = P.blockEdge; c.lineWidth = 1; c.stroke();
-        if (park) {
-          c.fillStyle = P.tree;
-          const n = 4 + Math.floor(rng() * 4);
-          for (let q = 0; q < n; q++) {
-            c.beginPath(); c.arc(bx + 10 + rng() * Math.max(1, bw - 20), by + 10 + rng() * Math.max(1, bh - 20), 3 + rng() * 3, 0, 7); c.fill();
-          }
-        } else if (bw > 36 && bh > 36) {
-          c.fillStyle = P.plot;
-          const cols = bw > 70 ? 2 : 1, rows = bh > 70 ? 2 : 1;
-          const pw = (bw - 14 - (cols - 1) * 6) / cols, ph = (bh - 14 - (rows - 1) * 6) / rows;
-          for (let q = 0; q < cols; q++) for (let r = 0; r < rows; r++) {
-            if (rng() < 0.2) continue;
-            rr(c, bx + 7 + q * (pw + 6), by + 7 + r * (ph + 6), pw, ph, 4); c.fill();
-          }
-        }
       }
     }
-
-    /* river */
-    const ry = h * 0.58;
-    c.save();
-    c.lineCap = 'round';
-    c.strokeStyle = P.water; c.lineWidth = Math.max(26, L.u * 0.5);
-    c.beginPath(); c.moveTo(-30, ry + h * 0.1);
-    c.bezierCurveTo(w * 0.28, ry - h * 0.16, w * 0.6, ry + h * 0.2, w + 30, ry - h * 0.06);
-    c.stroke();
-    c.strokeStyle = P.waterLine; c.lineWidth = 2;
-    c.beginPath(); c.moveTo(-30, ry + h * 0.1 - 6);
-    c.bezierCurveTo(w * 0.28, ry - h * 0.16 - 6, w * 0.6, ry + h * 0.2 - 6, w + 30, ry - h * 0.06 - 6);
-    c.stroke();
-    c.restore();
 
     /* roads */
     c.lineCap = 'butt';
@@ -730,7 +685,6 @@ function realMount(container, opts, onFatal, ref) {
     px = clamp(px, 6, w - pw - 6 - (size === 'l' ? L.sideW : 0));
     const py = y - ph;
     ctx.save();
-    ctx.shadowColor = P.shadow; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
     rr(ctx, px, py, pw, ph, ph / 2); ctx.fillStyle = P.pill; ctx.fill();
     ctx.restore();
     rr(ctx, px, py, pw, ph, ph / 2); ctx.strokeStyle = P.pillLine; ctx.lineWidth = 1; ctx.stroke();
@@ -825,7 +779,6 @@ function realMount(container, opts, onFatal, ref) {
     let cy = y - r * 1.55 - ch - 4;
     if (cy < (size === 'l' ? 8 : 52)) cy = y + r * 1.15 + 4;
     ctx.save();
-    ctx.shadowColor = P.shadow; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4;
     rr(ctx, cx, cy, cw, ch, 9); ctx.fillStyle = P.card; ctx.fill();
     ctx.restore();
     rr(ctx, cx, cy, cw, ch, 9);
@@ -911,11 +864,12 @@ function realMount(container, opts, onFatal, ref) {
       return;
     }
     /* GPS ping */
-    const period = moving ? 1.1 : 2.6;
-    const pt = (d.ping % period) / period;
-    ctx.strokeStyle = WK.orange; ctx.lineWidth = 1.6;
-    ctx.globalAlpha = (1 - pt) * (moving ? 0.55 : 0.35) * d.ramp;
-    ctx.beginPath(); ctx.arc(x, y, r * (1 + pt * 2.6), 0, 7); ctx.stroke();
+    if (moving) {
+      const pt = (d.ping % 1.1) / 1.1;
+      ctx.strokeStyle = WK.orange; ctx.lineWidth = 1.6;
+      ctx.globalAlpha = (1 - pt) * 0.55 * d.ramp;
+      ctx.beginPath(); ctx.arc(x, y, r * (1 + pt * 2.6), 0, 7); ctx.stroke();
+    }
     ctx.globalAlpha = d.ramp;
     ctx.fillStyle = P.shadow; ctx.beginPath(); ctx.ellipse(x, y + r * 0.95, r * 0.9, r * 0.3, 0, 0, 7); ctx.fill();
     /* body */
