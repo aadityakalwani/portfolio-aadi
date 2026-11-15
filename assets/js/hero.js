@@ -43,7 +43,7 @@ const OUTPUTS = [
   { t: 'UAV aero lead', s: 'Competition UAV' },
   { t: 'Fifth9 red team', s: 'Adversarial AI red-teaming' },
   { t: 'Drive-shaft design', s: 'Electric snowmobile drive train' },
-  { t: '14+ shipped', s: 'And counting' },
+  { t: '20+ shipped', s: 'And counting' },
 ];
 const CHAPTERS = [
   ['01', 'The cell', 'A battery cannot tell you how full it is.'],

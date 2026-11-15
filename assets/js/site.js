@@ -62,18 +62,35 @@ startLenis();
 /* play-on-reach: a scene starts its timeline once it is reached, then plays at its own pace whatever the scroll does next */
 const SPEED = 0.7; // one knob for every reach-triggered timeline: 1 = original pace, lower = slower
 const SCENE_MS = { top: 9000, soc: 7000, winkit: 3500, shaft: 7000 };
-const SCENE_HOLD = { top: 2500 }; // the hero headline gets read before the forward pass starts
 const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: (SCENE_MS[el.id] || 6000) / SPEED }));
 const sceneById = Object.fromEntries(scenes.map((s) => [s.id, s]));
 const sceneIO = new IntersectionObserver((ents) => {
   for (const en of ents) {
     if (!en.isIntersecting) continue;
     const s = scenes.find((x) => x.el === en.target);
-    if (s && !s.t0) s.t0 = performance.now() + (SCENE_HOLD[s.id] || 0);
+    if (s && !s.t0) s.t0 = performance.now();
     sceneIO.unobserve(en.target);
   }
 }, { threshold: 0.4 });
-scenes.forEach((s) => sceneIO.observe(s.el));
+/* the hero is the top of the page, so it is 'reached' by scrolling a little way into its pinned stage (see frame) */
+scenes.forEach((s) => { if (s.id !== 'top') sceneIO.observe(s.el); });
+const HERO_GO = 0.3; // fraction of a viewport scrolled before the forward pass starts
+
+/* replay: once a scene's timeline has finished, offer to run it again */
+const REPLAY_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>';
+for (const s of scenes) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'replay'; b.hidden = true;
+  b.innerHTML = REPLAY_SVG + '<span>Replay</span>';
+  b.setAttribute('aria-label', 'Replay this animation');
+  b.addEventListener('click', () => {
+    delete s.el.dataset.manual;
+    s.p = s.ps = 0; s.t0 = performance.now(); b.hidden = true; frameDirty = true;
+    if (s.id === 'top') { const y = Math.ceil(innerHeight * HERO_GO) + 2; lenis ? lenis.scrollTo(y) : scrollTo({ top: y }); }
+  });
+  s.el.querySelector('.stage').appendChild(b);
+  s.replay = b;
+}
 const sceneP = (s, now) => (!pinned ? 1 : s.t0 ? clamp((now - s.t0) / s.dur, 0, 1) : 0);
 const secEls = ['work', 'builds', 'about', 'contact'].map((id) => ({ id, el: document.getElementById(id), top: 0 }));
 let vh = innerHeight;
@@ -586,6 +603,8 @@ function frame(t) {
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
     if (s.ps !== was) s.el.style.setProperty('--p', s.ps.toFixed(4));
     if (s.on) s.on(s.ps, s.p, dt);
+    const done = pinned && s.p >= 1;
+    if (s.replay.hidden === done) s.replay.hidden = !done;
   }
 
   /* below, each block only runs when its own inputs changed: no layout reads on frames where nothing scrolled */
@@ -595,14 +614,19 @@ function frame(t) {
     lastHeroPs = heroPs;
     if (pinned && !heroStatic) {
       if (heroInst) heroInst.setProgress(heroPs);
-      const f = clamp(heroPs / 0.12, 0, 1);
+      /* the headline clears as you scroll into the pinned stage; the cell only starts moving once it has gone */
+      const f = clamp(y / (vh * HERO_GO), 0, 1);
+      if (!heroScene.t0 && f >= 1) heroScene.t0 = t;
       heroText.style.opacity = String(1 - f);
       heroText.style.transform = 'translate3d(0,' + (-48 * f).toFixed(1) + 'px,0)';
       heroText.classList.toggle('gone', f > 0.92);
+      /* back at the top after it has played: dim the network so it never sits on the headline */
+      heroEl.style.opacity = heroScene.t0 ? (0.12 + 0.88 * f).toFixed(3) : '';
     } else {
       heroText.style.opacity = '';
       heroText.style.transform = '';
       heroText.classList.remove('gone');
+      heroEl.style.opacity = '';
     }
   }
 
