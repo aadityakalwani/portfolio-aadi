@@ -60,9 +60,10 @@ startLenis();
 
 /* ------------------------------------------------------------------ scenes */
 /* play-on-reach: a scene starts its timeline once it is reached, then plays at its own pace whatever the scroll does next */
+const SPEED = 0.7; // one knob for every reach-triggered timeline: 1 = original pace, lower = slower
 const SCENE_MS = { top: 9000, soc: 7000, winkit: 3500, shaft: 7000 };
 const SCENE_HOLD = { top: 2500 }; // the hero headline gets read before the forward pass starts
-const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: SCENE_MS[el.id] || 6000 }));
+const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: (SCENE_MS[el.id] || 6000) / SPEED }));
 const sceneById = Object.fromEntries(scenes.map((s) => [s.id, s]));
 const sceneIO = new IntersectionObserver((ents) => {
   for (const en of ents) {
@@ -629,7 +630,7 @@ function frame(t) {
           if (r.top > vh * 0.75 || r.bottom < 0) continue;
           sc.t0 = t;
         }
-        const tt = clamp((t - sc.t0) / 1600, 0, 1);
+        const tt = clamp((t - sc.t0) / (1600 / SPEED), 0, 1);
         if (tt < 1) settling = true;
         const n = sc.words.length;
         for (let i = 0; i < n; i++) {
