@@ -201,7 +201,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 .scene{position:relative}
 .scene>.stage{position:relative}
 @media (min-width:900px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-height:700px){
-  .scene{height:calc(var(--scene-vh,2.2) * 100svh)}
+  .scene{height:100svh}
   .scene>.stage{position:sticky;top:0;height:100svh;overflow:clip;overflow-clip-margin:96px;z-index:var(--z-stage)}
 }
 

@@ -59,8 +59,21 @@ function stopLenis() {
 startLenis();
 
 /* ------------------------------------------------------------------ scenes */
-const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false }));
+/* play-on-reach: a scene starts its timeline once it is reached, then plays at its own pace whatever the scroll does next */
+const SCENE_MS = { top: 9000, soc: 7000, winkit: 3500, shaft: 7000 };
+const SCENE_HOLD = { top: 2500 }; // the hero headline gets read before the forward pass starts
+const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: SCENE_MS[el.id] || 6000 }));
 const sceneById = Object.fromEntries(scenes.map((s) => [s.id, s]));
+const sceneIO = new IntersectionObserver((ents) => {
+  for (const en of ents) {
+    if (!en.isIntersecting) continue;
+    const s = scenes.find((x) => x.el === en.target);
+    if (s && !s.t0) s.t0 = performance.now() + (SCENE_HOLD[s.id] || 0);
+    sceneIO.unobserve(en.target);
+  }
+}, { threshold: 0.4 });
+scenes.forEach((s) => sceneIO.observe(s.el));
+const sceneP = (s, now) => (!pinned ? 1 : s.t0 ? clamp((now - s.t0) / s.dur, 0, 1) : 0);
 const secEls = ['work', 'builds', 'about', 'contact'].map((id) => ({ id, el: document.getElementById(id), top: 0 }));
 let vh = innerHeight;
 let docMax = 1;
@@ -253,7 +266,7 @@ function buildScrub() {
       });
     };
     walk(el);
-    scrubEls.push({ el, words });
+    scrubEls.push({ el, words, t0: 0 });
   });
 }
 buildScrub();
@@ -475,8 +488,8 @@ if (emailBtn) {
 
 /* ------------------------------------------------------------------ hero mount */
 const heroEl = $('#hero-stage');
-const heroText = $('#hero-text');
 const heroScene = sceneById.top;
+const heroText = $('#hero-text');
 let heroInst = null;
 let heroStatic = false;
 const heroStage = heroEl.closest('.stage');
@@ -562,16 +575,14 @@ function frame(t) {
 
   for (const s of scenes) {
     if (!s.init) {
-      s.p = pinned ? clamp((y - s.top) / s.len, 0, 1) : 1;
+      s.p = sceneP(s, t);
       s.ps = s.p; s.init = true;
       s.el.style.setProperty('--p', s.ps.toFixed(4));
       if (s.on) s.on(s.ps, s.p, dt);
       settling = true;
       continue;
     }
-    const near = y + vh * 1.3 > s.top && y < s.top + s.len + vh * 1.2;
-    if (!near) continue;
-    s.p = pinned ? clamp((y - s.top) / s.len, 0, 1) : 1;
+    s.p = sceneP(s, t);
     const was = s.ps;
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
     if (Math.abs(s.ps - s.p) > 0.0004 || s.ps !== was) settling = true;
@@ -613,9 +624,13 @@ function frame(t) {
     /* word scrub */
     if (!reduceMQ.matches) {
       for (const sc of scrubEls) {
-        const r = sc.el.getBoundingClientRect();
-        if (r.bottom < -40 || r.top > vh + 40) continue;
-        const tt = clamp((vh * 0.85 - r.top) / (vh * 0.5), 0, 1);
+        if (!sc.t0) {
+          const r = sc.el.getBoundingClientRect();
+          if (r.top > vh * 0.75 || r.bottom < 0) continue;
+          sc.t0 = t;
+        }
+        const tt = clamp((t - sc.t0) / 1600, 0, 1);
+        if (tt < 1) settling = true;
         const n = sc.words.length;
         for (let i = 0; i < n; i++) {
           const w = seg(tt, (i / n) * 0.8, (i / n) * 0.8 + 0.2);
