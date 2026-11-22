@@ -489,6 +489,7 @@
     .stats-m span{font-size:13.5px}
   }
   @media(max-width:620px){
+    .hero h1{font-size:8.4vw;line-height:1.08}
     .fp-stage{aspect-ratio:360/330;margin-top:10px}
     .fp-outs{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;list-style:none;margin:14px 0 0;padding:0 2px;
       font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;line-height:1.3;color:#fff;font-weight:500}
@@ -581,7 +582,7 @@
         <div class="metric"><span class="mval">19%</span><span class="mlab">less error on blind Paris for the same fusion, 0.70% down to 0.57%</span></div>
       </div>
       <details class="more"><summary><span class="sm">Show more details</span><span class="sl">Show less</span></summary><div class="more-body"><p style="margin-top:0"><strong>A fully blind protocol</strong>. A whole real vehicle recording held out from every step of the workflow, model selection included. The paper&#39;s positioning table finds no prior study that does the same.</p><p><strong>Built from first principles</strong>. A NumPy network with hand-derived backpropagation and a bias-corrected Adam optimiser before any framework, then PyTorch LSTM ablations over features and architectures.</p><p><strong>Feature ablation, blind test.</strong> Mean absolute error (percent, mean and standard deviation over ten seeds) and the share of seeds that beat the baseline.</p>
- <div class="abl-wrap"><table class="abl"><thead><tr><th>Variant</th><th>Paris MAE</th><th>Paris seeds improved</th><th>US06 MAE</th><th>US06 seeds improved</th></tr></thead><tbody>
+ <div class="abl-wrap" tabindex="0" role="region" aria-label="Ablation results table, scrolls sideways"><table class="abl"><thead><tr><th>Variant</th><th>Paris MAE</th><th>Paris seeds improved</th><th>US06 MAE</th><th>US06 seeds improved</th></tr></thead><tbody>
  <tr><td>VIT (baseline)</td><td>0.70 &plusmn; 0.16</td><td>n/a</td><td>1.36 &plusmn; 0.13</td><td>n/a</td></tr>
  <tr><td>VIT + ToF</td><td>0.69 &plusmn; 0.30</td><td>60%</td><td>1.36 &plusmn; 0.10</td><td>40%</td></tr>
  <tr><td>VIT + velocity</td><td>1.02 &plusmn; 0.50</td><td>30%</td><td>0.91 &plusmn; 0.15</td><td>100%</td></tr>
@@ -658,7 +659,7 @@
       <article class="case reveal">
         <div class="case-kick"><span class="eyebrow">Hardware</span><span class="pill pill-private">Coursework &middot; 76.6%</span></div>
         <div class="vidfeat">
-          <video controls preload="none" playsinline poster="assets/gearbox-poster.webp" aria-label="Silent looping render of a 5:1 epicyclic gearbox: the sun gear turns the planet gears inside a fixed ring gear and the planet carrier turns slowly as output.">
+          <video controls loop muted preload="none" playsinline poster="assets/gearbox-poster.webp" aria-label="Silent looping render of a 5:1 epicyclic gearbox: the sun gear turns the planet gears inside a fixed ring gear and the planet carrier turns slowly as output.">
             <source src="assets/gearbox.mp4?v=20261122" type="video/mp4">
           </video>
           <div>
