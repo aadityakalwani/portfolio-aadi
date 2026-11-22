@@ -10,7 +10,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-const GUIDE_URL = 'https://dmm2-pair122-guide.vercel.app';
+const GUIDE_URL = 'https://dmm2-shaft-master.vercel.app/guide/';
 
 /* ------------------------------------------------------------------ statics (config A or B) */
 // Loads are the submitted design loads (final report, 18 Nov 2026): 34T/112T 8MXP-50 toothed belt (N, mm).
