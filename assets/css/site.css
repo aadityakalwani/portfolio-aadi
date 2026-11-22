@@ -105,14 +105,13 @@ section[id]{scroll-margin-top:96px}
   transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-out),filter var(--dur-slow) var(--ease-out);
   transition-delay:calc(var(--i,0) * 70ms)}
 .js .reveal.is-in{opacity:1;transform:none;filter:none}
-.js .mask .ln{display:block;overflow:clip;padding-bottom:.1em;margin-bottom:-.1em}
-.js .mask .ln-in{display:block;transform:translate3d(0,108%,0);transition:transform 900ms var(--ease-out);transition-delay:calc(var(--i,0) * 90ms)}
+/* the clip box reaches .26em below each line so serif descenders (g, p, y) never get cut; the hidden line starts below that box */
+.js .mask .ln{display:block;overflow:clip;padding-bottom:.26em;margin-bottom:-.26em}
+.js .mask .ln-in{display:block;transform:translate3d(0,calc(100% + .32em),0);transition:transform 900ms var(--ease-out);transition-delay:calc(var(--i,0) * 90ms)}
 .js .mask.is-in .ln-in{transform:none}
-/* the hero copy is the LCP element: it animates in with CSS alone, so first paint never waits for site.js */
-.js .hero-text .reveal{animation:hero-in var(--dur-slow) var(--ease-out) calc(var(--i,0) * 70ms + 60ms) both}
-.js .hero-text .mask .ln-in{animation:hero-ln 900ms var(--ease-out) calc(var(--i,0) * 90ms + 60ms) both}
-@keyframes hero-in{from{opacity:0;transform:translate3d(0,28px,0);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-@keyframes hero-ln{from{transform:translate3d(0,108%,0)}to{transform:none}}
+/* the hero copy is the LCP element: it is sharp and readable on the first frame, with no entrance that waits on JS */
+.js .hero-text .reveal,.js .hero-text .mask .ln-in{opacity:1;transform:none;filter:none;transition:none}
+.js .hero-text .mask .ln{overflow:visible}
 .scrub .w{opacity:var(--wo,1);transition:none}
 
 /* ---------- buttons, chips ---------- */
@@ -220,6 +219,8 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 .hero-text{order:-1}
 .hero-fallback{order:3}
 .hero-stage{position:relative;z-index:1;min-height:0}
+/* static stand-in for the opening cell: painted with the HTML, then crossfaded once the first WebGL frame is up */
+.hero-ph{display:none}
 .hero-text{position:relative;z-index:3;padding:calc(var(--nav-h) + var(--nav-gap) + 28px) 0 20px;width:min(100% - 2*var(--gutter),var(--maxw));margin-inline:auto}
 .hero-text h1{margin:.45em 0 .3em}
 .hero-text .t-lede{max-width:50ch}
@@ -245,6 +246,12 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   .avail{margin-top:min(22px,2.2svh)}
   .hero-text{position:absolute;left:max(var(--gutter),calc((100% - var(--maxw)) / 2));top:0;width:min(54%,800px);margin-inline:0;padding:calc(var(--nav-h) + 6svh) 0 0;pointer-events:none;will-change:transform,opacity}
   .hero-text.gone > :not(h1){visibility:hidden} /* the h1 stays in the accessibility tree; the CTAs leave the tab order */
+  /* the placeholder sits where hero.js draws the cell at progress 0 (centre 50% + 25.8svh, 33.9svh wide), pushed clear of the copy column like the lens shift */
+  .hero{--hero-col:min(54%,800px)}
+  .hero-ph{display:block;position:absolute;z-index:2;top:24.7svh;width:33.9svh;height:57.6svh;max-width:none;overflow:visible;pointer-events:none;
+    left:min(max(calc(50% + 8.85svh),calc(max(var(--gutter),(100% - var(--maxw)) / 2) + var(--hero-col) + 40px)),calc(100% - 16px - 33.9svh));
+    transition:opacity .45s var(--ease-out) .5s,visibility 0s linear .95s}
+  .hero-stage[data-ready] .hero-ph,.hero--static .hero-ph,[data-webgl="off"] .hero-ph{opacity:0;visibility:hidden}
   .hero-fallback{position:absolute;left:0;right:0;bottom:6vh}
 }
 @media (max-width:899px){.hero-text{padding-top:calc(var(--nav-h) + var(--nav-gap) + 20px)}.hero-text h1{font-size:clamp(3rem,13.4vw,4.6rem)}}
@@ -395,7 +402,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   #shaft .case-panel{height:auto}
   #show-shaft .pfsh-stage{min-height:360px}
 }
-@media (min-width:900px) and (max-width:1180px){.hero-text{width:min(50%,800px)}.hero-text .t-lede{max-width:100%}}
+@media (min-width:900px) and (max-width:1180px){.hero-text{width:min(50%,800px)}.hero-text .t-lede{max-width:100%}.hero{--hero-col:min(50%,800px)}}
 .case{padding:clamp(40px,6vw,80px) 0}
 @media (min-width:900px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-height:700px){.case{padding:0}}
 
@@ -485,7 +492,6 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
-  .js .hero-text .reveal,.js .hero-text .mask .ln-in{animation:none}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   .js .reveal,.js .mask .ln-in,.js .case-panel{opacity:1;transform:none;filter:none}
   .mq-track{animation:none;flex-wrap:wrap;width:auto}
@@ -611,9 +617,12 @@ html:not(.js) .lstm-fig{display:block}
   padding:7px 14px;border-radius:999px;font:600 var(--fs-sm)/1 var(--font-sans,Inter,sans-serif);background:var(--surface);color:var(--text);border:1px solid var(--line-strong);box-shadow:var(--shadow-xs);cursor:pointer}
 .replay:hover{color:var(--accent);border-color:var(--accent)}
 .replay[hidden]{display:none}
+/* hero: the pill sits right-aligned just above the fig.1 caption (two 17px lines at the caption's own inset), so the two never collide */
+#top .replay{right:clamp(20px,3vw,40px);bottom:calc(clamp(22px,5vh,48px) + 46px)}
 .next-cue{position:absolute;left:50%;margin-left:-100px;width:200px;bottom:calc(clamp(14px,3vh,26px) + 64px);z-index:6;display:flex;flex-direction:column;align-items:center;gap:8px;
   color:var(--text-2);text-decoration:none;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .6s ease,transform .6s ease;text-align:center}
 .next-cue.is-on{opacity:1;transform:none;pointer-events:auto}
+.next-cue:not(.is-on) i::after{animation:none}
 .next-cue span{white-space:nowrap;font:500 11px/1 var(--font-sans,Inter,sans-serif);letter-spacing:.14em;text-transform:uppercase}
 .next-cue i{position:relative;display:block;width:1px;height:40px;background:var(--line-strong)}
 .next-cue i::after{content:"";position:absolute;left:-1.5px;top:0;width:4px;height:4px;border-radius:50%;background:var(--accent);animation:next-cue 2.4s cubic-bezier(.65,0,.35,1) infinite}
