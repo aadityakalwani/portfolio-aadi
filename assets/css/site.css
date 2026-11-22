@@ -408,7 +408,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 .filters button{scroll-snap-align:center}
 .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;grid-auto-flow:dense}
 @media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card--wide{grid-column:span 2}}
-@media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card--wide:has(.vid){grid-row:span 2}} /* two small cards stack beside the video instead of one stretched card */
 .card{position:relative;display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-sm);overflow:hidden;
   transition:border-color var(--dur-fast),box-shadow var(--dur-fast),opacity 180ms var(--ease-std);--mx:50%;--my:0%}
 .card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(420px circle at var(--mx) var(--my),var(--accent-wash),transparent 60%);transition:opacity var(--dur-fast)}

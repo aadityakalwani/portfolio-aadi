@@ -462,7 +462,9 @@ function balanceGrid() {
   if (cols < 2) return;
   const vis = cards.filter((c) => !c.hidden && !c.classList.contains('is-out'));
   if (!vis.length) return;
-  const used = vis.reduce((n, c) => n + (c.classList.contains('card--wide') ? 2 : 1), 0);
+  /* cells a card covers: wide cards span 2 columns, and the video card also spans 2 rows at 3 columns (site.css) */
+  const cells = (c) => (c.classList.contains('card--wide') ? (cols >= 3 && c.querySelector('.vid') ? 4 : 2) : 1);
+  const used = vis.reduce((n, c) => n + cells(c), 0);
   const rem = used % cols;
   if (rem === 0) return;
   const last = vis[vis.length - 1];
