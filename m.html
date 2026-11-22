@@ -39,19 +39,19 @@
   .fp-label.in{left:1%;width:19%;text-align:right;color:rgba(255,255,255,.6)}
   .fp-label.out{left:80%;width:19%;text-align:left;color:#fff;font-weight:500}
   .fp-label .fp-sub{display:block;color:rgba(255,255,255,.4);font-size:.84em;font-weight:400;margin-top:1px}
-  @media(max-width:620px){.fp-label{font-size:8px}.fp-label .fp-sub{display:none}}
-  .fp-edge{fill:none;stroke-linecap:round;stroke-dashoffset:0;opacity:var(--op)}
-  .fp-node{stroke:rgba(147,177,255,.28);stroke-width:1.4;fill:#eaf0ff;filter:drop-shadow(0 0 5px rgba(30,72,224,.4))}
-  .fp-actval{fill:#081020;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;font-weight:500;text-anchor:middle;dominant-baseline:middle;opacity:.92}
-  @keyframes fpDraw{from{stroke-dashoffset:var(--len);opacity:0}to{stroke-dashoffset:0;opacity:var(--op)}}
-  @keyframes fpGlow{from{fill:#0c1626;filter:none}to{fill:#eaf0ff;filter:drop-shadow(0 0 7px rgba(91,131,247,.75))}}
-  @keyframes fpIn{from{opacity:0;transform:translateY(-50%) translateX(9px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
-  .fp-panel.playing .fp-edge{animation:fpDraw .6s ease var(--d) both}
-  .fp-panel.playing .fp-node{animation:fpGlow .42s ease var(--d) both}
-  .fp-panel.playing .fp-label.out{animation:fpIn .5s ease var(--d) both}
-  .fp-stage{cursor:default}
   @media(max-width:620px){.fp-label{display:none}}
-  @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-edge,.fp-panel.playing .fp-node{animation:none}}
+  .fp-edge{fill:none;stroke-linecap:round;opacity:var(--op)}
+  .fp-node{stroke:rgba(147,177,255,.4);stroke-width:1.4;fill:#eaf0ff;transform-box:fill-box;transform-origin:center}
+  .fp-actval{fill:#081020;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;font-weight:500;text-anchor:middle;dominant-baseline:middle;opacity:.92}
+  /* The signal: one pulse sweeps input to output, rests, and repeats. It only runs while the panel is on screen (.live). */
+  @keyframes fpSig{0%{opacity:var(--op)}9%{opacity:.95}30%,100%{opacity:var(--op)}}
+  @keyframes fpPop{0%{fill:#2c4079;transform:scale(1)}7%{fill:#fff;transform:scale(1.4)}22%{fill:#eaf0ff;transform:scale(1)}78%{fill:#eaf0ff}100%{fill:#2c4079}}
+  .fp-edge{animation:fpSig 4.4s ease-in-out var(--d) infinite;animation-play-state:paused}
+  .fp-node{animation:fpPop 4.4s ease-out var(--d) infinite;animation-play-state:paused}
+  .fp-panel.live .fp-edge,.fp-panel.live .fp-node{animation-play-state:running}
+  .fp-panel.rs .fp-edge,.fp-panel.rs .fp-node{animation:none}
+  .fp-stage{cursor:default}
+  @media(prefers-reduced-motion:reduce){.fp-edge,.fp-node{animation:none!important}.fp-replay{display:none}}
   .stats-m{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .stats-m li{display:flex;flex-direction:column;gap:6px}
   .stats-m b{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:1.5rem;font-weight:500;color:var(--accent)}
@@ -447,16 +447,12 @@
   .fp-label.in{left:1%;width:19%;text-align:right;color:rgba(255,255,255,.6)}
   .fp-label.out{left:80%;width:19%;text-align:left;color:#fff;font-weight:500}
   .fp-label .fp-sub{display:block;color:rgba(255,255,255,.4);font-size:.84em;font-weight:400;margin-top:1px}
-  @media(max-width:620px){.fp-label{font-size:8px}.fp-label .fp-sub{display:none}}
-  @keyframes fpIn{from{opacity:0;transform:translateY(-50%) translateX(9px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
-  .fp-panel.playing .fp-label.out{animation:fpIn .5s ease var(--d) both}
   .fp-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap}
   .fp-wink{font-size:13px;font-style:italic;color:rgba(255,255,255,.62);max-width:72ch}
   .fp-wink b{color:rgba(255,255,255,.86);font-style:normal;font-weight:600}
   .fp-replay{appearance:none;border:1px solid rgba(147,177,255,.28);background:rgba(147,177,255,.08);color:var(--accent-lift);font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;letter-spacing:.04em;padding:7px 14px;border-radius:9px;cursor:pointer;transition:background .18s,border-color .18s;white-space:nowrap}
   .fp-replay:hover{background:rgba(147,177,255,.16);border-color:rgba(147,177,255,.45)}
   .fp-replay:focus-visible{outline:3px solid var(--accent-lift);outline-offset:3px}
-  @media(prefers-reduced-motion:reduce){.fp-panel.playing .fp-label.out{animation:none}}
 
   /* recurring 3D "figure" panels (fig.2, fig.3 ...) in the hero's language */
   .fig-panel{margin:34px 0 0;padding:16px 20px 14px;border-radius:var(--r-panel);background:var(--ink);
@@ -493,6 +489,7 @@
     .stats-m span{font-size:13.5px}
   }
   @media(max-width:620px){
+    .fp-stage{aspect-ratio:360/330;margin-top:10px}
     .fp-outs{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;list-style:none;margin:14px 0 0;padding:0 2px;
       font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;line-height:1.3;color:#fff;font-weight:500}
     .fp-outs span{display:block;margin-top:2px;color:rgba(255,255,255,.62);font-weight:400;font-size:12px}
@@ -528,7 +525,7 @@
   <div class="wrap">
     <div class="hero-head">
       <span class="eyebrow">Aerospace Engineering &middot; University of Bath &middot; Year 2</span>
-      <h1 class="serif">I turn engineering problems <em>into things that ship.</em></h1>
+      <h1 class="serif">Learning machine learning.<br><em>Deploying it on real systems.</em></h1>
       <p class="lede">Second-year aerospace engineer at Bath. First author on a battery machine-learning paper, co-founder and CTO of a live delivery platform, aerodynamics lead on a competition UAV. Twenty shipped, and counting.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="assets/Aadi-Kalwani-CV.pdf?v=20261122" download="Aaditya-Kalwani-CV.pdf">
@@ -950,39 +947,50 @@ document.addEventListener("click",function(e){
 });
 </script>
 <script>
-/* forward-pass hero network */
+/* forward-pass hero network: a pulse of signal sweeps input to output on a loop while the panel is on screen */
 (function(){
   var inputs=[{t:"Aaditya Kalwani"},{t:"Aerospace · Bath"},{t:"Year 2"},{t:"ML for physical systems"},{t:"First · Year 1"},{t:"Compulsive builder"}];
   var outputs=[{t:"First-author paper",s:"battery SOC"},{t:"Winkit CTO",s:"live delivery platform"},{t:"UAV aero lead",s:"competition UAV"},{t:"Fifth9 red team",s:"AI red-teaming"},{t:"Drive-shaft design",s:"electric snowmobile"},{t:"20+ shipped",s:"and counting"}];
   var panel=document.getElementById("fp"),svg=document.getElementById("fp-svg"),stage=document.getElementById("fp-stage");
   if(!panel||!svg||!stage)return;
-  var NS="http://www.w3.org/2000/svg";
+  var NS="http://www.w3.org/2000/svg",portrait=window.matchMedia("(max-width:620px)");
   function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
-  var layers=[inputs.length,8,8,outputs.length],X=[260,510,760,940],Y0=64,Y1=456,H=520;
-  function ys(n){if(n===1)return[(Y0+Y1)/2];var s=(Y1-Y0)/(n-1),a=[];for(var i=0;i<n;i++)a.push(Y0+s*i);return a;}
-  var coords=layers.map(function(n,li){return ys(n).map(function(y){return{x:X[li],y:y};});});
-  var gBase=[0.15,0.85,1.55];
-  for(var li=0;li<coords.length-1;li++){var A=coords[li],B=coords[li+1];
-    for(var i=0;i<A.length;i++)for(var j=0;j<B.length;j++){
-      var dx=B[j].x-A[i].x,dy=B[j].y-A[i].y,len=Math.sqrt(dx*dx+dy*dy),pos=Math.random()>0.5,op=(0.10+Math.random()*0.32).toFixed(3);
-      var ln=el("line",{"class":"fp-edge",x1:A[i].x,y1:A[i].y,x2:B[j].x,y2:B[j].y,stroke:pos?"var(--accent-lift)":"#E48AA0","stroke-width":(0.6+Math.random()*1.0).toFixed(2)});
-      ln.style.setProperty("--len",len.toFixed(1));ln.style.setProperty("--op",op);ln.style.strokeDasharray=len.toFixed(1);
-      ln.style.setProperty("--d",(gBase[li]+(i+j)*0.012).toFixed(3)+"s");svg.appendChild(ln);}}
-  var nd=[0,0.62,1.32,2.02];
-  coords.forEach(function(layer,li){var hidden=li>0&&li<coords.length-1;
-    layer.forEach(function(p,idx){var c=el("circle",{"class":"fp-node",cx:p.x,cy:p.y,r:hidden?15:16});
-      c.style.setProperty("--d",(nd[li]+idx*0.015).toFixed(3)+"s");svg.appendChild(c);
-      if(hidden){var v=el("text",{"class":"fp-actval",x:p.x,y:p.y});v.textContent=Math.random().toFixed(2);svg.appendChild(v);}});});
-  function place(arr,lc,cls,base){arr.forEach(function(it,idx){var d=document.createElement("div");d.className="fp-label "+cls;
-    d.style.top=(lc[idx].y/H*100)+"%";d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");
-    if(cls==="out")d.style.setProperty("--d",(base+idx*0.09).toFixed(3)+"s");stage.appendChild(d);});}
-  place(inputs,coords[0],"in",0);place(outputs,coords[coords.length-1],"out",2.15);
+  /* phones draw the net top to bottom (tall, big nodes, the outputs are listed underneath); wider screens keep the labelled landscape view */
+  function build(){
+    var tall=portrait.matches,sizes=tall?[6,7,7,6]:[6,8,8,6],W=tall?360:1200,H=tall?330:520;
+    var X=tall?[34,122,210,298]:[260,510,760,940],lo=tall?30:64,hi=tall?330:456,r=tall?11:16;
+    svg.setAttribute("viewBox","0 0 "+W+" "+H);
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var old=stage.querySelectorAll(".fp-label");for(var q=0;q<old.length;q++)stage.removeChild(old[q]);
+    function spread(n){var a=[],s=n===1?0:(hi-lo)/(n-1);for(var i=0;i<n;i++)a.push(lo+s*i);return a;}
+    var coords=sizes.map(function(n,li){return spread(n).map(function(v){return tall?{x:v,y:X[li]}:{x:X[li],y:v};});});
+    var gap=[0.15,0.85,1.55],nd=[0,0.6,1.3,2.0];
+    for(var li=0;li<coords.length-1;li++){var A=coords[li],B=coords[li+1];
+      for(var i=0;i<A.length;i++)for(var j=0;j<B.length;j++){
+        var pos=Math.random()>0.5,op=(0.2+Math.random()*0.3).toFixed(3);
+        var ln=el("line",{"class":"fp-edge",x1:A[i].x,y1:A[i].y,x2:B[j].x,y2:B[j].y,stroke:pos?"var(--accent-lift)":"#E48AA0","stroke-width":(tall?1+Math.random()*0.8:1+Math.random()*1.1).toFixed(2)});
+        ln.style.setProperty("--op",op);ln.style.setProperty("--d",(gap[li]+Math.random()*0.35).toFixed(3)+"s");svg.appendChild(ln);}}
+    coords.forEach(function(layer,li){var hidden=li>0&&li<coords.length-1;
+      layer.forEach(function(p,idx){var c=el("circle",{"class":"fp-node",cx:p.x,cy:p.y,r:hidden?r-1:r});
+        c.style.setProperty("--d",(nd[li]+idx*0.03).toFixed(3)+"s");svg.appendChild(c);
+        if(hidden&&!tall){var v=el("text",{"class":"fp-actval",x:p.x,y:p.y});v.textContent=Math.random().toFixed(2);svg.appendChild(v);}});});
+    if(!tall){
+      var place=function(arr,lc,cls){arr.forEach(function(it,idx){var d=document.createElement("div");d.className="fp-label "+cls;
+        d.style.top=(lc[idx].y/H*100)+"%";d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");stage.appendChild(d);});};
+      place(inputs,coords[0],"in");place(outputs,coords[coords.length-1],"out");
+    }
+  }
   /* phones hide the node labels, so the outputs are listed under the diagram */
   var outs=document.createElement("ol");outs.className="fp-outs";outputs.forEach(function(it){var li=document.createElement("li");li.innerHTML=it.t+(it.s?"<span>"+it.s+"</span>":"");outs.appendChild(li);});stage.parentNode.insertBefore(outs,stage.nextSibling);
-  var fpReduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  function play(){if(fpReduce)return;panel.classList.remove("playing");void panel.offsetWidth;panel.classList.add("playing");}
-  var rb=document.getElementById("fp-replay");if(rb)rb.addEventListener("click",play);
-  if("IntersectionObserver"in window&&!fpReduce){var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play();io2.unobserve(e.target);}});},{threshold:0.25});io2.observe(panel);}else{setTimeout(play,240);}
+  build();
+  var rebuild=function(){build();};
+  if(portrait.addEventListener)portrait.addEventListener("change",rebuild);else if(portrait.addListener)portrait.addListener(rebuild);
+  /* replay restarts the sweep from the inputs */
+  var rb=document.getElementById("fp-replay");
+  if(rb)rb.addEventListener("click",function(){panel.classList.add("rs");void panel.offsetWidth;panel.classList.remove("rs");});
+  /* run only while at least a fifth of the panel is on screen; pause off screen */
+  if("IntersectionObserver"in window){var io2=new IntersectionObserver(function(es){es.forEach(function(e){panel.classList.toggle("live",e.isIntersecting);});},{threshold:0.2});io2.observe(panel);}
+  else panel.classList.add("live");
 })();
 </script>
 </body>
