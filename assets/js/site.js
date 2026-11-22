@@ -1,4 +1,5 @@
-/* Aaditya Kalwani portfolio. One rAF drives Lenis, the pinned scenes, the nav and the showcases. */
+/* Aaditya Kalwani portfolio. One rAF drives Lenis, the pinned scenes, the nav and the showcases.
+   It sleeps whenever nothing moves and wakes on scroll, input, resize or a timeline starting. */
 window.__siteReady = true;
 
 const root = document.documentElement;
@@ -76,6 +77,7 @@ const sceneIO = new IntersectionObserver((ents) => {
     if (s && !s.t0) s.t0 = performance.now();
     sceneIO.unobserve(en.target);
   }
+  wake();
 }, { threshold: 0.4 });
 /* the hero is the top of the page, so it is 'reached' by scrolling a little way into its pinned stage (see frame) */
 scenes.forEach((s) => { if (s.id !== 'top') sceneIO.observe(s.el); });
@@ -92,6 +94,7 @@ for (const s of scenes) {
     delete s.el.dataset.manual;
     s.p = s.ps = 0; s.t0 = performance.now(); b.hidden = true; frameDirty = true;
     if (s.id === 'top') { const y = Math.ceil(innerHeight * HERO_GO) + 2; lenis ? lenis.scrollTo(y) : scrollTo({ top: y }); }
+    wake();
   });
   s.el.querySelector('.stage').appendChild(b);
   s.replay = b;
@@ -126,6 +129,7 @@ function measure() {
   docMax = Math.max(1, document.documentElement.scrollHeight - vh);
   layoutNavInd();
   segs.forEach(layoutSeg);
+  wake();
 }
 new ResizeObserver(() => measure()).observe(document.body);
 addEventListener('load', measure);
@@ -158,7 +162,7 @@ pinMQ.addEventListener('change', () => {
 
 /* tweens run inside the single rAF */
 const tweens = [];
-function tween(dur, fn, done) { tweens.push({ t0: performance.now(), dur, fn, done }); }
+function tween(dur, fn, done) { tweens.push({ t0: performance.now(), dur, fn, done }); wake(); }
 
 /* ------------------------------------------------------------------ nav */
 const nav = $('#nav');
@@ -222,6 +226,7 @@ function goTo(hash) {
   y = Math.max(0, Math.round(y));
   if (lenis && !reduceMQ.matches) lenis.scrollTo(y, { lerp: 0.15 });
   else scrollTo({ top: y, behavior: 'auto' });
+  wake();
   try { history.replaceState(null, '', id && id !== 'top' ? '#' + id : location.pathname + location.search); } catch (e) { /* ignore */ }
   /* Lenis owns anchor scrolling here, so move keyboard focus to the destination ourselves (the skip link included) */
   const dest = target || document.getElementById('top');
@@ -308,6 +313,7 @@ function clearScrub() { for (const sc of scrubEls) for (const w of sc.words) w.s
 reduceMQ.addEventListener('change', () => {
   if (reduceMQ.matches) { stopLenis(); clearScrub(); } else { startLenis(); buildScrub(); }
   frameDirty = true;
+  wake();
 });
 
 /* ------------------------------------------------------------------ segmented controls */
@@ -541,10 +547,16 @@ function syncHeroStatic() {
 }
 new MutationObserver(syncHeroStatic).observe(heroStage, { attributes: true, attributeFilter: ['data-webgl'] });
 new MutationObserver(syncHeroStatic).observe(heroEl, { attributes: true, attributeFilter: ['data-webgl'] });
+/* the right edge of the copy column, in hero-stage pixels: the opening cell keeps clear of it */
+function heroClear() {
+  if (!pinned || heroStatic) return 0;
+  return heroText.getBoundingClientRect().right - heroEl.getBoundingClientRect().left;
+}
 async function mountHero() {
   try {
     const m = await import('./hero.js');
-    heroInst = m.mount(heroEl, { theme: getTheme(), reducedMotion: reduceMQ.matches });
+    heroInst = m.mount(heroEl, { theme: getTheme(), reducedMotion: reduceMQ.matches, clearLeft: heroClear });
+    wake();
   } catch (e) {
     heroEl.closest('.stage').dataset.webgl = 'off';
     $('#hero-fallback').classList.add('on');
@@ -601,12 +613,21 @@ if (sceneById.shaft) {
 
 /* ------------------------------------------------------------------ the one rAF */
 let last = performance.now();
+let rafOn = false;
+function wake() {
+  if (rafOn) return;
+  rafOn = true;
+  last = performance.now();
+  requestAnimationFrame(frame);
+}
+['scroll', 'wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, wake, { passive: true }));
+document.addEventListener('visibilitychange', () => { if (!document.hidden) wake(); });
 const aboutEl = $('#about');
 const photo = $('.photo-frame');
 const contactBand = $('.contact-band');
 let lastY = -1, lastVh = -1, lastLayoutV = -1, lastPinned = null, lastHero = null, lastHeroStatic = null, lastHeroPs = -1, scrubbing = false;
 function frame(t) {
-  const dt = Math.min(0.05, (t - last) / 1000);
+  const dt = clamp((t - last) / 1000, 0, 0.05);
   last = t;
   if (lenis) lenis.raf(t);
   const y = scrollY;
@@ -622,6 +643,7 @@ function frame(t) {
     s.p = sceneP(s, t);
     const was = s.ps;
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
+    if (Math.abs(s.ps - s.p) < 1e-4) s.ps = s.p;
     if (s.ps !== was) s.el.style.setProperty('--p', s.ps.toFixed(4));
     if (s.on) s.on(s.ps, s.p, dt);
     /* the hero's Replay and scroll cue only show once the headline has cleared, never over it */
@@ -711,10 +733,13 @@ function frame(t) {
       if (k >= 1) { tweens.splice(i, 1); if (tw.done) tw.done(); }
     }
   }
-  requestAnimationFrame(frame);
+  /* keep going only while something is in motion; otherwise sleep until wake() */
+  let busy = moved || frameDirty || scrubbing || tweens.length > 0 || !!(lenis && lenis.isScrolling);
+  if (!busy && pinned) for (const s of scenes) if (s.t0 && (s.p < 1 || s.ps !== s.p)) { busy = true; break; }
+  if (busy) requestAnimationFrame(frame); else rafOn = false;
 }
 measure();
-requestAnimationFrame(frame);
+wake();
 
 /* ------------------------------------------------------------------ teardown */
 /* free GPU contexts, observers and rAF loops when the page is left (bfcache keeps pageshow alive, so only dispose on real unload) */

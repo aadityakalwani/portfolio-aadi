@@ -219,6 +219,8 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 .hero-text{order:-1}
 .hero-fallback{order:3}
 .hero-stage{position:relative;z-index:1;min-height:0}
+/* static stand-in for the opening cell: painted with the HTML, then crossfaded once the first WebGL frame is up */
+.hero-ph{display:none}
 .hero-text{position:relative;z-index:3;padding:calc(var(--nav-h) + var(--nav-gap) + 28px) 0 20px;width:min(100% - 2*var(--gutter),var(--maxw));margin-inline:auto}
 .hero-text h1{margin:.45em 0 .3em}
 .hero-text .t-lede{max-width:50ch}
@@ -244,6 +246,12 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   .avail{margin-top:min(22px,2.2svh)}
   .hero-text{position:absolute;left:max(var(--gutter),calc((100% - var(--maxw)) / 2));top:0;width:min(54%,800px);margin-inline:0;padding:calc(var(--nav-h) + 6svh) 0 0;pointer-events:none;will-change:transform,opacity}
   .hero-text.gone > :not(h1){visibility:hidden} /* the h1 stays in the accessibility tree; the CTAs leave the tab order */
+  /* the placeholder sits where hero.js draws the cell at progress 0 (centre 50% + 25.8svh, 33.9svh wide), pushed clear of the copy column like the lens shift */
+  .hero{--hero-col:min(54%,800px)}
+  .hero-ph{display:block;position:absolute;z-index:2;top:24.7svh;width:33.9svh;height:57.6svh;max-width:none;pointer-events:none;
+    left:min(max(calc(50% + 8.85svh),calc(max(var(--gutter),(100% - var(--maxw)) / 2) + var(--hero-col) + 40px)),calc(100% - 16px - 33.9svh));
+    transition:opacity .45s var(--ease-out) .5s,visibility 0s linear .95s}
+  .hero-stage[data-ready] .hero-ph,.hero--static .hero-ph,[data-webgl="off"] .hero-ph{opacity:0;visibility:hidden}
   .hero-fallback{position:absolute;left:0;right:0;bottom:6vh}
 }
 @media (max-width:899px){.hero-text{padding-top:calc(var(--nav-h) + var(--nav-gap) + 20px)}.hero-text h1{font-size:clamp(3rem,13.4vw,4.6rem)}}
@@ -394,7 +402,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   #shaft .case-panel{height:auto}
   #show-shaft .pfsh-stage{min-height:360px}
 }
-@media (min-width:900px) and (max-width:1180px){.hero-text{width:min(50%,800px)}.hero-text .t-lede{max-width:100%}}
+@media (min-width:900px) and (max-width:1180px){.hero-text{width:min(50%,800px)}.hero-text .t-lede{max-width:100%}.hero{--hero-col:min(50%,800px)}}
 .case{padding:clamp(40px,6vw,80px) 0}
 @media (min-width:900px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-height:700px){.case{padding:0}}
 

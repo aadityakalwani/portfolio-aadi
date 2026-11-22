@@ -34,6 +34,8 @@ const eoe = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const hash = (n) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 
 const TIMELINE_SECONDS = 9;
+/* hand the main thread back between mount stages, so the build is several short tasks instead of one long one */
+const nap = () => (globalThis.scheduler && typeof scheduler.yield === 'function' ? scheduler.yield() : new Promise((r) => setTimeout(r, 0)));
 
 /* ---------------------------------------------------------------- content */
 const INPUTS = ['Aerospace · Bath', 'Machine learning', 'CAD · Inventor', 'Full-stack', 'Founder', 'Year 2'];
@@ -95,14 +97,15 @@ font-size:12px;font-weight:500;line-height:1;color:var(--ph-ink2);white-space:no
 .ph-card{position:absolute;left:0;top:0;display:flex;align-items:center;gap:12px;min-width:176px;padding:10px 14px 10px 16px;border-radius:14px;background:var(--ph-glass-strong);
 -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);border:1px solid var(--ph-line);box-shadow:var(--ph-shadow);opacity:0;visibility:hidden;will-change:transform,opacity}
 .ph-card::before{content:"";position:absolute;left:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--ph-accent)}
-.ph-card.is-pulse::before{animation:ph-ping .9s cubic-bezier(.16,1,.3,1) 1}
+.ph-card::after{content:"";position:absolute;left:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--ph-accent);opacity:0;pointer-events:none}
+.ph-card.is-pulse::after{animation:ph-ping .9s cubic-bezier(.16,1,.3,1) 1}
 .ph-card-m{display:flex;flex-direction:column;gap:3px;min-width:0}
 .ph-card-t{font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--ph-ink);line-height:1.1;white-space:nowrap}
 .ph-card-s{font-size:11.5px;color:var(--ph-muted);line-height:1.15;white-space:nowrap}
 .ph-card-v{margin-left:auto;font:400 12.5px var(--ph-mono);color:var(--ph-accent-text);font-variant-numeric:tabular-nums}
 .ph-tight .ph-card-s{display:none}
 .ph-tight .ph-card{padding:8px 12px 8px 14px;min-width:164px}
-@keyframes ph-ping{0%{box-shadow:0 0 0 0 var(--ph-accent-wash),0 0 0 0 var(--ph-accent)}60%{box-shadow:0 0 0 9px transparent,0 0 0 0 transparent}100%{box-shadow:none}}
+@keyframes ph-ping{0%{transform:scale(1);opacity:.55}100%{transform:scale(4);opacity:0}}
 .ph-chapter{position:absolute;left:clamp(20px,5vw,64px);bottom:clamp(28px,6vh,64px);width:min(560px,calc(100% - 40px));height:clamp(150px,30vh,300px)}
 .ph-ch{position:absolute;left:0;bottom:0;width:100%;opacity:0;transform:translate3d(0,24px,0);filter:blur(6px);pointer-events:none;
 transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .5s cubic-bezier(.16,1,.3,1)}
@@ -117,6 +120,7 @@ transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1
 .ph-compact .ph-fig span{white-space:normal}
 .ph-cue{position:absolute;left:50%;bottom:20px;width:1px;height:40px;background:var(--ph-line-strong);transform:translateX(-50%);opacity:0;transition:opacity .4s}
 .ph-cue.is-on{opacity:1}
+.ph-cue:not(.is-on)::after{animation:none}
 .ph-cue::after{content:"";position:absolute;left:-1.5px;top:0;width:4px;height:4px;border-radius:50%;background:var(--ph-accent);animation:ph-cue 2.4s cubic-bezier(.65,0,.35,1) infinite}
 .ph-cue span{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ph-ink2)}
 @keyframes ph-cue{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(36px);opacity:0}}
@@ -154,7 +158,7 @@ font:600 13px/1 var(--font-sans,"Inter",system-ui,sans-serif);color:var(--ph-ink
 .ph-fallback .ph-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .ph-fallback .ph-card{position:relative;opacity:1;visibility:visible;transform:none}
 .ph-fallback .ph-fig{position:static;opacity:1;max-width:none;text-align:left;margin-top:18px}
-@media (prefers-reduced-motion:reduce){.ph-canvas,.ph-ch,.ph-fig,.ph-cue,.ph-tick,.ph-btn{transition-duration:.01ms}.ph-cue::after,.ph-card.is-pulse::before{animation:none}}
+@media (prefers-reduced-motion:reduce){.ph-canvas,.ph-ch,.ph-fig,.ph-cue,.ph-tick,.ph-btn{transition-duration:.01ms}.ph-cue::after,.ph-card.is-pulse::after{animation:none}}
 `;
 
 function ensureCss() {
@@ -204,7 +208,7 @@ function buildFallback(container, theme) {
 }
 
 /* ---------------------------------------------------------------- the instance */
-function createInstance(container, o) {
+async function createInstance(container, o) {
   ensureCss();
   const compact = o.compact;
   const reduced = o.reduced;
@@ -294,7 +298,7 @@ function createInstance(container, o) {
 
 
   /* ----- renderer */
-  const maxDpr = coarse ? 1.5 : 2;
+  const maxDpr = 1.5; /* a 2x canvas costs 1.8x the fill of 1.5x for detail nobody sees under the bloom */
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !useComposer, alpha: false, powerPreference: 'high-performance' });
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -308,6 +312,7 @@ function createInstance(container, o) {
   })();
   if (compact) { root.style.position = 'relative'; }
   container.appendChild(root);
+  await nap();
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(28, 1.6, 0.1, 200);
@@ -330,6 +335,7 @@ function createInstance(container, o) {
   scene.environment = envTex;
   scene.environmentIntensity = TH.env;
   pm.dispose();
+  await nap();
 
   const key = new THREE.DirectionalLight(0xffffff, 0.9);
   key.position.set(-6, 9, 8);
@@ -476,6 +482,7 @@ function createInstance(container, o) {
   cutRing.rotation.x = Math.PI / 2;
   cutRing.position.set(CELL_X, 0, 0);
   scene.add(cutRing);
+  await nap();
 
   /* ----- transducers */
   const plateGeo = track(new RoundedBoxGeometry(0.28, 2.2, 0.9, 4, 0.06));
@@ -585,6 +592,7 @@ function createInstance(container, o) {
   const points = glow(new THREE.Points(partGeo, partMat));
   points.frustumCulled = false;
   scene.add(points);
+  await nap();
   const partSeed = Array.from({ length: NP }, (_, i) => ({ o: hash(i * 2.3), sz: 3 + 3 * hash(i * 9.1 + 1), tgt: i % 6, j: hash(i * 4.4 + 8) }));
   const tmpV = new THREE.Vector3();
   function updateParticles(time, reveal, op, fadeX) {
@@ -686,6 +694,7 @@ function createInstance(container, o) {
     });
   }
   if (!useComposer) ensureHalos();
+  await nap();
 
   /* ----- post processing */
   let bloomComposer = null, baseComposer = null, bloomPass = null, compPass = null;
@@ -715,6 +724,7 @@ function createInstance(container, o) {
     baseComposer.addPass(new OutputPass());
   }
   if (useComposer) buildComposers();
+  await nap();
 
   function resize() {
     const r = stage.getBoundingClientRect();
@@ -733,6 +743,7 @@ function createInstance(container, o) {
     }
     partMat.uniforms.uPx.value = dpr;
     measureSizes();
+    measureClear();
   }
 
   /* ----- theme */
@@ -803,8 +814,34 @@ function createInstance(container, o) {
     camera.position.copy(camPos);
     camera.lookAt(camLook);
     if (Math.abs(camera.fov - fov) > 1e-3) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    /* opening frames: shift the lens (not the camera) so the cell clears the page copy; it eases out as the camera moves in */
+    const sh = mode === 'pinned' ? clearShift * (1 - smooth(seg(p, 0.04, 0.3))) : 0;
+    if (sh !== curShift) {
+      curShift = sh;
+      if (sh > 0.25 && W && H) camera.setViewOffset(W, H, -sh, 0, W, H); else camera.clearViewOffset();
+    }
     camera.updateMatrixWorld();
     floorMat.uniforms.uFocus.value.set(camLook.x, camLook.z);
+  }
+
+  /* how far right the opening cell must sit so its left edge stays clear of the copy column (o.clearLeft gives its right edge in px) */
+  let clearShift = 0, curShift = 0;
+  function measureClear() {
+    const edge = !compact && mode === 'pinned' && typeof o.clearLeft === 'function' ? +o.clearLeft() || 0 : 0;
+    let next = 0;
+    if (edge > 0 && W && H) {
+      curShift = 0; camera.clearViewOffset();
+      placeCamera(0, 0);
+      camera.clearViewOffset(); curShift = 0;
+      let lo = Infinity, hi = -Infinity;
+      for (let i = 0; i < 24; i++) {
+        const a = (i / 24) * Math.PI * 2;
+        for (const y of [-1.62, 1.75]) { proj(CELL_X + Math.cos(a) * 1.03, y, Math.sin(a) * 1.03, o2); lo = Math.min(lo, o2.x); hi = Math.max(hi, o2.x); }
+      }
+      next = clamp(edge + 40 - lo, 0, Math.max(0, W - 16 - hi));
+    }
+    clearShift = next;
+    curShift = -1; /* force placeCamera to re-apply the offset at the new size */
   }
 
   /* ----- overlay projection helpers */
@@ -825,7 +862,7 @@ function createInstance(container, o) {
   }
 
   /* ----- state + per-frame update */
-  const st = { ps: 0, time: 0, yaw: 0.5, yawBase: 0.5, chap: -1, lastTick: -1, cardW: 0 };
+  const st = { ps: 0, prevPs: -1, moved: true, par: false, time: 0, yaw: 0.5, yawBase: 0.5, chap: -1, lastTick: -1, cardW: 0 };
   const lastOp = new Map();
   function setOp(el, v, tf) {
     const k = el;
@@ -1028,14 +1065,27 @@ function createInstance(container, o) {
       st.ps = immediate ? target : damp(st.ps, target, 8, dt);
     }
     immediate = false;
+    st.moved = Math.abs(st.ps - st.prevPs) > 1e-5; st.prevPs = st.ps;
     update(st.ps, dt);
+    st.par = mode === 'pinned' && !coarse && Math.abs(pmx - mx) + Math.abs(pmy - my) > 2e-3;
     renderFrame();
-    if (!root.classList.contains('is-ready')) root.classList.add('is-ready');
+    if (!root.classList.contains('is-ready')) { root.classList.add('is-ready'); container.dataset.ready = '1'; }
     frames++;
     if (!lockQuality && useComposer && frames > 3 && frames <= 28) { frameSum += dt; if (frames === 28 && frameSum / 25 > 0.024) degrade(); }
   }
-  function loop(now) { raf = 0; if (!shouldRun()) return; tick(now); raf = requestAnimationFrame(loop); }
-  function kick() { if (!raf && shouldRun()) { last = performance.now(); raf = requestAnimationFrame(loop); } }
+  /* render on demand: the loop runs while something moves and stops once the frame is settled.
+     Only the slow idle spin of the opening cell keeps it going, and that needs no more than 25fps. */
+  let idleOnly = false, lastDraw = 0;
+  function loop(now) {
+    raf = 0;
+    if (!shouldRun()) return;
+    if (idleOnly && now - lastDraw < 40) { raf = requestAnimationFrame(loop); return; }
+    tick(now); lastDraw = now;
+    const active = playing || frames < 32 || st.moved || st.par || (st.ps > 0.25 && st.ps < 0.999);
+    idleOnly = !active && st.ps < 0.06;
+    if (active || idleOnly) raf = requestAnimationFrame(loop);
+  }
+  function kick() { idleOnly = false; if (!raf && shouldRun()) { last = performance.now(); raf = requestAnimationFrame(loop); } }
   function renderOnce() { if (disposed) return; if (extP != null) st.ps = extP; last = performance.now(); const keep = st.time; tick(last); st.time = keep; }
 
   /* ----- events + observers */
@@ -1050,14 +1100,24 @@ function createInstance(container, o) {
   }
   const onVis = () => { if (!document.hidden) kick(); };
   document.addEventListener('visibilitychange', onVis);
-  const onMove = (e) => { mx = (e.clientX / window.innerWidth - 0.5) * 2; my = -(e.clientY / window.innerHeight - 0.5) * 2; };
+  const onMove = (e) => { mx = (e.clientX / window.innerWidth - 0.5) * 2; my = -(e.clientY / window.innerHeight - 0.5) * 2; if (onScreen) kick(); };
   if (mode === 'pinned' && !coarse) window.addEventListener('pointermove', onMove, { passive: true });
   btn.addEventListener('click', () => { extP = null; if (mode === 'pinned' && !useAuto()) return; startTimeline(); });
   const onLost = (e) => { e.preventDefault(); if (o.onFail) o.onFail(); };
   canvas.addEventListener('webglcontextlost', onLost);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!disposed) measureSizes(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!disposed) { measureSizes(); measureClear(); if (!raf) renderOnce(); } });
 
   resize();
+  /* compile every scene program off the main thread where the driver allows it, so the first frame is not one long stall */
+  if (typeof renderer.compileAsync === 'function') {
+    try {
+      placeCamera(st.ps, 0);
+      renderer.setRenderTarget(useComposer && baseComposer ? baseComposer.readBuffer : null);
+      await renderer.compileAsync(scene, camera);
+    } catch (e) { /* the first render compiles them instead */ }
+    renderer.setRenderTarget(null);
+    await nap();
+  }
   renderOnce();
   kick();
 
@@ -1065,7 +1125,7 @@ function createInstance(container, o) {
     compact,
     mode,
     getP: () => st.ps,
-    setProgress(p, imm) { extP = clamp(p, 0, 1); if (imm) { st.ps = extP; } if (!raf && onScreen) renderOnce(); }, // off-screen: the io kick renders it on return
+    setProgress(p, imm) { const n = clamp(p, 0, 1); const changed = n !== extP; extP = n; if (imm) { st.ps = extP; } if (changed || imm) kick(); }, // off-screen: the io kick renders it on return
     setTheme(t) { applyTheme(t); if (!raf) renderOnce(); },
     play() { startTimeline(); },
     dispose() {
@@ -1102,8 +1162,9 @@ function mountInner(container, opts) {
     theme: opts.theme === 'dark' ? 'dark' : 'light',
     reduced: !!opts.reducedMotion,
     quality: opts.quality === 'high' || opts.quality === 'low' ? opts.quality : 'auto',
+    clearLeft: typeof opts.clearLeft === 'function' ? opts.clearLeft : null,
   };
-  let inst = null, fb = null, dead = false, extP = null;
+  let inst = null, fb = null, dead = false, extP = null, job = null;
   const coarse = () => matchMedia('(pointer:coarse)').matches || matchMedia('(hover:none)').matches;
   const wantCompact = () => coarse() || (container.clientWidth || window.innerWidth) < 900;
 
@@ -1111,21 +1172,32 @@ function mountInner(container, opts) {
     if (inst) { try { inst.dispose(); } catch (e) { /* ignore */ } inst = null; }
     if (!fb) fb = buildFallback(container, cfg.theme);
   }
+  /* the build is async (it yields between stages); calls that land meanwhile are replayed once it resolves */
   function build(startP) {
-    try {
-      inst = createInstance(container, { ...cfg, compact: wantCompact(), startP, onFail: showFallback });
+    const theme = cfg.theme;
+    const mine = createInstance(container, { ...cfg, compact: wantCompact(), startP, onFail: showFallback });
+    job = mine;
+    mine.then((i) => {
+      if (job !== mine || dead || fb) { i.dispose(); return; }
+      job = null;
+      inst = i;
+      if (cfg.theme !== theme) inst.setTheme(cfg.theme);
       if (extP != null) inst.setProgress(extP, true);
-    } catch (err) {
+      if (wantCompact() !== inst.compact) rebuild();
+    }).catch((err) => {
+      if (job !== mine) return;
+      job = null;
       console.warn('[hero] WebGL scene unavailable, showing static fallback.', err);
       container.querySelectorAll(':scope > .' + P + 'root').forEach((n) => n.remove());
       showFallback();
-    }
+    });
   }
+  function rebuild() { const p = inst.getP(); inst.dispose(); inst = null; build(p); }
   build(0);
 
   const ro = new ResizeObserver(() => {
     if (dead || fb || !inst) return;
-    if (wantCompact() !== inst.compact) { const p = inst.getP(); inst.dispose(); inst = null; build(p); }
+    if (wantCompact() !== inst.compact) rebuild();
   });
   ro.observe(container);
   const onTheme = (e) => { const t = (e && e.detail && e.detail.theme) || document.documentElement.getAttribute('data-theme'); if (t) api.setTheme(t); };
