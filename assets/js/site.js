@@ -106,7 +106,6 @@ const sceneP = (s, now) => {
 const nextCue = document.createElement('a');
 nextCue.className = 'next-cue'; nextCue.href = '#work';
 nextCue.innerHTML = '<span>Scroll for the builds</span><i aria-hidden="true"></i>';
-nextCue.setAttribute('aria-label', 'Scroll down to the builds');
 nextCue.tabIndex = -1;
 sceneById.top.el.querySelector('.stage').appendChild(nextCue);
 const secEls = ['work', 'builds', 'about', 'contact'].map((id) => ({ id, el: document.getElementById(id), top: 0 }));
@@ -623,7 +622,8 @@ function frame(t) {
     s.ps = pinned ? damp(s.ps, s.p, 8, dt) : 1;
     if (s.ps !== was) s.el.style.setProperty('--p', s.ps.toFixed(4));
     if (s.on) s.on(s.ps, s.p, dt);
-    const done = pinned && s.p >= 1;
+    /* the hero's Replay and scroll cue only show once the headline has cleared, never over it */
+    const done = pinned && s.p >= 1 && !(s.id === 'top' && y < vh * HERO_GO * 0.92);
     if (s.replay.hidden === done) s.replay.hidden = !done;
     if (s.id === 'top') { nextCue.classList.toggle('is-on', done); nextCue.tabIndex = done ? 0 : -1; }
   }
@@ -643,11 +643,16 @@ function frame(t) {
       heroText.classList.toggle('gone', f > 0.92);
       /* back at the top after it has played: dim the network so it never sits on the headline */
       heroEl.style.opacity = heroScene.t0 ? (0.12 + 0.88 * f).toFixed(3) : '';
+      /* its labels and chapter text fade out completely, so nothing ghosts through the copy */
+      const ov = heroEl.querySelector('.ph-overlay');
+      if (ov) ov.style.opacity = heroScene.t0 ? f.toFixed(3) : '';
     } else {
       heroText.style.opacity = '';
       heroText.style.transform = '';
       heroText.classList.remove('gone');
       heroEl.style.opacity = '';
+      const ov = heroEl.querySelector('.ph-overlay');
+      if (ov) ov.style.opacity = '';
     }
   }
 

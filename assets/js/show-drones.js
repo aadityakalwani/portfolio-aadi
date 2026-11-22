@@ -404,7 +404,7 @@ function mountInner(container, opts) {
         <button type="button" class="tbd-chip" data-k="naca" aria-pressed="false">NACA 0015</button>
         <button type="button" class="tbd-chip" data-k="clark" aria-pressed="true">Clark-Y</button>
       </div>
-      <button type="button" class="tbd-auto" aria-pressed="false" aria-label="Sweep the angle of attack automatically"><svg viewBox="0 0 14 14" aria-hidden="true"><path class="tbd-ico" d="M3 1.5v11l9-5.5z"/></svg><span class="tbd-auto-t">Auto sweep</span></button>
+      <button type="button" class="tbd-auto" aria-pressed="false" title="Sweep the angle of attack automatically"><svg viewBox="0 0 14 14" aria-hidden="true"><path class="tbd-ico" d="M3 1.5v11l9-5.5z"/></svg><span class="tbd-auto-t">Auto sweep</span></button>
     </div>
     <div class="tbd-stage">
       <canvas class="tbd-canvas" role="img" aria-label="Streamlines bending around the selected aerofoil section"></canvas>
@@ -860,7 +860,7 @@ function mountInner(container, opts) {
       visible = e.isIntersecting;
       if (visible) { countUp(); if (!reduced) wake(); else frameOnce(); } else sleep();
     }
-  }, { rootMargin: '120px' });
+  }, { rootMargin: '0px' });
   io.observe(root);
 
   /* ---------- init ---------- */

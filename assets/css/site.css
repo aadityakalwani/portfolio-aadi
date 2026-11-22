@@ -108,6 +108,11 @@ section[id]{scroll-margin-top:96px}
 .js .mask .ln{display:block;overflow:clip;padding-bottom:.1em;margin-bottom:-.1em}
 .js .mask .ln-in{display:block;transform:translate3d(0,108%,0);transition:transform 900ms var(--ease-out);transition-delay:calc(var(--i,0) * 90ms)}
 .js .mask.is-in .ln-in{transform:none}
+/* the hero copy is the LCP element: it animates in with CSS alone, so first paint never waits for site.js */
+.js .hero-text .reveal{animation:hero-in var(--dur-slow) var(--ease-out) calc(var(--i,0) * 70ms + 60ms) both}
+.js .hero-text .mask .ln-in{animation:hero-ln 900ms var(--ease-out) calc(var(--i,0) * 90ms + 60ms) both}
+@keyframes hero-in{from{opacity:0;transform:translate3d(0,28px,0);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes hero-ln{from{transform:translate3d(0,108%,0)}to{transform:none}}
 .scrub .w{opacity:var(--wo,1);transition:none}
 
 /* ---------- buttons, chips ---------- */
@@ -239,7 +244,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   .hero-cta{margin-top:min(28px,2.8svh)}
   .avail{margin-top:min(22px,2.2svh)}
   .hero-text{position:absolute;left:max(var(--gutter),calc((100% - var(--maxw)) / 2));top:0;width:min(54%,800px);margin-inline:0;padding:calc(var(--nav-h) + 6svh) 0 0;pointer-events:none;will-change:transform,opacity}
-  .hero-text.gone{visibility:hidden}
+  .hero-text.gone > :not(h1){visibility:hidden} /* the h1 stays in the accessibility tree; the CTAs leave the tab order */
   .hero-fallback{position:absolute;left:0;right:0;bottom:6vh}
 }
 @media (max-width:899px){.hero-text{padding-top:calc(var(--nav-h) + var(--nav-gap) + 20px)}.hero-text h1{font-size:clamp(3rem,13.4vw,4.6rem)}}
@@ -257,6 +262,10 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 .stat{scroll-snap-align:start;display:flex;flex-direction:column;gap:12px;padding:32px 28px 30px;border-left:1px solid var(--line)}
 .stat:first-child{border-left:0;padding-left:0}
 .stat .t-label{max-width:24ch}
+@media (min-width:600px) and (max-width:899px){ /* narrow windows: a 3+2 grid instead of a clipped carousel */
+  .stats{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);grid-auto-columns:auto;overflow:visible;margin-inline:0;padding-inline:0;-webkit-mask-image:none;mask-image:none}
+  .stat:nth-child(4){border-left:0;padding-left:0}
+}
 @media (min-width:900px){
   .stats{grid-auto-flow:row;grid-template-columns:repeat(5,1fr);grid-auto-columns:auto;overflow:visible;margin-inline:0;padding-inline:0;-webkit-mask-image:none;mask-image:none}
 }
@@ -376,8 +385,17 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
   .abl-track{min-height:0}
   .case-note,.case-role{font-size:clamp(.8125rem,1.5vh,.9375rem)}
   .panel-body{overflow:hidden}
+  /* the ablation view is taller than one viewport on short screens: let this panel grow instead of clipping rows */
+  #soc .case-panel{height:auto;min-height:min(calc(100svh - var(--nav-h) - var(--nav-gap) - 84px),740px)}
+  #soc .panel-body{overflow:visible}
 }
 @media (min-width:900px) and (max-width:1100px){.case-copy{gap:12px}}
+/* narrow desktops: the shaft panel grows so the 3D stage keeps a usable height, and the hero copy stays clear of the cell */
+@media (min-width:900px) and (max-width:1100px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-height:700px){
+  #shaft .case-panel{height:auto}
+  #show-shaft .pfsh-stage{min-height:360px}
+}
+@media (min-width:900px) and (max-width:1180px){.hero-text{width:min(50%,800px)}.hero-text .t-lede{max-width:100%}}
 .case{padding:clamp(40px,6vw,80px) 0}
 @media (min-width:900px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (min-height:700px){.case{padding:0}}
 
@@ -467,6 +485,7 @@ body.menu-open .nav.is-scrolled{box-shadow:none;background:transparent;border-co
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
+  .js .hero-text .reveal,.js .hero-text .mask .ln-in{animation:none}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   .js .reveal,.js .mask .ln-in,.js .case-panel{opacity:1;transform:none;filter:none}
   .mq-track{animation:none;flex-wrap:wrap;width:auto}

@@ -106,6 +106,8 @@ position:relative;width:100%;height:100%;min-height:340px;overflow:hidden;backgr
 .wkf-root[data-size="s"] .wkf-step{flex-direction:column;gap:5px;padding:7px 2px 6px;text-align:center;font-size:10.5px}
 .wkf-root[data-size="m"] .wkf-lbl .wkf-full,.wkf-root[data-size="s"] .wkf-lbl .wkf-full{display:none}
 .wkf-root[data-size="m"] .wkf-lbl .wkf-short,.wkf-root[data-size="s"] .wkf-lbl .wkf-short{display:inline}
+.wkf-root{container-type:inline-size}
+@container (max-width:640px){.wkf-root[data-size="m"] .wkf-live{display:none}.wkf-root[data-size="m"] .wkf-step{gap:6px;padding:8px 7px}}
 @media (pointer:coarse){.wkf-btn{height:44px}.wkf-root[data-size="s"] .wkf-hdr{top:10px}}
 .wkf-fb{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;width:100%;min-height:300px;padding:32px 20px;background:#EFEDE0;color:#0E1B2E;font-family:"Inter",ui-sans-serif,system-ui,sans-serif;border-radius:inherit;text-align:center}
 .wkf-fb[data-theme="dark"]{background:#0B1324;color:#EAEEF7}
@@ -232,7 +234,7 @@ function fallbackMount(container, theme) {
   box.dataset.theme = theme;
   if (!styled) box.style.cssText = 'padding:32px 20px;text-align:center;font-family:system-ui,sans-serif;background:#EFEDE0;color:#0E1B2E';
   let logo = '';
-  try { logo = new URL('../winkit-logo.png', import.meta.url).href; } catch (e) { /* none */ }
+  try { logo = new URL('../winkit-logo.webp', import.meta.url).href; } catch (e) { /* none */ }
   box.innerHTML =
     (logo ? '<span class="wkf-logo"><img alt="Winkit" src="' + logo + '"></span>' : '<strong>Winkit</strong>') +
     '<ol>' + STEPS.map((s, i) => '<li><b>' + (i + 1) + '</b>' + s.full + '</li>').join('') + '</ol>' +
@@ -257,7 +259,7 @@ function realMount(container, opts, onFatal, ref) {
   ensureStyle(doc);
 
   let logoSrc = '';
-  try { logoSrc = new URL('../winkit-logo.png', import.meta.url).href; } catch (e) { /* no logo */ }
+  try { logoSrc = new URL('../winkit-logo.webp', import.meta.url).href; } catch (e) { /* no logo */ }
 
   const root = doc.createElement('div');
   root.className = 'wkf-root';

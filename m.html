@@ -478,6 +478,25 @@
   .fig-cap-block{display:block;margin-bottom:8px}
   .case-fig-cap{position:absolute;left:14px;bottom:11px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;
     letter-spacing:.02em;color:rgba(255,255,255,.42);pointer-events:none}
+  /* ---- phones: thumb-sized targets, 16px reading text, pills that wrap instead of clipping ---- */
+  .fp-outs{display:none}
+  @media(max-width:760px),(pointer:coarse){
+    .socials a{min-height:44px}.foot-brand{min-height:44px}.assure{font-size:14px}
+    .pill{white-space:normal;max-width:100%;line-height:1.45}
+    .brand{min-height:44px}.mark{width:44px;height:44px}
+    .btn-nav{min-height:44px}
+    .fp-replay{min-height:44px;padding:0 16px}
+    .more > summary{min-height:44px}
+    .plinks a,.plinks .muted{display:inline-flex;align-items:center;min-height:44px;font-size:13.5px}
+    .more-body > p,.card > p,.card .more-body > p,.block-head p{font-size:1rem}
+    .case-summary{font-size:1.0625rem}
+    .stats-m span{font-size:13.5px}
+  }
+  @media(max-width:620px){
+    .fp-outs{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;list-style:none;margin:14px 0 0;padding:0 2px;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;line-height:1.3;color:#fff;font-weight:500}
+    .fp-outs span{display:block;margin-top:2px;color:rgba(255,255,255,.62);font-weight:400;font-size:12px}
+  }
 </style>
 </head>
 <body>
@@ -643,7 +662,7 @@
         <div class="case-kick"><span class="eyebrow">Hardware</span><span class="pill pill-private">Coursework &middot; 76.6%</span></div>
         <div class="vidfeat">
           <video controls preload="none" playsinline poster="assets/gearbox-poster.webp" aria-label="Silent looping render of a 5:1 epicyclic gearbox: the sun gear turns the planet gears inside a fixed ring gear and the planet carrier turns slowly as output.">
-            <source src="assets/gearbox.mp4" type="video/mp4">
+            <source src="assets/gearbox.mp4?v=20261122" type="video/mp4">
           </video>
           <div>
             <h3>Epicyclic gearbox</h3>
@@ -958,6 +977,8 @@ document.addEventListener("click",function(e){
     d.style.top=(lc[idx].y/H*100)+"%";d.innerHTML=it.t+(it.s?'<span class="fp-sub">'+it.s+"</span>":"");
     if(cls==="out")d.style.setProperty("--d",(base+idx*0.09).toFixed(3)+"s");stage.appendChild(d);});}
   place(inputs,coords[0],"in",0);place(outputs,coords[coords.length-1],"out",2.15);
+  /* phones hide the node labels, so the outputs are listed under the diagram */
+  var outs=document.createElement("ol");outs.className="fp-outs";outputs.forEach(function(it){var li=document.createElement("li");li.innerHTML=it.t+(it.s?"<span>"+it.s+"</span>":"");outs.appendChild(li);});stage.parentNode.insertBefore(outs,stage.nextSibling);
   var fpReduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
   function play(){if(fpReduce)return;panel.classList.remove("playing");void panel.offsetWidth;panel.classList.add("playing");}
   var rb=document.getElementById("fp-replay");if(rb)rb.addEventListener("click",play);

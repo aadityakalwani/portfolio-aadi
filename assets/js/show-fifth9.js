@@ -177,7 +177,7 @@ letter-spacing:.09em;text-transform:uppercase;color:var(--c-muted)}
 column-gap:10px;row-gap:6px;align-items:center;padding:9px 12px;border:1px solid var(--c-line);border-radius:12px;background:var(--c-row);
 transition:opacity .3s,border-color .3s,box-shadow .3s,background-color .3s}
 .f9c--lg .f9c__row{grid-template-columns:22px auto minmax(0,1fr) auto;grid-template-areas:"idx cat chips verdict" ". prompt prompt prompt"}
-.f9c__row[data-s="queued"]{opacity:.45}
+.f9c__row[data-s="queued"]{opacity:.9}
 .f9c__row[data-s="queued"] .f9c__typed{visibility:hidden}
 .f9c__row[data-s="active"]{border-color:var(--c-accent-ring);box-shadow:0 0 0 3px var(--c-accent-wash),var(--c-shadow-sm)}
 .f9c__row[data-s="active"][data-v="flagged"]{border-color:var(--c-rose);box-shadow:0 0 0 3px var(--c-rose-soft),var(--c-shadow-sm)}
