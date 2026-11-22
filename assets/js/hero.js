@@ -413,7 +413,7 @@ function createInstance(container, o) {
     g.fillStyle = '#1E48E0'; g.fillRect(0, 0, 600, 34);
     const F = '"Inter","Helvetica Neue",Arial,sans-serif';
     g.textBaseline = 'alphabetic';
-    g.fillStyle = '#F4F2E8'; g.font = '700 22px ' + F; g.fillText('CYLINDRICAL CELL', 78, 25);
+    g.fillStyle = '#F4F2E8'; g.font = '700 22px ' + F; g.fillText('LI-ION CELL · 40AH', 78, 25);
     g.textAlign = 'right'; g.fillText('RESEARCH GRADE', 548, 25); g.textAlign = 'left';
     g.fillStyle = '#0E1B2E'; g.font = '800 88px ' + F; g.fillText('Li-ion', 74, 140);
     g.fillStyle = 'rgba(14,27,46,.18)'; g.fillRect(74, 170, 474, 3);

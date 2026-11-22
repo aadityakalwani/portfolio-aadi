@@ -27,7 +27,7 @@ const CYCLES = {
     base: 0.70,
     gain: '19%',
     seeds: '80% of seeds improved',
-    compLabel: 'No-ultrasound model',
+    compLabel: 'Voltage, current, temperature only',
     compShort: 'No ultrasound',
     seed: 1207
   },
@@ -42,7 +42,7 @@ const CYCLES = {
     base: 1.36,
     gain: '42%',
     seeds: '100% of seeds improved · p = 0.002',
-    compLabel: 'No-ultrasound model',
+    compLabel: 'Voltage, current, temperature only',
     compShort: 'No ultrasound',
     seed: 4406
   }
@@ -473,7 +473,7 @@ function mountInner(container, opts, theme0) {
     '<div class="' + P + '__legend" role="group" aria-label="Series">' +
     '<button type="button" class="' + P + '__lg" data-s="truth" aria-pressed="true"><i class="' + P + '__sw ' + P + '__sw--true"></i>True SOC<em data-rv="truth">100.0%</em></button>' +
     '<button type="button" class="' + P + '__lg" data-s="model" aria-pressed="true"><i class="' + P + '__sw ' + P + '__sw--model"></i>Fused model<em data-rv="model">100.0%</em></button>' +
-    '<button type="button" class="' + P + '__lg" data-s="comp" aria-pressed="true"><i class="' + P + '__sw ' + P + '__sw--comp"></i><span data-complab>No-ultrasound model</span><em data-rv="comp">100.0%</em></button>' +
+    '<button type="button" class="' + P + '__lg" data-s="comp" aria-pressed="true"><i class="' + P + '__sw ' + P + '__sw--comp"></i><span data-complab>Voltage, current, temperature only</span><em data-rv="comp">100.0%</em></button>' +
         '</div>' +
     '<div class="' + P + '__plot">' +
     '<canvas class="' + P + '__canvas" tabindex="0" role="img" aria-label="Illustrative blind-test plot of state of charge against time. Use left and right arrow keys to read values."></canvas>' +
@@ -481,7 +481,7 @@ function mountInner(container, opts, theme0) {
     '<div class="' + P + '__seal" title="The test cycle is held out of training, validation and model selection alike">' + LOCK + '<span><b>Sealed test cycle</b></span></div>' +
     '</div>' +
     '<figure class="' + P + '__sch" style="margin-left:14px;margin-right:14px"><div class="' + P + '__sch-in" data-sch></div>' +
-    '<figcaption>fig.4 · ultrasound time of flight and cell swelling join voltage, current and temperature inside the LSTM.</figcaption></figure>' +
+    '<figcaption>fig.3b · ultrasound time of flight and cell swelling join voltage, current and temperature inside the LSTM.</figcaption></figure>' +
     '<p class="' + P + '__sr" aria-live="polite" data-sr></p>';
 
   container.appendChild(root);

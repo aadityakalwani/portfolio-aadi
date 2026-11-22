@@ -13,9 +13,9 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 const GUIDE_URL = 'https://dmm2-pair122-guide.vercel.app';
 
 /* ------------------------------------------------------------------ statics (config A or B) */
-// Loads are the first-pass design loads from the calculation core (N, mm).
+// Loads are the submitted design loads (final report, 18 Nov 2026): 34T/112T 8MXP-50 toothed belt (N, mm).
 // Forward and up are positive. Reactions come from moment and force balance about bearing A, per plane.
-const LD = { T: 720, chain: 2122, chH: 1838, chV: 1061 };
+const LD = { T: 723.1, chain: 1470.6, chH: 1273.6, chV: 735.3 };
 function statics(cfg) {
   const xC = cfg === 'A' ? 460 : 400, xB = cfg === 'A' ? 400 : 460;
   const H = [[50, -LD.T], [350, -LD.T], [xC, LD.chH]];
@@ -43,58 +43,58 @@ const fmt = (n, d = 0) => n.toFixed(d);
 export const PART_INFO = {
   shaft: {
     name: 'Drive shaft',
-    role: 'Stepped steel shaft. Carries torque from sprocket C out to the two track sprockets and spans bearings A and B.',
-    keyNumbers: (st) => ['Peak torque 208.8Nm between T2 and C', `Critical section: ${fmt(st.peak, 1)}Nm resultant bending${st.peakAt ? ' at ' + st.peakAt : ''}`, 'First-pass diameter 30mm']
+    role: 'Stepped steel shaft. Carries torque from pulley C out to the two track sprockets and spans bearings A and B.',
+    keyNumbers: (st) => ['Peak torque 209.7Nm between T2 and C', `Critical section: ${fmt(st.peak, 1)}Nm resultant bending${st.peakAt ? ' at ' + st.peakAt : ''}`, 'Stepped Ø30 to Ø42mm, 431 stainless, 4.35kg']
   },
   bearingA: {
     name: 'Bearing A',
     role: 'Deep-groove ball bearing in a pillow-block housing. Outboard support at x = 0, carrying radial load only.',
-    keyNumbers: (st) => [`Reaction about ${fmt(st.RA)}N`, 'Life of at least 2.85×10⁸ revs at 915RPM', 'About 62mm OD, 16mm wide']
+    keyNumbers: (st) => [`Reaction about ${fmt(st.RA)}N`, 'Life of at least 284Mrev at 910.7RPM', 'SKF 6006-2RS1, 30 × 55 × 13mm']
   },
   bearingB: {
     name: 'Bearing B',
-    role: 'Second support. In config B it sits beside sprocket C at x = 460. In config A it moves to x = 400 and C overhangs.',
-    keyNumbers: (st) => [`Reaction about ${fmt(st.RB)}N`, 'Life of at least 2.85×10⁸ revs at 915RPM', 'About 62mm OD, 16mm wide']
+    role: 'Second support. In config B it sits beside pulley C at x = 460. In config A it moves to x = 400 and C overhangs.',
+    keyNumbers: (st) => [`Reaction about ${fmt(st.RB)}N`, 'Life of at least 284Mrev at 910.7RPM', 'SKF 6007-2RS1, 35 × 62 × 14mm']
   },
   hubT1: {
     name: 'Hub T1',
     role: 'Taper-lock style hub. Clamps track sprocket T1 to the shaft and transmits half the track torque by friction and key.',
-    keyNumbers: () => ['Carries T/2 = 104.4Nm', 'Sits at x = 50']
+    keyNumbers: () => ['Carries T/2 = 104.9Nm', 'Sits at x = 50']
   },
   hubT2: {
     name: 'Hub T2',
     role: 'Taper-lock style hub. Clamps track sprocket T2 to the shaft and transmits its half of the track torque.',
-    keyNumbers: () => ['Carries T/2 = 104.4Nm', 'Sits at x = 350']
+    keyNumbers: () => ['Carries T/2 = 104.9Nm', 'Sits at x = 350']
   },
   trackSprocketT1: {
     name: 'Track sprocket T1',
     role: 'Drives the left track. Takes the track tractive load at its pitch radius.',
-    keyNumbers: () => ['720N rearward, horizontal', 'T/2 = 104.4Nm', '290mm PCD, about 20 teeth']
+    keyNumbers: () => ['723N rearward, horizontal', 'T/2 = 104.9Nm', '290mm PCD, about 20 teeth']
   },
   trackSprocketT2: {
     name: 'Track sprocket T2',
     role: 'Drives the right track. Takes the track tractive load at its pitch radius.',
-    keyNumbers: () => ['720N rearward, horizontal', 'T/2 = 104.4Nm', '290mm PCD, about 20 teeth']
+    keyNumbers: () => ['723N rearward, horizontal', 'T/2 = 104.9Nm', '290mm PCD, about 20 teeth']
   },
   hubC: {
     name: 'Hub C',
-    role: 'Locates and keys the driven chain sprocket C on the shaft.',
-    keyNumbers: (st) => ['Carries the full T = 208.8Nm', `Sits at x = ${st.xC}`]
+    role: 'Taper Lock 3020 bush. Locates and keys the driven pulley C on the shaft.',
+    keyNumbers: (st) => ['Carries the full T = 209.7Nm', `Sits at x = ${st.xC}`]
   },
   sprocketC: {
-    name: 'Driven sprocket C',
-    role: 'Chain-driven sprocket that puts torque into the shaft. The chain pull acts along the 30° line towards D.',
-    keyNumbers: () => ['Chain pull about 2122N', 'About 197mm PCD, 40 teeth', 'Turns at 915RPM']
+    name: 'Driven pulley C',
+    role: 'Toothed-belt pulley that puts torque into the shaft. The belt pull acts along the 30° line towards D.',
+    keyNumbers: () => ['Belt pull about 1471N', '112T, 285.2mm PCD', 'Turns at 910.7RPM']
   },
   sprocketD: {
-    name: 'Drive sprocket D',
-    role: 'Small sprocket on the motor side. Drives the chain at a ratio of 3.28:1.',
-    keyNumbers: () => ['3000RPM motor side', '20kW', 'About 60mm PCD, line of centres at 30°']
+    name: 'Drive pulley D',
+    role: 'Small pulley on the motor side. Drives the belt at a ratio of 3.294:1.',
+    keyNumbers: () => ['3000RPM motor side', '20kW', '34T, 86.6mm PCD, line of centres at 30°']
   },
   chain: {
-    name: 'Roller chain loop',
+    name: 'Toothed belt',
     role: 'Carries motor torque from D to C. The tight side pulls C towards D.',
-    keyNumbers: () => ['Ratio 3.28:1, D to C', 'Centre distance about 410 to 490mm', 'Pull about 2122N']
+    keyNumbers: () => ['Ratio 3.294:1, D to C', '8MXP-1440-50, 180 teeth', 'Pull about 1471N']
   },
   motor: {
     name: 'Electric motor',
@@ -105,12 +105,12 @@ export const PART_INFO = {
 
 /* ------------------------------------------------------------------ constants */
 const S = 0.01;                          // mm to world
-const R_C = 98.5, R_D = 30;              // chain pitch radii (197 and 60 PCD)
-const CD = 450, ANG = Math.PI / 6;       // centre distance, 30 degrees
+const R_C = 142.6, R_D = 43.3;           // belt pitch radii (285.2 and 86.6 PCD)
+const CD = 416, ANG = Math.PI / 6;       // centre distance, 30 degrees
 const D_A = -CD * Math.cos(ANG);         // plane coords (a = z, b = y), forward is -z
 const D_B = CD * Math.sin(ANG);
 const OMEGA_SHAFT = 1.4;                 // rad/s visual
-const RATIO = 3.28;
+const RATIO = 3.294;
 const POS = { A: 0, T1: 50, T2: 350 };
 
 const COLORS = {
@@ -577,7 +577,7 @@ function initCore(container, o, renderer) {
     buildHub('hubC', 'C', 20, { bossR: 22, b0: -22, b1: 4, flR: 34, f1: 14, boltR: 26, nb: 5 });
     const p = addPart('sprocketC', 'C', [0, 0], 60);
     const m = mat(p, COLORS.sprocketC, 0.35, 0.4);
-    mesh(p, sprocketGeo(197, 40, 6.5, 8, 22.5, [{ n: 6, at: 56, r: 11 }]), m);
+    mesh(p, sprocketGeo(285.2, 112, 3.2, 30, 22.5, [{ n: 6, at: 84, r: 20 }]), m);
     addSpinner(p.spin, 'shaft');
   }
 
@@ -585,7 +585,7 @@ function initCore(container, o, renderer) {
   {
     const p = addPart('sprocketD', 'C', [D_B, D_A], 60);
     const m = mat(p, COLORS.sprocketD, 0.35, 0.4);
-    mesh(p, sprocketGeo(60, 12, 5, 8, 9), m);
+    mesh(p, sprocketGeo(86.6, 34, 3.2, 30, 9), m);
     const dm = mat(p, 0x2b3138, 0.85, 0.4);
     mesh(p, ringX(9, 15, 4, 14, 0.5), dm);
     const sm = mat(p, 0xcfd5db, 1.0, 0.25);
@@ -612,34 +612,31 @@ function initCore(container, o, renderer) {
     addSpinner(disc, 'D');
   }
 
-  /* ---------------- chain */
+  /* ---------------- toothed belt (8M pitch) */
   const chain = buildChainPath();
   const chainPart = addPart('chain', 'C', [0, 0], 60);
   const chainInstA = (() => {
-    const N = 2 * Math.round(chain.total / 15.5 / 2), pitch = chain.total / N;
-    const cm = mat(chainPart, COLORS.chain, 0.9, 0.35);
-    const rm = mat(chainPart, COLORS.roller, 1.0, 0.3);
-    const outer = new THREE.InstancedMesh(new THREE.BoxGeometry(11, pitch * 0.82, 6), cm, N / 2);
-    const inner = new THREE.InstancedMesh(new THREE.BoxGeometry(8, pitch * 0.74, 5), cm, N / 2);
-    const rollers = new THREE.InstancedMesh(cylX(-6, 6, 3.4, 3.4, 14), rm, N);
-    [outer, inner, rollers].forEach((im) => { im.castShadow = true; im.receiveShadow = true; im.userData.partId = 'chain'; chainPart.group.add(im); pickables.push(im); im.frustumCulled = false; });
-    return { N, pitch, outer, inner, rollers };
+    const N = Math.round(chain.total / 8), pitch = chain.total / N;
+    const bm = mat(chainPart, COLORS.chain, 0.1, 0.75);
+    // one instance per 8mm tooth: flat back plus a tooth on the inside face
+    const g = new THREE.BoxGeometry(30, pitch * 1.04, 3.2);
+    const t = new THREE.BoxGeometry(30, pitch * 0.5, 2.2); t.translate(0, 0, -2.6);
+    const belt = new THREE.InstancedMesh(g, bm, N), teeth = new THREE.InstancedMesh(t, bm, N);
+    [belt, teeth].forEach((im) => { im.castShadow = true; im.receiveShadow = true; im.userData.partId = 'chain'; chainPart.group.add(im); pickables.push(im); im.frustumCulled = false; });
+    return { N, pitch, belt, teeth };
   })();
   const dummy = new THREE.Object3D();
   let chainOffset = 0;
   function updateChain() {
-    const { N, pitch, outer, inner, rollers } = chainInstA;
+    const { N, pitch, belt, teeth } = chainInstA;
     for (let i = 0; i < N; i++) {
       const s = chain.sample(i * pitch + pitch / 2 + chainOffset);
       dummy.position.set(0, s.b, s.a);
       dummy.rotation.set(Math.atan2(s.ta, s.tb), 0, 0);
       dummy.updateMatrix();
-      (i % 2 === 0 ? outer : inner).setMatrixAt(i >> 1, dummy.matrix);
-      const r = chain.sample(i * pitch + chainOffset);
-      dummy.position.set(0, r.b, r.a); dummy.rotation.set(0, 0, 0); dummy.updateMatrix();
-      rollers.setMatrixAt(i, dummy.matrix);
+      belt.setMatrixAt(i, dummy.matrix); teeth.setMatrixAt(i, dummy.matrix);
     }
-    outer.instanceMatrix.needsUpdate = inner.instanceMatrix.needsUpdate = rollers.instanceMatrix.needsUpdate = true;
+    belt.instanceMatrix.needsUpdate = teeth.instanceMatrix.needsUpdate = true;
   }
 
   /* ---------------- labels, arrows */
@@ -653,8 +650,8 @@ function initCore(container, o, renderer) {
   chip('B', parts.bearingB.group, [0, 76, 0]);
   chip('T1', parts.trackSprocketT1.group, [0, 172, 0]);
   chip('T2', parts.trackSprocketT2.group, [0, 172, 0]);
-  chip('C', parts.sprocketC.group, [0, 128, 0]);
-  chip('D', parts.sprocketD.group, [0, 52, 0]);
+  chip('C', parts.sprocketC.group, [0, 172, 0]);
+  chip('D', parts.sprocketD.group, [0, 64, 0]);
 
   function makeArrow(parent, cls, color, text, dirArr, lenMM, tipArr, ahead = false) {
     const dir = new THREE.Vector3(...dirArr).normalize();
@@ -689,10 +686,10 @@ function initCore(container, o, renderer) {
   function buildLoads() {
     clearLoads();
     const st = statics(cfgTarget === 0 ? 'A' : 'B');
-    makeArrow(parts.trackSprocketT1.group, 'load', COLORS.load, '720N', [0, 0, 1], lenOf(720), [-6, -150, 0]);
-    makeArrow(parts.trackSprocketT2.group, 'load', COLORS.load, '720N', [0, 0, 1], lenOf(720), [-6, -150, 0]);
-    makeArrow(parts.sprocketC.group, 'load', COLORS.load, '2122N', [0, Math.sin(ANG), -Math.cos(ANG)], lenOf(2122), [
-      16, (R_C + lenOf(2122)) * Math.sin(ANG) + 14, -(R_C + lenOf(2122)) * Math.cos(ANG)], true);
+    makeArrow(parts.trackSprocketT1.group, 'load', COLORS.load, '723N', [0, 0, 1], lenOf(LD.T), [-6, -150, 0]);
+    makeArrow(parts.trackSprocketT2.group, 'load', COLORS.load, '723N', [0, 0, 1], lenOf(LD.T), [-6, -150, 0]);
+    makeArrow(parts.sprocketC.group, 'load', COLORS.load, '1471N', [0, Math.sin(ANG), -Math.cos(ANG)], lenOf(LD.chain), [
+      16, (R_C + lenOf(LD.chain)) * Math.sin(ANG) + 14, -(R_C + lenOf(LD.chain)) * Math.cos(ANG)], true);
     makeArrow(parts.bearingA.group, 'react', COLORS.react, `R_A ≈ ${fmt(st.RA)}N`, [0, st.Av, -st.Ah], lenOf(st.RA), [0, 0, 0]);
     makeArrow(parts.bearingB.group, 'react', COLORS.react, `R_B ≈ ${fmt(st.RB)}N`, [0, st.Bv, -st.Bh], lenOf(st.RB), [0, 0, 0]);
     setLoadsVisible(loadsWanted);
@@ -704,7 +701,7 @@ function initCore(container, o, renderer) {
   const dimLine = new THREE.Line(dimGeo, new THREE.LineDashedMaterial({ color: 0x7a8497, dashSize: 10, gapSize: 7, transparent: true, opacity: 0.85 }));
   dimLine.frustumCulled = false;   // its 2 points are rewritten every frame, so a cached bounding sphere would be stale or NaN
   root.add(dimLine);
-  const dimEl = document.createElement('div'); dimEl.className = 'pfsh-dim'; dimEl.textContent = 'about 410 to 490mm at 30°';
+  const dimEl = document.createElement('div'); dimEl.className = 'pfsh-dim'; dimEl.textContent = '416mm at 30°';
   const dimLabel = new CSS2DObject(dimEl); root.add(dimLabel);
 
   /* ---------------- power flow pulses (cobalt torque path) */
@@ -839,7 +836,7 @@ function initCore(container, o, renderer) {
   const VIEWS = {
     iso:    [0.42, 0.34, 0.84],
     front:  [0, 0.0001, 1],      // side elevation, shaft runs across the screen
-    end:    [1, 0.0001, 0.0001], // look along the shaft axis: see the 30 degree chain line
+    end:    [1, 0.0001, 0.0001], // look along the shaft axis: see the 30 degree belt line
     top:    [0, 1, 0.0001],
     forces: [1, 0.0001, 0.0001]  // end view + free-body force diagram, near-orthographic lens
   };
@@ -907,15 +904,15 @@ function initCore(container, o, renderer) {
     // track pulls at T1 and T2 (staggered 36mm so the two arrows do not hide each other end-on)
     [['T1', 50, -127], ['T2', 350, -163]].forEach(([n, x, v]) => {
       solid(P(x, 0, v), P(x, -LD.T * k, v), mRed);
-      lab(P(x, 0, v), 'r', n + ': 720N', 'pfsh-tag load');
+      lab(P(x, 0, v), 'r', n + ': 723N', 'pfsh-tag load');
     });
-    // chain pull at C
+    // belt pull at C
     solid(P(xC, 0, 0), P(xC, LD.chH * k, LD.chV * k), mRed, 4.2);
-    lab(P(xC, LD.chH * k, LD.chV * k), 'l', 'Chain pull 2122N', 'pfsh-tag load');
+    lab(P(xC, LD.chH * k, LD.chV * k), 'l', 'Belt pull 1471N', 'pfsh-tag load');
     dashed(P(xC, 0, 0), P(xC, LD.chH * k, 0), mRed);
     dashed(P(xC, LD.chH * k, 0), P(xC, LD.chH * k, LD.chV * k), mRed);
-    lab(P(xC, LD.chH * k * 0.62, 0), 't', 'H 1838N forward', 'pfsh-dim');
-    lab(P(xC, LD.chH * k, LD.chV * k / 2), 'r', 'V 1061N up', 'pfsh-dim');
+    lab(P(xC, LD.chH * k * 0.62, 0), 't', `H ${fmt(LD.chH)}N forward`, 'pfsh-dim');
+    lab(P(xC, LD.chH * k, LD.chV * k / 2), 'r', `V ${fmt(LD.chV)}N up`, 'pfsh-dim');
     arc(xC, 150, 0, rad(30), mRed);
     lab(P(xC, 178 * Math.cos(rad(15)), 178 * Math.sin(rad(15))), 'r', '30°', 'pfsh-dim');
     // bearing reactions: each bearing reacts in BOTH planes, so the resultant is angled
@@ -1172,10 +1169,10 @@ function initCore(container, o, renderer) {
 /* ------------------------------------------------------------------ panel UI + mount */
 const VIEW_LIST = [['iso', 'Assembly'], ['front', 'Side'], ['end', 'End'], ['top', 'Top'], ['forces', 'Forces']];
 const CAPS = {
-  iso: 'Exploded view of the track drive shaft. Torque enters at sprocket C and splits to the two track sprockets. Drag to orbit and tap any part for its role.',
-  front: 'Side elevation. Bearing A supports the outboard end, the two track sprockets sit between the supports and the chain drives sprocket C.',
-  end: 'Looking down the shaft axis. The chain runs from the motor sprocket D to sprocket C along a 30° line of centres.',
-  top: 'Plan view of the same assembly. Switch the layout to watch sprocket C and bearing B swap places.'
+  iso: 'Exploded view of the track drive shaft. Torque enters at pulley C and splits to the two track sprockets. Drag to orbit and tap any part for its role.',
+  front: 'Side elevation. Bearing A supports the outboard end, the two track sprockets sit between the supports and the belt drives pulley C.',
+  end: 'Looking down the shaft axis. The toothed belt runs from the motor pulley D to pulley C along a 30° line of centres.',
+  top: 'Plan view of the same assembly. Switch the layout to watch pulley C and bearing B swap places.'
 };
 const CFG_NOTE = { A: 'C overhangs bearing B', B: 'C sits between the bearings' };
 let uidCounter = 0;
@@ -1185,7 +1182,7 @@ const TEMPLATE = (id) => `
     <div class="pfsh-views"><div class="pfsh-seg" role="group" aria-label="Camera view">
       ${VIEW_LIST.map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="false">${l}</button>`).join('')}
     </div></div>
-    <div class="pfsh-live" data-live><i></i><span>915RPM · 209Nm</span><small>shaft</small></div>
+    <div class="pfsh-live" data-live><i></i><span>910.7RPM · 209.7Nm</span><small>shaft</small></div>
     <div class="pfsh-key" data-key hidden><span class="l"><i></i>Loads</span><span class="r"><i></i>Reactions</span></div>
     <div class="pfsh-info" data-info hidden role="status"><button type="button" data-close aria-label="Close part details">×</button><h4></h4><p></p><ul></ul></div>
   </div>
@@ -1200,15 +1197,15 @@ const TEMPLATE = (id) => `
       <button type="button" class="pfsh-tgl" data-power aria-pressed="true"><i></i>Power flow</button>
       <button type="button" class="pfsh-tgl" data-loads aria-pressed="true"><i></i>Loads</button>
       <div class="pfsh-seg" role="group" aria-label="Bearing layout">
-        <button type="button" data-cfg="A" aria-pressed="false" title="Config A: sprocket C overhangs bearing B">Config A</button>
-        <button type="button" data-cfg="B" aria-pressed="true" title="Config B: sprocket C sits between the bearings">Config B</button>
+        <button type="button" data-cfg="A" aria-pressed="false" title="Config A: pulley C overhangs bearing B">Config A</button>
+        <button type="button" data-cfg="B" aria-pressed="true" title="Config B: pulley C sits between the bearings">Config B</button>
       </div>
     </div>
   </div>
-  <div class="pfsh-train" role="group" aria-label="Drive train: 20kW motor at 3000RPM stepped down 3.28:1 to a 915RPM shaft carrying 209Nm">
+  <div class="pfsh-train" role="group" aria-label="Drive train: 20kW motor at 3000RPM stepped down 3.294:1 by toothed belt to a 910.7RPM shaft carrying 209.7Nm">
     <div class="pfsh-cell"><small>Motor</small><b>3000<em>RPM</em></b><span>63.7Nm · 20kW</span></div>
-    <div class="pfsh-ratio"><span>3.28:1</span><svg viewBox="0 0 9 10" aria-hidden="true"><path d="M1 1l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div class="pfsh-cell out"><small>Track shaft</small><b>915<em>RPM</em></b><span>209Nm · 50km/h</span></div>
+    <div class="pfsh-ratio"><span>3.294:1</span><svg viewBox="0 0 9 10" aria-hidden="true"><path d="M1 1l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="pfsh-cell out"><small>Track shaft</small><b>910.7<em>RPM</em></b><span>209.7Nm · 50km/h</span></div>
   </div>
   <div class="pfsh-foot">
     <p class="pfsh-cap" data-cap></p>
@@ -1216,7 +1213,7 @@ const TEMPLATE = (id) => `
   </div>`;
 
 const FALLBACK_SVG = `
-<svg viewBox="0 0 640 250" role="img" aria-label="Schematic of the drive shaft with two bearings, two track sprockets and a chain sprocket" fill="none" stroke="currentColor">
+<svg viewBox="0 0 640 250" role="img" aria-label="Schematic of the drive shaft with two bearings, two track sprockets and a belt pulley" fill="none" stroke="currentColor">
   <rect x="40" y="119" width="540" height="14" rx="7" fill="currentColor" fill-opacity=".18" stroke-opacity=".7" stroke-width="1.5"/>
   <g stroke-width="1.5" stroke-opacity=".8">
     <rect x="62" y="98" width="34" height="56" rx="8" fill="currentColor" fill-opacity=".08"/>
@@ -1233,7 +1230,7 @@ const FALLBACK_SVG = `
     <text x="438" y="184" style="fill:var(--p-acc-t)">C</text><text x="590" y="70" style="fill:var(--p-acc-t)">D</text>
   </g>
 </svg>
-<p>The interactive 3D model needs WebGL. Schematic shown instead: motor sprocket D drives sprocket C by chain at 3.28:1, and the shaft carries 209Nm to the two track sprockets.</p>`;
+<p>The interactive 3D model needs WebGL. Schematic shown instead: motor pulley D drives pulley C by toothed belt at 3.294:1 and the shaft carries 209.7Nm to the two track sprockets.</p>`;
 
 export function mount(container, opts = {}) {
   const o = Object.assign({ theme: 'light', reducedMotion: false, config: 'B', view: 'iso', explode: 0 }, opts || {});
@@ -1263,7 +1260,7 @@ export function mount(container, opts = {}) {
     const stage = root.querySelector('.pfsh-stage');
     stage.textContent = '';
     const fb = document.createElement('div'); fb.className = 'pfsh-fb'; fb.innerHTML = FALLBACK_SVG; stage.appendChild(fb);
-    const cap = root.querySelector('[data-cap]'); if (cap) cap.textContent = 'Electric snowmobile track drive shaft: 20kW at 3000RPM in, stepped down 3.28:1 to a 915RPM shaft carrying 209Nm.';
+    const cap = root.querySelector('[data-cap]'); if (cap) cap.textContent = 'Electric snowmobile track drive shaft: 20kW at 3000RPM in, stepped down 3.294:1 by toothed belt to a 910.7RPM shaft carrying 209.7Nm.';
   }
 
   try {
@@ -1361,7 +1358,7 @@ export function mount(container, opts = {}) {
     function updateCaption() {
       if (state.view === 'forces') {
         const st = core.getStatics();
-        cap.textContent = `Free-body diagram, config ${state.cfg}: track pulls and chain pull in rose, bearing reactions in cobalt. Resultant bending peaks at ${st.peak.toFixed(1)}Nm${st.peakAt ? ' at ' + st.peakAt : ''}.`;
+        cap.textContent = `Free-body diagram, config ${state.cfg}: track pulls and belt pull in rose, bearing reactions in cobalt. Resultant bending peaks at ${st.peak.toFixed(1)}Nm${st.peakAt ? ' at ' + st.peakAt : ''}.`;
       } else {
         cap.textContent = CAPS[state.view] + (state.view === 'iso' ? '' : '') ;
       }
