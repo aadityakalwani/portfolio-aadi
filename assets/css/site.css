@@ -592,3 +592,12 @@ html:not(.js) .lstm-fig{display:block}
   padding:7px 14px;border-radius:999px;font:600 var(--fs-sm)/1 var(--font-sans,Inter,sans-serif);background:var(--surface);color:var(--text);border:1px solid var(--line-strong);box-shadow:var(--shadow-xs);cursor:pointer}
 .replay:hover{color:var(--accent);border-color:var(--accent)}
 .replay[hidden]{display:none}
+.next-cue{position:absolute;left:50%;margin-left:-100px;width:200px;bottom:calc(clamp(14px,3vh,26px) + 64px);z-index:6;display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--text-2);text-decoration:none;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .6s ease,transform .6s ease;text-align:center}
+.next-cue.is-on{opacity:1;transform:none;pointer-events:auto}
+.next-cue span{white-space:nowrap;font:500 11px/1 var(--font-sans,Inter,sans-serif);letter-spacing:.14em;text-transform:uppercase}
+.next-cue i{position:relative;display:block;width:1px;height:40px;background:var(--line-strong)}
+.next-cue i::after{content:"";position:absolute;left:-1.5px;top:0;width:4px;height:4px;border-radius:50%;background:var(--accent);animation:next-cue 2.4s cubic-bezier(.65,0,.35,1) infinite}
+.next-cue:hover{color:var(--accent)}
+@keyframes next-cue{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(36px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.next-cue{transition:none;transform:none}.next-cue i::after{animation:none;top:18px}}

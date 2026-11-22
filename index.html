@@ -55,6 +55,7 @@ setTimeout(function(){if(!window.__siteReady){document.documentElement.classList
 } }
 </script>
 <link rel="stylesheet" href="assets/css/site.css">
+<script>if(!window.__lite){["assets/js/site.js","vendor/lenis/lenis.mjs","assets/js/hero.js","vendor/three/three.module.js"].forEach(function(u){var l=document.createElement("link");l.rel="modulepreload";l.href=u;document.head.appendChild(l);});}</script>
 </head>
 <body>
 
@@ -140,18 +141,19 @@ setTimeout(function(){if(!window.__siteReady){document.documentElement.classList
         <ul class="bullets"><li style="--bi:0"><strong>0.57% mean absolute error</strong> on a blind real-world Paris electric-bus cycle.</li><li style="--bi:1"><strong>42% less error on US06</strong> once ultrasound joins voltage, current and temperature.</li><li style="--bi:2"><strong>A fully blind protocol</strong>: one real vehicle recording held out of every step, model selection included.</li></ul><details class="case-more"><summary>Details</summary><ul><li>US06: 1.36% down to 0.79%, better on all ten of ten seeds (p = 0.002).</li><li>Blind Paris: 0.70% down to 0.57% for the same fusion, a 19% cut.</li><li>Built from first principles: a NumPy network with hand-derived backpropagation and Adam, then PyTorch LSTM ablations over features and architectures.</li></ul></details><ul class="tags" aria-label="Tags"><li>Python</li><li>NumPy</li><li>PyTorch</li><li>LSTM</li><li>feature ablation</li><li>10-seed blind test</li></ul><p class="t-small case-role">First author · supervised by Dr Christopher Vagg and Rob Gray, Institute for Advanced Automotive Propulsion Systems</p><p class="t-label case-note">Code private until publication</p>
       </div>
       <div class="case-panel panel" data-panel>
-        <div class="panel-bar"><span class="panel-title">fig.2 · feature ablation, blind test</span><span class="panel-hint"></span></div>
+        <div class="panel-bar"><span class="panel-title" data-soc-title>fig.2 · live state-of-charge estimate</span><span class="panel-hint"></span></div>
         <div class="panel-body">
 <div class="tabs-bar">
   <div class="seg" role="radiogroup" aria-label="Showcase view" data-seg="soc-tab"><span class="thumb" aria-hidden="true"></span>
-    <button type="button" role="radio" aria-checked="true" data-v="abl">Ablation</button>
-    <button type="button" role="radio" aria-checked="false" data-v="sim">Live estimate</button></div>
-  <div class="seg" role="radiogroup" aria-label="Test cycle" data-seg="soc-cycle"><span class="thumb" aria-hidden="true"></span>
+    <button type="button" role="radio" aria-checked="true" data-v="sim">Live estimate</button>
+    <button type="button" role="radio" aria-checked="false" data-v="abl">Ablation</button></div>
+  <div class="seg" role="radiogroup" aria-label="Test cycle" data-seg="soc-cycle" style="visibility:hidden"><span class="thumb" aria-hidden="true"></span>
     <button type="button" role="radio" aria-checked="true" data-v="paris">Paris</button>
     <button type="button" role="radio" aria-checked="false" data-v="us06">US06</button></div>
 </div>
 <div class="soc-views">
-  <div class="soc-view soc-abl" data-view="abl">
+  <div class="soc-view soc-sim" data-view="sim"><div class="show" id="show-soc" data-show="soc" data-state="idle"><div class="show-fallback"><p class="fb-line">Interactive state-of-charge view. <strong>0.57%</strong> blind Paris error, <strong>0.79%</strong> on US06.</p></div></div></div>
+  <div class="soc-view soc-abl" data-view="abl" hidden>
 <figure class="lstm-fig"><svg viewBox="0 0 640 150" role="img" aria-label="The model is an LSTM unrolled over time: at each step it reads voltage, current, temperature and ultrasound time of flight and swelling, passes its memory to the next step and outputs state of charge."><path class="lf-rail" d="M58 72H582"/><path class="lf-head" d="M575 67l8 5-8 5"/><g><rect class="lf-box" x="58" y="46" width="104" height="52" rx="13"/><text class="lf-big" x="110" y="70" text-anchor="middle">LSTM</text><circle class="lf-gate" cx="90" cy="85" r="3.5"/><circle class="lf-gate" cx="110" cy="85" r="3.5"/><circle class="lf-gate" cx="130" cy="85" r="3.5"/>
 <path class="lf-arr" d="M110 46V24"/><path class="lf-head" d="M106 29l4-6 4 6"/><text class="lf-txt" x="118" y="18">SOC(t−1)</text>
 <path class="lf-arr" d="M110 126V100"/><path class="lf-head" d="M106 105l4-6 4 6"/><text class="lf-txt" x="110" y="140" text-anchor="middle">V, I, T + ToF, swelling (t−1)</text></g><g><rect class="lf-box" x="268" y="46" width="104" height="52" rx="13"/><text class="lf-big" x="320" y="70" text-anchor="middle">LSTM</text><circle class="lf-gate" cx="300" cy="85" r="3.5"/><circle class="lf-gate" cx="320" cy="85" r="3.5"/><circle class="lf-gate" cx="340" cy="85" r="3.5"/>
@@ -167,9 +169,8 @@ setTimeout(function(){if(!window.__siteReady){document.documentElement.classList
     </div>
     <table class="sr-only"><caption>Blind-test mean absolute error (percent, mean and standard deviation over ten seeds) and the share of seeds that beat the baseline, by feature variant</caption><thead><tr><th scope="col">Variant</th><th scope="col">Paris MAE</th><th scope="col">Paris seeds improved</th><th scope="col">US06 MAE</th><th scope="col">US06 seeds improved</th></tr></thead><tbody><tr><th scope="row">VIT (baseline)</th><td>0.70 ± 0.16</td><td>n/a</td><td>1.36 ± 0.13</td><td>n/a</td></tr><tr><th scope="row">VIT + ToF</th><td>0.69 ± 0.30</td><td>60%</td><td>1.36 ± 0.10</td><td>40%</td></tr><tr><th scope="row">VIT + velocity</th><td>1.02 ± 0.50</td><td>30%</td><td>0.91 ± 0.15</td><td>100%</td></tr><tr><th scope="row">VIT + displacement</th><td>0.67 ± 0.18</td><td>70%</td><td>0.84 ± 0.09</td><td>100%</td></tr><tr><th scope="row">VIT + ToF + displacement</th><td>0.57 ± 0.19</td><td>80%</td><td>0.79 ± 0.09</td><td>100%</td></tr><tr><th scope="row">VIT + all ultrasonic + displacement</th><td>0.75 ± 0.23</td><td>60%</td><td>0.84 ± 0.08</td><td>100%</td></tr><tr><th scope="row">VIT + shuffled velocity (null control)</th><td>0.70 ± 0.21</td><td>70%</td><td>1.32 ± 0.16</td><td>70%</td></tr></tbody></table>
   </div>
-  <div class="soc-view soc-sim" data-view="sim" hidden><div class="show" id="show-soc" data-show="soc" data-state="idle"><div class="show-fallback"><p class="fb-line">Interactive state-of-charge view. <strong>0.57%</strong> blind Paris error, <strong>0.79%</strong> on US06.</p></div></div></div>
 </div></div>
-        <div class="panel-foot" data-foot>Blind-test mean absolute error, ten seeds, deployed estimate. The null control shuffles the velocity channel in time: if it scored as well as the real thing, the model would be learning noise. It does not.</div>
+        <div class="panel-foot" data-foot>fig.2 · state of charge on a sealed test cycle. Illustrative traces scaled to the paper's ten-seed mean errors.</div>
       </div>
     </div>
   </div>
@@ -233,7 +234,7 @@ setTimeout(function(){if(!window.__siteReady){document.documentElement.classList
     <span class="rail" aria-hidden="true"></span>
     <div class="case-grid">
       <div class="case-copy">
-        <span class="status reveal"><i aria-hidden="true"></i>In progress · final report due November 2026</span><p class="t-eyebrow reveal" style="--i:1">Year 2 design · snowmobile drive shaft</p><h2 class="t-case mask" id="shaft-h"><span class="ln"><span class="ln-in" style="--i:0">From 20kW at the motor</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>to 209Nm at the track.</em></span></span></h2><p class="case-lede reveal" style="--i:2">An electric snowmobile puts 20kW through one shaft at -40°C. I own the loads, free-body diagrams and drive ratio, built as a live engine.</p>
+        <span class="status reveal"><i aria-hidden="true"></i>Submitted November 2026</span><p class="t-eyebrow reveal" style="--i:1">Year 2 design · snowmobile drive shaft</p><h2 class="t-case mask" id="shaft-h"><span class="ln"><span class="ln-in" style="--i:0">From 20kW at the motor</span></span> <span class="ln"><span class="ln-in" style="--i:1"><em>to 209Nm at the track.</em></span></span></h2><p class="case-lede reveal" style="--i:2">An electric snowmobile puts 20kW through one shaft at -40°C. I own the loads, free-body diagrams and drive ratio, built as a live engine.</p>
         <ul class="bullets"><li style="--bi:0"><strong>3.28:1 down to 209Nm at 915RPM</strong>, sized for 50km/h on a 290mm track sprocket.</li><li style="--bi:1"><strong>A symbolic loads engine</strong>: change one input and every reaction, moment and stress updates, with 39 automated checks.</li><li style="--bi:2"><strong>Final design locked</strong>: 431 stainless at a safety factor of 6.7, 4.35kg on Fenner Taper Lock hubs.</li></ul><details class="case-more"><summary>Details</summary><ul><li>Critical section at the drive sprocket: 80.4Nm peak bending, bearing reactions of 590.6N and 1340.1N.</li><li>Bearings sized for a 5200h life, about 285 million revolutions at shaft speed.</li></ul></details><ul class="tags" aria-label="Tags"><li>machine design</li><li>FBD / SFD / BMD</li><li>bearing life</li><li>three.js</li><li>JavaScript</li><li>unit tests</li></ul><p class="t-small case-role">Pair design project, ME22007 · my lane: loads, FBDs, drive ratio and shaft torque</p><p class="case-links"><a class="tlink" href="https://dmm2-pair122-guide.vercel.app" target="_blank" rel="noopener">Explore the live design guide <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a> <a class="tlink" href="https://dmm2-config-b-fbd.vercel.app" target="_blank" rel="noopener">FBD, shear and bending explainer <svg class="ico ico-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></p>
       </div>
       <div class="case-panel panel" data-panel>

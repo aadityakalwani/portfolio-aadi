@@ -423,7 +423,7 @@ function fallback(container, opts, theme) {
   root.innerHTML =
     '<style>' + CSS + '</style>' +
     '<div class="' + P + '__fb">' +
-    '<span class="' + P + '__title">fig.3 · sealed blind test</span>' +
+    '<span class="' + P + '__title">fig.2 · sealed blind test</span>' +
     '<div class="' + P + '__big">0.57<small>%</small></div>' +
     '<p class="' + P + '__cap" style="font-size:14px;max-width:46ch">Mean absolute error of state of charge on a blind real-world Paris electric-bus cycle, ten-seed mean. On US06 the same fusion cuts error by 42%, from 1.36% to 0.79%.</p>' +
     '</div>';
@@ -456,7 +456,7 @@ function mountInner(container, opts, theme0) {
   root.innerHTML =
     '<style>' + CSS + '</style>' +
     '<div class="' + P + '__bar">' +
-    '<span class="' + P + '__title">fig.3 · sealed test, illustrative</span>' +
+    '<span class="' + P + '__title">fig.2 · sealed test, illustrative</span>' +
     '<div class="' + P + '__ctrl">' +
     '<div class="' + P + '__seg" role="radiogroup" aria-label="Blind test cycle">' +
     '<span class="' + P + '__thumb" aria-hidden="true"></span>' +

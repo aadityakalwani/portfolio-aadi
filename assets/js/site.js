@@ -62,7 +62,12 @@ startLenis();
 /* play-on-reach: a scene starts its timeline once it is reached, then plays at its own pace whatever the scroll does next */
 const SPEED = 0.7; // one knob for every reach-triggered timeline: 1 = original pace, lower = slower
 const SCENE_MS = { top: 9000, soc: 7000, winkit: 3500, shaft: 7000 };
-const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: (SCENE_MS[el.id] || 6000) / SPEED }));
+/* hero pacing: the opening cell chapters (progress 0 to HERO_CELL: the cell, its swelling and voltage, the ultrasound) play HERO_SLOW times slower than the rest */
+const HERO_CELL = 0.34, HERO_SLOW = 1.75;
+const HERO_TOTAL = HERO_CELL * HERO_SLOW + (1 - HERO_CELL);
+const HERO_SPLIT = (HERO_CELL * HERO_SLOW) / HERO_TOTAL;
+const heroWarp = (u) => (u < HERO_SPLIT ? (u / HERO_SPLIT) * HERO_CELL : HERO_CELL + ((u - HERO_SPLIT) / (1 - HERO_SPLIT)) * (1 - HERO_CELL));
+const scenes = $$('[data-scene]').map((el) => ({ el, id: el.id, top: 0, len: 1, p: 0, ps: 0, on: null, init: false, t0: 0, dur: ((SCENE_MS[el.id] || 6000) / SPEED) * (el.id === 'top' ? HERO_TOTAL : 1) }));
 const sceneById = Object.fromEntries(scenes.map((s) => [s.id, s]));
 const sceneIO = new IntersectionObserver((ents) => {
   for (const en of ents) {
@@ -91,7 +96,19 @@ for (const s of scenes) {
   s.el.querySelector('.stage').appendChild(b);
   s.replay = b;
 }
-const sceneP = (s, now) => (!pinned ? 1 : s.t0 ? clamp((now - s.t0) / s.dur, 0, 1) : 0);
+const sceneP = (s, now) => {
+  if (!pinned) return 1;
+  if (!s.t0) return 0;
+  const u = clamp((now - s.t0) / s.dur, 0, 1);
+  return s.id === 'top' ? heroWarp(u) : u;
+};
+/* once the forward pass has finished, a quiet cue says there is more below */
+const nextCue = document.createElement('a');
+nextCue.className = 'next-cue'; nextCue.href = '#work';
+nextCue.innerHTML = '<span>Scroll for the builds</span><i aria-hidden="true"></i>';
+nextCue.setAttribute('aria-label', 'Scroll down to the builds');
+nextCue.tabIndex = -1;
+sceneById.top.el.querySelector('.stage').appendChild(nextCue);
 const secEls = ['work', 'builds', 'about', 'contact'].map((id) => ({ id, el: document.getElementById(id), top: 0 }));
 let vh = innerHeight;
 let docMax = 1;
@@ -332,8 +349,9 @@ function initSeg(sg, onChange) {
 /* ------------------------------------------------------------------ SOC ablation panel */
 const socCase = $('#soc');
 const socScene = sceneById.soc;
-const ABL_CAP = $('[data-foot]', socCase).textContent;
-const SIM_CAP = 'fig.3 · state of charge on a sealed test cycle. Illustrative traces scaled to the paper\'s ten-seed mean errors.';
+const ABL_CAP = 'fig.3 · feature ablation. Blind-test mean absolute error, ten seeds, deployed estimate. The null control shuffles the velocity channel in time: if it scored as well as the real thing, the model would be learning noise. It does not.';
+const socTitle = $('[data-soc-title]', socCase);
+const SIM_CAP = 'fig.2 · state of charge on a sealed test cycle. Illustrative traces scaled to the paper\'s ten-seed mean errors.';
 const ablRows = $$('.abl-row', socCase);
 const ablRead = $('[data-abl-read]', socCase);
 const ablTake = $('[data-abl-take]', socCase);
@@ -379,6 +397,8 @@ function showSocView(v) {
   $$('.soc-view', socCase).forEach((el) => { el.hidden = el.dataset.view !== v; });
   socCycleSeg.style.visibility = v === 'abl' ? '' : 'hidden';
   $('[data-foot]', socCase).textContent = v === 'abl' ? ABL_CAP : SIM_CAP;
+  socTitle.textContent = v === 'abl' ? 'fig.3 · feature ablation, blind test' : 'fig.2 · live state-of-charge estimate';
+  if (v === 'abl') { ablGrown = false; ablRender(); setTimeout(() => { ablGrown = true; ablRender(); }, 60); }
   socTab.set(v, true);
 }
 function panelIn(panel) {
@@ -389,9 +409,9 @@ ablRender();
 if (socScene) {
   socScene.on = (ps) => {
     if (!pinned || socScene.el.dataset.manual === '1') return;
-    const wantCycle = ps > 0.42 ? 'us06' : 'paris';
+    const wantCycle = ps > 0.85 ? 'us06' : 'paris';
     if (wantCycle !== ablCycle) { ablCycle = wantCycle; socCycle.set(wantCycle, true); ablRender(); }
-    const wantView = ps > 0.7 ? 'sim' : 'abl';
+    const wantView = ps > 0.6 ? 'abl' : 'sim';
     const cur = $('.soc-view:not([hidden])', socCase).dataset.view;
     if (wantView !== cur) showSocView(wantView);
   };
@@ -605,6 +625,7 @@ function frame(t) {
     if (s.on) s.on(s.ps, s.p, dt);
     const done = pinned && s.p >= 1;
     if (s.replay.hidden === done) s.replay.hidden = !done;
+    if (s.id === 'top') { nextCue.classList.toggle('is-on', done); nextCue.tabIndex = done ? 0 : -1; }
   }
 
   /* below, each block only runs when its own inputs changed: no layout reads on frames where nothing scrolled */

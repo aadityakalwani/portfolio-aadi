@@ -287,7 +287,7 @@ const CSS = `
 .tbd-stat{padding:18px 0;border-bottom:1px solid var(--tbd-line)}
 .tbd-stat:first-of-type{padding-top:14px}
 .tbd-num{font-family:var(--font-display,"Instrument Serif","Iowan Old Style","Times New Roman",serif);font-weight:400;font-size:clamp(3rem,2.2rem + 2.8vw,4.5rem);line-height:.95;letter-spacing:-.025em;font-variant-numeric:lining-nums tabular-nums;color:var(--tbd-ink)}
-.tbd-num em{font-style:italic;color:var(--tbd-accent-text)}
+.tbd-num em{font-style:normal;font-family:inherit;color:inherit}
 .tbd-cap{margin-top:8px;color:var(--tbd-muted);font-size:14px;max-width:34ch;text-wrap:pretty}
 .tbd-live{padding-top:18px;display:flex;flex-direction:column;gap:14px}
 .tbd-live-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}

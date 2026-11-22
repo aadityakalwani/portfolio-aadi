@@ -315,7 +315,7 @@ function injectCss() {
 .pfsh .pfsh-cell.out{text-align:right;align-items:flex-end}
 .pfsh .pfsh-cell small{font:600 10.5px/1 var(--p-sans);letter-spacing:.12em;text-transform:uppercase;color:var(--p-mute)}
 .pfsh .pfsh-cell b{font:400 clamp(22px,3.6vw,32px)/1.05 var(--p-serif);letter-spacing:-.015em;color:var(--p-ink);white-space:nowrap}
-.pfsh .pfsh-cell b em{font-style:italic;color:var(--p-acc-t)}
+.pfsh .pfsh-cell b em{font-style:normal;font-family:inherit;color:inherit}
 .pfsh .pfsh-cell span{font:500 12px/1.2 var(--p-mono);color:var(--p-ink2);white-space:nowrap}
 .pfsh .pfsh-ratio{display:flex;align-items:center;gap:8px;min-width:96px;width:100%}
 .pfsh .pfsh-ratio::before,.pfsh .pfsh-ratio::after{content:"";flex:1 1 0;min-width:8px;height:1px;background:var(--p-ring)}
@@ -907,11 +907,11 @@ function initCore(container, o, renderer) {
     // track pulls at T1 and T2 (staggered 36mm so the two arrows do not hide each other end-on)
     [['T1', 50, -127], ['T2', 350, -163]].forEach(([n, x, v]) => {
       solid(P(x, 0, v), P(x, -LD.T * k, v), mRed);
-      lab(P(x, 0, v), 'r', [n + ': 720N', ', horizontal, rearward'], 'pfsh-tag load');
+      lab(P(x, 0, v), 'r', n + ': 720N', 'pfsh-tag load');
     });
     // chain pull at C
     solid(P(xC, 0, 0), P(xC, LD.chH * k, LD.chV * k), mRed, 4.2);
-    lab(P(xC, LD.chH * k, LD.chV * k), 'l', ['Chain pull 2122N', ' along the 30° line, towards D'], 'pfsh-tag load');
+    lab(P(xC, LD.chH * k, LD.chV * k), 'l', 'Chain pull 2122N', 'pfsh-tag load');
     dashed(P(xC, 0, 0), P(xC, LD.chH * k, 0), mRed);
     dashed(P(xC, LD.chH * k, 0), P(xC, LD.chH * k, LD.chV * k), mRed);
     lab(P(xC, LD.chH * k * 0.62, 0), 't', 'H 1838N forward', 'pfsh-dim');
@@ -927,7 +927,7 @@ function initCore(container, o, renderer) {
       const a0 = h >= 0 ? 0 : Math.PI, rot = (h > 0 ? 1 : -1) * (v > 0 ? 1 : -1) * acute;
       const hd = h >= 0 ? 'forward' : 'rear', vd = v >= 0 ? 'up' : 'down', side = v >= 0 ? 'above' : 'below';
       lab(P(x, h * k, v * k), v >= 0 ? 't' : 'b',
-        [`${name} = ${fmt(res)}N`, ` at ${fmt(acute * 180 / Math.PI, 1)}° ${side} horizontal`, `(H ${fmt(Math.abs(h))}N ${hd}, V ${fmt(Math.abs(v))}N ${vd})`], 'pfsh-tag react');
+        `${name} = ${fmt(res)}N`, 'pfsh-tag react');
       arc(x, arcR, a0, a0 + rot, mGrn);
       const am = a0 + rot / 2;
       lab(P(x, (arcR + 9) * Math.cos(am), (arcR + 9) * Math.sin(am)), h >= 0 ? 'r' : 'l', fmt(acute * 180 / Math.PI, 1) + '°', 'pfsh-dim');
@@ -1019,7 +1019,7 @@ function initCore(container, o, renderer) {
   function resolveLabels() {
     const host = labelRenderer.domElement;
     const kids = Array.from(host.children);
-    kids.forEach((el) => { el.style.translate = ''; });
+    kids.forEach((el) => { el.style.translate = ''; el.style.visibility = ''; });
     const hostR = host.getBoundingClientRect();
     const items = [];
     kids.forEach((el) => {
@@ -1035,30 +1035,33 @@ function initCore(container, o, renderer) {
       const r = el.getBoundingClientRect();
       if (r.width && r.height) items.push({ el, l: r.left, r: r.right, t: r.top, b: r.bottom, fixed: true, dy: 0, obstacle: true });
     });
-    items.sort((a, b) => a.t - b.t);
-    /* the round part chips never move, so seat them first and let every label route around them */
+    /* seat fixed obstacles first, then the main tags (reading order), then the small dimension labels.
+       each floating label tries its own spot, then nudges in growing rings (vertical first, then sideways) until it clears everything placed */
+    items.forEach((it) => { it.dim = !!(it.el.querySelector && it.el.querySelector('.pfsh-dim')); it.dx = 0; it.dy = 0; });
     const placed = items.filter((it) => it.fixed);
-    for (const it of items) {
-      if (!it.fixed) {
-        let moved = true, guard = 0;
-        while (moved && guard++ < 8) {
-          moved = false;
-          for (const o of placed) {
-            const hOver = it.l < o.r + 6 && it.r > o.l - 6;
-            if (!hOver) continue;
-            const gap = o.fixed || it.fixed ? 6 : LABEL_GAP;
-            const top = it.t + it.dy, bot = it.b + it.dy;
-            if (top < o.b + o.dy + gap && bot > o.t + o.dy - gap) {
-              it.dy = Math.min(140, o.b + o.dy + gap - it.t);
-              moved = true;
-            }
-          }
-        }
-        const over = it.b + it.dy - (hostR.bottom - 6);
-        if (over > 0) it.dy = Math.max(0, it.dy - over);
-        if (it.dy) it.el.style.translate = '0 ' + it.dy.toFixed(1) + 'px';
-        placed.push(it);
+    const todo = items.filter((it) => !it.fixed).sort((a, b) => (a.dim - b.dim) || (a.t - b.t) || (a.l - b.l));
+    const hit = (it, x, y, o, gap) => it.l + x < o.r + o.dx + gap && it.r + x > o.l + o.dx - gap && it.t + y < o.b + o.dy + gap && it.b + y > o.t + o.dy - gap;
+    const inside = (it, x, y) => it.l + x >= hostR.left + 4 && it.r + x <= hostR.right - 4 && it.t + y >= hostR.top + 4 && it.b + y <= hostR.bottom - 4;
+    const tried = [];
+    for (let ring = 0; ring <= 12; ring++) {
+      const d = ring * 12;
+      if (!ring) tried.push([0, 0]);
+      else tried.push([0, d], [0, -d], [d, 0], [-d, 0], [d, d], [-d, d], [d, -d], [-d, -d], [0, d * 1.6], [0, -d * 1.6]);
+    }
+    for (const it of todo) {
+      let best = null;
+      for (const [x, y] of tried) {
+        if (!inside(it, x, y)) continue;
+        if (placed.some((o) => hit(it, x, y, o, o.fixed ? 6 : LABEL_GAP * 0.6))) continue;
+        best = [x, y]; break;
       }
+      if (!best) {
+        if (it.dim) { it.el.style.visibility = 'hidden'; continue; }
+        best = [0, 0];
+      }
+      it.dx = best[0]; it.dy = best[1];
+      if (it.dx || it.dy) it.el.style.translate = it.dx.toFixed(1) + 'px ' + it.dy.toFixed(1) + 'px';
+      placed.push(it);
     }
   }
   let lblSig = '';
